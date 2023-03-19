@@ -19,13 +19,10 @@ import TextField from "@mui/material/TextField";
 import TextareaAutosize from "@mui/base/TextareaAutosize";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-
-
-const tableHead = {
-  fontWeight:"bold",
-  textAlign:"right",
-  fontSize:"40px",
-}
+import axios from "axios";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Home2() {
   const [state, setState] = useState([]);
@@ -34,11 +31,9 @@ function Home2() {
 
   useEffect(() => {
     const getState = async () => {
-      const res = await fetch(
-        "https://cdn-api.co-vin.in/api/v2/admin/location/states"
-      );
-      const getsta = await res.json();
-      setState(await getsta.states);
+      axios.post(`${SERVER_URL}/countries`).then((res) => {
+        setState(res.data.states);
+      });
     };
     getState();
   }, []);
@@ -46,20 +41,18 @@ function Home2() {
   const handleDistrict = (e) => {
     const getStateId = e.target.value;
     setStateId(getStateId);
+    getDistrict();
   };
 
-  useEffect(() => {
-    const getDistrict = async () => {
-      console.log(`stateid = ${stateId}`);
-      const getDis = await fetch(
-        `https://cdn-api.co-vin.in/api/v2/admin/location/districts/${stateId}`
-      );
-      const res = await getDis.json();
-      console.log(res.districts);
-      setDistrict(await res.districts);
-    };
-    getDistrict();
-  }, []);
+  const getDistrict = async () => {
+    console.log(`stateid = ${stateId}`);
+    const getDis = await fetch(
+      `https://cdn-api.co-vin.in/api/v2/admin/location/districts/${stateId}`
+    );
+    const res = await getDis.json();
+    console.log(res.districts);
+    setDistrict(await res.districts);
+  };
 
   return (
     <div style={{ backgroundColor: "#E7EBF0", height: "700px" }}>
@@ -109,7 +102,15 @@ function Home2() {
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell className={tableHead}>Institute type</TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  Institute type
+                </TableCell>
                 <TableCell align="right" colSpan={2}>
                   <RadioGroup
                     row
@@ -155,31 +156,69 @@ function Home2() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell style={{textAlign:"center"}}>Institute Name</TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  Institute Name
+                </TableCell>
                 <TableCell colSpan={2}>
                   <TextField id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell style={{textAlign:"center"}}>Affiliated By</TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  Affiliated By
+                </TableCell>
                 <TableCell colSpan={2}>
                   <TextField id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell style={{textAlign:"center"}}>Year of establishment</TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  Year of establishment
+                </TableCell>
                 <TableCell>
                   <TextField id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell >AISHE Code</TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  AISHE Code
+                </TableCell>
                 <TableCell>
                   <TextField id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
                   Year of obtaining 1st approval letter from AICTE
                 </TableCell>
                 <TableCell>
@@ -187,7 +226,15 @@ function Home2() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Postal Address</TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  Postal Address
+                </TableCell>
                 <TableCell>
                   <TextareaAutosize
                     aria-label="minimum height"
@@ -197,91 +244,180 @@ function Home2() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>State</TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  State
+                </TableCell>
                 <TableCell>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Age"
-                    onChange={(e) => handleDistrict(e)}
-                  >
-                    <MenuItem>--Select State--</MenuItem>
-                    {state.map((res) => (
-                      <MenuItem key={res.state_id} value={res.state_id}>
-                        {res.state_name}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                  <FormControl sx={{ m: 1, minWidth: 140 }}>
+                    <InputLabel id="demo-simple-select-label">
+                      Select State
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      label="state"
+                      onChange={(e) => handleDistrict(e)}
+                    >
+                      {state.map((res) => (
+                        <MenuItem key={res.state_id} value={res.state_id}>
+                          {res.state_name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </TableCell>
+              </TableRow>
+
+              <TableRow>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  District
+                </TableCell>
+                <TableCell>
+                  <FormControl sx={{ m: 1, minWidth: 140 }}>
+                    <InputLabel id="demo-simple-select-label">
+                      Select District
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      label="Age"
+                    >
+                      {district.map((res) => (
+                        <MenuItem key={res.district_id} value={res.district_id}>
+                          {res.district_name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>District</TableCell>
-                <TableCell>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Age"
-                  >
-                    <MenuItem>--Select District--</MenuItem>
-                    {district.map((res) => (
-                      <MenuItem key={res.district_id} value={res.district_id}>
-                        {res.district_name}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  PIN Code
                 </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>PIN Code</TableCell>
                 <TableCell>
                   <TextField id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Phone</TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  Phone
+                </TableCell>
                 <TableCell>
                   <TextField id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Mobile No.</TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  Mobile No.
+                </TableCell>
                 <TableCell>
                   <TextField id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Fax</TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  Fax
+                </TableCell>
                 <TableCell>
                   <TextField id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>TAN/PAN No.</TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  TAN/PAN No.
+                </TableCell>
                 <TableCell>
                   <TextField id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Website</TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  Website
+                </TableCell>
                 <TableCell>
                   <TextField id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Email</TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  Email
+                </TableCell>
                 <TableCell>
                   <TextField id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Re Enter Email</TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}
+                >
+                  Re Enter Email
+                </TableCell>
                 <TableCell>
                   <TextField id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>
-                  <Button variant="contained">Sigup</Button>
+                  <Button variant="contained">Signup</Button>
                 </TableCell>
               </TableRow>
             </TableBody>

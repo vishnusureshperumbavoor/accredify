@@ -8,16 +8,20 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Login() {
   const navigate = useNavigate();
+  
   useEffect(() => {
     if (localStorage.getItem("token")) navigate('/')
   },[]);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
