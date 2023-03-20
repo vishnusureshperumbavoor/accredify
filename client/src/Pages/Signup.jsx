@@ -22,9 +22,11 @@ function Signup() {
     email:"",
     password:"",
   });
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
   const handleSubmit = (e) => {
     console.log(formData);
     e.preventDefault();
@@ -38,6 +40,7 @@ function Signup() {
       alert("error")
     })
   };
+  
   return (
     <div>
       <h1>SIGNUP PAGE</h1>

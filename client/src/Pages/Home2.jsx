@@ -22,9 +22,15 @@ import Select from "@mui/material/Select";
 import axios from "axios";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
+import { useNavigate } from "react-router-dom";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Home2() {
+  const navigate = useNavigate();
+  useEffect(()=>{
+    if(localStorage.getItem("token")) navigate('/')
+  },[])
+
   const [state, setState] = useState([]);
   const [stateId, setStateId] = useState("");
   const [district, setDistrict] = useState([]);
@@ -54,8 +60,46 @@ function Home2() {
     setDistrict(await res.districts);
   };
 
+  const [formData, setFormData] = useState({
+    institute_type:"",
+    institute_name:"",
+    affiliated_by:"",
+    year_of_establishment:"",
+    aishe_code:"",
+    first_approval:"",
+    postal_address:"",
+    state:"",
+    district:"",
+    email:"",
+    website:"",
+    tan_pan_no:"",
+    fax:"",
+    mobile_no:"",
+    phone:"",
+    pin_code:"",
+    status:"pending",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    console.log(formData);
+    e.preventDefault();
+    axios.post(`${SERVER_URL}/signup`, formData).then((res)=>{
+      if(res.status===200){
+        localStorage.setItem("token",res.data.token)
+        alert("insertion successful")
+        navigate('/')
+      }
+    }).catch((err)=>{
+      alert("error")
+    })
+  };
+
   return (
-    <div style={{ backgroundColor: "#E7EBF0", height: "700px" }}>
+    <div style={{ backgroundColor: "#E7EBF0", height: "1190px" }}>
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -71,15 +115,15 @@ function Home2() {
                 fontWeight: 700,
                 letterSpacing: ".3rem",
                 color: "inherit",
-                textDecoration: "none",
+                textDecoration: "none"
               }}
             >
               ACCREDITATION WORKFLOW MANAGEMENT SYSTEM
-            </Typography>
+            </Typography> 
           </Toolbar>
         </Container>
       </AppBar>
-      <Card sx={{ minWidth: 275 }} style={{ margin: "30px" }}>
+      <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
           <Table
             sx={{ "& td": { border: 0 }, minWidth: 650 }}
@@ -89,7 +133,7 @@ function Home2() {
               <TableRow>
                 <TableCell
                   className="fontLink"
-                  colSpan={3}
+                  colSpan={4}
                   style={{
                     fontWeight: "bold",
                     fontSize: "20px",
@@ -111,11 +155,12 @@ function Home2() {
                 >
                   Institute type
                 </TableCell>
-                <TableCell align="right" colSpan={2}>
+                <TableCell align="right" colSpan={3}>
                   <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
                     name="row-radio-buttons-group"
+                    onChange={handleChange}
                   >
                     <FormControlLabel
                       value="Government Institute"
@@ -165,8 +210,18 @@ function Home2() {
                 >
                   Institute Name
                 </TableCell>
-                <TableCell colSpan={2}>
-                  <TextField id="outlined-basic" variant="outlined" />
+                <TableCell>
+                  <TextField onChange={handleChange}  id="outlined-basic" variant="outlined" />
+                </TableCell>
+                <TableCell style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}>
+                    Email
+                </TableCell>
+                <TableCell>
+                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -179,8 +234,18 @@ function Home2() {
                 >
                   Affiliated By
                 </TableCell>
-                <TableCell colSpan={2}>
-                  <TextField id="outlined-basic" variant="outlined" />
+                <TableCell>
+                  <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                </TableCell>
+                <TableCell style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}>
+                    Re Enter Email
+                </TableCell>
+                <TableCell>
+                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -194,7 +259,17 @@ function Home2() {
                   Year of establishment
                 </TableCell>
                 <TableCell>
-                  <TextField id="outlined-basic" variant="outlined" />
+                  <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                </TableCell>
+                <TableCell style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}>
+                    Website
+                </TableCell>
+                <TableCell>
+                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -208,7 +283,17 @@ function Home2() {
                   AISHE Code
                 </TableCell>
                 <TableCell>
-                  <TextField id="outlined-basic" variant="outlined" />
+                  <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                </TableCell>
+                <TableCell style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}>
+                    TAN/PAN No.
+                </TableCell>
+                <TableCell>
+                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -222,7 +307,17 @@ function Home2() {
                   Year of obtaining 1st approval letter from AICTE
                 </TableCell>
                 <TableCell>
-                  <TextField id="outlined-basic" variant="outlined" />
+                  <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                </TableCell>
+                <TableCell style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}>
+                    Fax
+                </TableCell>
+                <TableCell>
+                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -241,6 +336,16 @@ function Home2() {
                     minRows={3}
                     style={{ width: 200 }}
                   />
+                </TableCell>
+                <TableCell style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}>
+                    Mobile No.
+                </TableCell>
+                <TableCell>
+                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -272,8 +377,17 @@ function Home2() {
                     </Select>
                   </FormControl>
                 </TableCell>
+                <TableCell style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}>
+                    Phone
+                </TableCell>
+                <TableCell>
+                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                </TableCell>
               </TableRow>
-
               <TableRow>
                 <TableCell
                   style={{
@@ -302,122 +416,22 @@ function Home2() {
                     </Select>
                   </FormControl>
                 </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  style={{
+                <TableCell style={{
                     fontWeight: "bold",
                     textAlign: "right",
                     fontSize: "15px",
-                  }}
-                >
-                  PIN Code
+                  }}>
+                    PIN Code
                 </TableCell>
                 <TableCell>
-                  <TextField id="outlined-basic" variant="outlined" />
+                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}
-                >
-                  Phone
-                </TableCell>
-                <TableCell>
-                  <TextField id="outlined-basic" variant="outlined" />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}
-                >
-                  Mobile No.
-                </TableCell>
-                <TableCell>
-                  <TextField id="outlined-basic" variant="outlined" />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}
-                >
-                  Fax
-                </TableCell>
-                <TableCell>
-                  <TextField id="outlined-basic" variant="outlined" />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}
-                >
-                  TAN/PAN No.
-                </TableCell>
-                <TableCell>
-                  <TextField id="outlined-basic" variant="outlined" />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}
-                >
-                  Website
-                </TableCell>
-                <TableCell>
-                  <TextField id="outlined-basic" variant="outlined" />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}
-                >
-                  Email
-                </TableCell>
-                <TableCell>
-                  <TextField id="outlined-basic" variant="outlined" />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}
-                >
-                  Re Enter Email
-                </TableCell>
-                <TableCell>
-                  <TextField id="outlined-basic" variant="outlined" />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  <Button variant="contained">Signup</Button>
+                <TableCell colSpan={4} style={{
+                    textAlign: "center",
+                  }}>
+                  <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>Signup</Button>
                 </TableCell>
               </TableRow>
             </TableBody>
