@@ -27,6 +27,7 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Home2() {
   const navigate = useNavigate();
+  
   useEffect(()=>{
     if(localStorage.getItem("token")) navigate('/')
   },[])
@@ -81,6 +82,7 @@ function Home2() {
   });
 
   const handleChange = (e) => {
+    console.log(formData);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -159,7 +161,7 @@ function Home2() {
                   <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
+                    name="institute_type"
                     onChange={handleChange}
                   >
                     <FormControlLabel
@@ -211,7 +213,7 @@ function Home2() {
                   Institute Name
                 </TableCell>
                 <TableCell>
-                  <TextField onChange={handleChange}  id="outlined-basic" variant="outlined" />
+                  <TextField name="institute_name" onChange={handleChange}  id="outlined-basic" variant="outlined" />
                 </TableCell>
                 <TableCell style={{
                     fontWeight: "bold",
@@ -221,7 +223,7 @@ function Home2() {
                     Email
                 </TableCell>
                 <TableCell>
-                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                <TextField id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -235,7 +237,7 @@ function Home2() {
                   Affiliated By
                 </TableCell>
                 <TableCell>
-                  <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                  <TextField name="affiliated_by" onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
                 <TableCell style={{
                     fontWeight: "bold",
@@ -245,7 +247,7 @@ function Home2() {
                     Re Enter Email
                 </TableCell>
                 <TableCell>
-                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                <TextField name="email" onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -259,7 +261,7 @@ function Home2() {
                   Year of establishment
                 </TableCell>
                 <TableCell>
-                  <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                  <TextField name="year_of_establishment" onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
                 <TableCell style={{
                     fontWeight: "bold",
@@ -269,7 +271,7 @@ function Home2() {
                     Website
                 </TableCell>
                 <TableCell>
-                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                <TextField name="website" onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -283,7 +285,7 @@ function Home2() {
                   AISHE Code
                 </TableCell>
                 <TableCell>
-                  <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                  <TextField name="aishe_code" onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
                 <TableCell style={{
                     fontWeight: "bold",
@@ -293,7 +295,7 @@ function Home2() {
                     TAN/PAN No.
                 </TableCell>
                 <TableCell>
-                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                <TextField name="tan_pan_no" onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -307,7 +309,7 @@ function Home2() {
                   Year of obtaining 1st approval letter from AICTE
                 </TableCell>
                 <TableCell>
-                  <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                  <TextField name="year_of_establishment" onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
                 <TableCell style={{
                     fontWeight: "bold",
@@ -317,7 +319,7 @@ function Home2() {
                     Fax
                 </TableCell>
                 <TableCell>
-                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                <TextField name="fax" onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -335,6 +337,7 @@ function Home2() {
                     aria-label="minimum height"
                     minRows={3}
                     style={{ width: 200 }}
+                    name="postal_address"
                   />
                 </TableCell>
                 <TableCell style={{
@@ -345,11 +348,11 @@ function Home2() {
                     Mobile No.
                 </TableCell>
                 <TableCell>
-                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                <TextField name="mobile_no" onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell
+                {/* <TableCell
                   style={{
                     fontWeight: "bold",
                     textAlign: "right",
@@ -376,7 +379,7 @@ function Home2() {
                       ))}
                     </Select>
                   </FormControl>
-                </TableCell>
+                </TableCell> */}
                 <TableCell style={{
                     fontWeight: "bold",
                     textAlign: "right",
@@ -385,11 +388,11 @@ function Home2() {
                     Phone
                 </TableCell>
                 <TableCell>
-                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                <TextField name="phone" onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell
+                {/* <TableCell
                   style={{
                     fontWeight: "bold",
                     textAlign: "right",
@@ -397,8 +400,8 @@ function Home2() {
                   }}
                 >
                   District
-                </TableCell>
-                <TableCell>
+                </TableCell> */}
+                {/* <TableCell>
                   <FormControl sx={{ m: 1, minWidth: 140 }}>
                     <InputLabel id="demo-simple-select-label">
                       Select District
@@ -415,7 +418,7 @@ function Home2() {
                       ))}
                     </Select>
                   </FormControl>
-                </TableCell>
+                </TableCell> */}
                 <TableCell style={{
                     fontWeight: "bold",
                     textAlign: "right",
@@ -424,7 +427,7 @@ function Home2() {
                     PIN Code
                 </TableCell>
                 <TableCell>
-                <TextField onChange={handleChange} id="outlined-basic" variant="outlined" />
+                <TextField name="pin_code" onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
               <TableRow>
