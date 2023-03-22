@@ -12,6 +12,7 @@ const bodyParser = require("body-parser");
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const axios = require("axios")
 const CLIENT_URL = process.env.CLIENT_URL;
 
 app.use(
@@ -101,7 +102,7 @@ app.post("/logout", (req, res) => {
   });
 });
 
-app.post("/countries", (req, res) => {
+app.post("/states", (req, res) => {
   let states = [
     { state_id: 1, state_name: "Andaman and Nicobar Islands" },
     { state_id: 2, state_name: "Andhra Pradesh" },
@@ -141,9 +142,10 @@ app.post("/countries", (req, res) => {
     { state_id: 35, state_name: "Uttarakhand" },
     { state_id: 36, state_name: "West Bengal" },
   ];
-  console.log("api call worked")
+  console.log("states api call")
   res.status(200).json({ states });
 });
+
 
 app.listen(PORT, () => {
   console.log(`Express server listening on port ${PORT}`);
