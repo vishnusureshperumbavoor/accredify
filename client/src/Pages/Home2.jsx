@@ -38,7 +38,7 @@ function Home2() {
 
   useEffect(() => {
     const getState = async () => {
-      axios.post(`${SERVER_URL}/countries`).then((res) => {
+      axios.post(`${SERVER_URL}/states`).then((res) => {
         setState(res.data.states);
       });
     };
@@ -393,7 +393,7 @@ function Home2() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                {/* <TableCell
+                <TableCell
                   style={{
                     fontWeight: "bold",
                     textAlign: "right",
@@ -401,8 +401,8 @@ function Home2() {
                   }}
                 >
                   District
-                </TableCell> */}
-                {/* <TableCell>
+                </TableCell>
+                <TableCell>
                   <FormControl sx={{ m: 1, minWidth: 140 }}>
                     <InputLabel id="demo-simple-select-label">
                       Select District
@@ -419,7 +419,7 @@ function Home2() {
                       ))}
                     </Select>
                   </FormControl>
-                </TableCell> */}
+                </TableCell>
                 <TableCell style={{
                     fontWeight: "bold",
                     textAlign: "right",
