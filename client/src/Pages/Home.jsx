@@ -6,7 +6,7 @@ import Navbar from "../Components/Navbar/Navbar";
 function Home() {
   const navigate = useNavigate();
   useEffect(() => {
-    if (!localStorage.getItem("token")) navigate("/login");
+    if (!localStorage.getItem("token")) navigate("/home2");
     else navigate("/");
   }, []);
   const logout = () => {

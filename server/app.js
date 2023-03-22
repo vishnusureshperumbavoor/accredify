@@ -60,17 +60,18 @@ const User = MONGOOSE.model("User", userSchema);
 
 const db = MONGOOSE.connection;
 app.post("/signup", urlencodedParser, (req, res) => {
+  console.log(req.body);
   const user = new User(req.body);
-  db.collection(collections.USER_COLLECTIONS).insertOne(user, (err, coll) => {
-    if (err) {
-      console.log(`error ${err}`);
-      res.status(500).json("failed");
-    } else {
-      const token = jwt.sign({ user }, JWT_SECRET);
-      console.log("successfully inserted");
-      res.status(200).json({ token, user: user });
-    }
-  });
+  // db.collection(collections.USER_COLLECTIONS).insertOne(user, (err, coll) => {
+  //   if (err) {
+  //     console.log(`error ${err}`);
+  //     res.status(500).json("failed");
+  //   } else {
+  //     const token = jwt.sign({ user }, JWT_SECRET);
+  //     console.log("successfully inserted");
+  //     res.status(200).json({ token, user: user });
+  //   }
+  // });
 });
 
 app.post("/login", urlencodedParser, (req, res) => {
