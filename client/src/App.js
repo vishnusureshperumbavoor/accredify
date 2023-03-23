@@ -1,13 +1,18 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./Pages/Home";
-import Login from "./Pages/Login";
-import Signup from "./Pages/Signup";
+import Home from "./UserPages/Home";
+import Login from "./UserPages/Login";
+import Signup from "./UserPages/Signup";
 
 import One from "./hooks/usecontext/One";
 import { AppContext } from "./AppContext";
-import Home2 from "./Pages/Home2";
 import Sidebar from "./Components/Sidebar/Sidebar";
+import Registration from "./UserPages/Registration";
+import AdminLogin from "./AdminPages/AdminLogin";
+import Approved from "./AdminPages/Approved";
+import Rejected from "./AdminPages/Rejected";
+import Pending from "./AdminPages/Pending";
+
 
 function App() {
   return (
@@ -19,8 +24,11 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/usecontext" element={<One />} />
-            <Route path="/home2" element={<Home2 />} />
-            <Route path="/sidebar" element={<Sidebar />} />
+            <Route path="/registration" element={<Registration />} />
+            <Route path="/adminlogin" element={<AdminLogin />} />
+            <Route path="/pending" element={<Pending />} />
+            <Route path="/rejected" element={<Rejected />} />
+            <Route path="/approved" element={<Approved />} />
           </Routes>
         </AppContext.Provider>
       </Router>

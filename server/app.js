@@ -12,7 +12,6 @@ const bodyParser = require("body-parser");
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
-const axios = require("axios")
 const CLIENT_URL = process.env.CLIENT_URL;
 
 app.use(
@@ -51,9 +50,23 @@ MONGOOSE.connect(MONGO_URI, {
   });
 
 const userSchema = new MONGOOSE.Schema({
-  userrole: String,
+  institute_type: String,
+  institute_name: String,
+  affiliated_by: String,
+  year_of_establishment: String,
+  aishe_code: String,
+  first_approval: String,
+  postal_address: String,
+  state: String,
+  district: String,
   email: String,
-  password: String,
+  website: String,
+  tan_pan_no: String,
+  fax: String,
+  mobile_no: String,
+  phone: String,
+  pin_code: String,
+  status: String,
   createdAt: { type: Date, default: new Date() },
 });
 
@@ -61,22 +74,21 @@ const User = MONGOOSE.model("User", userSchema);
 
 const db = MONGOOSE.connection;
 app.post("/signup", urlencodedParser, (req, res) => {
-  console.log(req.body);
   const user = new User(req.body);
-  // db.collection(collections.USER_COLLECTIONS).insertOne(user, (err, coll) => {
-  //   if (err) {
-  //     console.log(`error ${err}`);
-  //     res.status(500).json("failed");
-  //   } else {
-  //     const token = jwt.sign({ user }, JWT_SECRET);
-  //     console.log("successfully inserted");
-  //     res.status(200).json({ token, user: user });
-  //   }
-  // });
+  db.collection(collections.USER_REQUESTS).insertOne(user, (err, coll) => {
+    if (err) {
+      console.log(`error ${err}`);
+      res.status(500).json("failed");
+    } else {
+      const token = jwt.sign({ user }, JWT_SECRET);
+      console.log("successfully inserted");
+      res.status(200).json({ token, user: user });
+    }
+  });
 });
 
 app.post("/login", urlencodedParser, (req, res) => {
-  db.collection(collections.USER_COLLECTIONS).findOne(
+  db.collection(collections.USER_REQUESTS).findOne(
     { username: req.body.username },
     (err, user) => {
       if (user && user.password === req.body.password) {
@@ -89,6 +101,63 @@ app.post("/login", urlencodedParser, (req, res) => {
       }
     }
   );
+});
+
+app.post("/adminLogin", urlencodedParser, (req, res) => {
+  db.collection(collections.ADMIN_LOGIN).findOne(
+    { name: req.body.adminName },
+    (err, user) => {
+      if (user && user.password === req.body.password) {
+        const token = jwt.sign({ user }, JWT_SECRET);
+        console.log("Login successful");
+        res.status(200).json({ token, user: user });
+      } else {
+        console.log("Invalid password");
+        res.status(500).json("failed");
+      }
+    }
+  );
+});
+
+app.post("/pending",urlencodedParser,(req,res)=>{
+  db.collection(collections.USER_REQUESTS).find({status:'pending'},(err,users)=>{
+    if(err){
+      console.log(err);
+      res.status(500).send('Error retrieving user details')
+    }else{
+      res.send(users)
+    }
+  })
+})
+
+app.post('/approve/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: id },
+      { status: 'approved' },
+      { new: true } // Return the updated document
+    );
+    res.json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
+});
+
+app.post('/reject/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: id },
+      { status: 'reject' },
+      { new: true } // Return the updated document
+    );
+    res.json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
 });
 
 app.post("/logout", (req, res) => {
@@ -142,10 +211,9 @@ app.post("/states", (req, res) => {
     { state_id: 35, state_name: "Uttarakhand" },
     { state_id: 36, state_name: "West Bengal" },
   ];
-  console.log("states api call")
+  console.log("api call worked")
   res.status(200).json({ states });
 });
-
 
 app.listen(PORT, () => {
   console.log(`Express server listening on port ${PORT}`);

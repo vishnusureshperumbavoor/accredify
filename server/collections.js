@@ -1,3 +1,4 @@
 module.exports = {
-  USER_COLLECTIONS: "full-stack-wp",
+  USER_REQUESTS : 'requests',
+  ADMIN_LOGIN :'admin',
 };
