@@ -21,6 +21,7 @@ function Registration() {
   useEffect(() => {
     axios.post(`${SERVER_URL}/pending`)
       .then(response => {
+        console.log(response);
         setUsers(response.data);
       })
       .catch(error => {
@@ -110,12 +111,14 @@ function Registration() {
               <TableCell>{user.mobile_no}</TableCell>
               <TableCell>{user.phone}</TableCell>
               <TableCell>{user.pin_code}</TableCell>
-              <TableCell><Button variant="contained" style={{ backgroundColor: green[500], color: '#fff' }} onClick={handleApprove(user._id)}>
-            Approve
-          </Button>
-          <Button variant="contained" style={{ backgroundColor: red[500], color: '#fff' }} onClick={handleReject(user._id)}>
-            Reject
-          </Button></TableCell>
+              <TableCell>
+                <Button variant="contained" style={{ backgroundColor: green[500], color: '#fff' }} onClick={handleApprove(user._id)}>
+                  Approve
+                </Button>
+                <Button variant="contained" style={{ backgroundColor: red[500], color: '#fff' }} onClick={handleReject(user._id)}>
+                  Reject
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
             </TableBody>

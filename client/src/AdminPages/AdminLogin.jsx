@@ -18,13 +18,13 @@ import { useNavigate } from "react-router-dom";
 import { CircularProgress } from '@material-ui/core';
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
-function Registration() {
+function AdminLogin() {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   
   useEffect(()=>{
-    if(localStorage.getItem("token")) navigate('/')
+    if(localStorage.getItem("token")) navigate('/pending')
   },[])
 
   const [formData, setFormData] = useState({
@@ -149,4 +149,4 @@ function Registration() {
     </div>
   );
 }
-export default Registration;
+export default AdminLogin;

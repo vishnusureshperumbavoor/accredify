@@ -28,9 +28,9 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 function Registration() {
   const navigate = useNavigate();
   
-  useEffect(()=>{
+  {/*useEffect(()=>{
     if(localStorage.getItem("token")) navigate('/')
-  },[])
+  },[])*/}
 
   const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);

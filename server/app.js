@@ -120,11 +120,13 @@ app.post("/adminLogin", urlencodedParser, (req, res) => {
 });
 
 app.post("/pending",urlencodedParser,(req,res)=>{
-  db.collection(collections.USER_REQUESTS).find({status:'pending'},(err,users)=>{
+  let users = db.collection(collections.USER_REQUESTS).find({status:'pending'}).toArray().then((err,users)=>{
     if(err){
       console.log(err);
       res.status(500).send('Error retrieving user details')
-    }else{
+    }
+    else{
+      console.log(users);
       res.send(users)
     }
   })
