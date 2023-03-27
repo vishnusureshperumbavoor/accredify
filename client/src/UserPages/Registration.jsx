@@ -23,9 +23,11 @@ import axios from "axios";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { useNavigate } from "react-router-dom";
+import { CircularProgress } from '@material-ui/core';
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Registration() {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   
   {/*useEffect(()=>{
@@ -49,7 +51,6 @@ function Registration() {
   }, []);
 
   const handleStateChange= ((e)=>{
-    console.log(e.target.getAttribute("name"));
     setSelectedStateId(e.target.value);
     setSelectedStateName(e.target.getAttribute("name"))
     setSelectedDistrict('')
@@ -101,22 +102,23 @@ function Registration() {
   };
 
   const handleSubmit = (e) => {
-    console.log(formData);
-    console.log(selectedStateName);
     e.preventDefault();
+    setIsLoading(true);
     axios.post(`${SERVER_URL}/signup`, formData).then((res)=>{
       if(res.status===200){
-        // localStorage.setItem("token",res.data.token)
-        // alert("insertion successful")
+        localStorage.setItem("userToken",res.data.token)
+        alert("insertion successful")
+        setIsLoading(false);
         // navigate('/')
       }
     }).catch((err)=>{
       alert("error")
+      setIsLoading(false);
     })
   };
 
   return (
-    <div style={{ backgroundColor: "#E7EBF0", height: "1190px" }}>
+    <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -368,7 +370,30 @@ function Registration() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell
+              <TableCell style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}>
+                    PIN Code
+                </TableCell>
+                <TableCell>
+                <TextField name="pin_code" onChange={handleChange} id="outlined-basic" variant="outlined" />
+                </TableCell>
+                
+                <TableCell style={{
+                    fontWeight: "bold",
+                    textAlign: "right",
+                    fontSize: "15px",
+                  }}>
+                    Phone
+                </TableCell>
+                <TableCell>
+                <TextField name="phone" onChange={handleChange} id="outlined-basic" variant="outlined" />
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                {/*<TableCell
                   style={{
                     fontWeight: "bold",
                     textAlign: "right",
@@ -395,19 +420,7 @@ function Registration() {
                       ))}
                     </Select>
                   </FormControl>
-                </TableCell>
-                <TableCell style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}>
-                    Phone
-                </TableCell>
-                <TableCell>
-                <TextField name="phone" onChange={handleChange} id="outlined-basic" variant="outlined" />
-                </TableCell>
-              </TableRow>
-              <TableRow>
+                      </TableCell>
                 <TableCell
                   style={{
                     fontWeight: "bold",
@@ -434,23 +447,18 @@ function Registration() {
                       ))}
                     </Select>
                   </FormControl>
-                </TableCell> 
-                <TableCell style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}>
-                    PIN Code
-                </TableCell>
-                <TableCell>
-                <TextField name="pin_code" onChange={handleChange} id="outlined-basic" variant="outlined" />
-                </TableCell>
+                      </TableCell> */}
+                
               </TableRow>
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",
                   }}>
-                  <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>Signup</Button>
+                  {/*<Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>Signup</Button>*/}
+                  <Button disabled={isLoading} variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
+                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>
+                    {isLoading ? <CircularProgress size={24} /> : 'Signup'}
+                  </Button>
                 </TableCell>
               </TableRow>
             </TableBody>

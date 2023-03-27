@@ -24,7 +24,7 @@ function AdminLogin() {
   const navigate = useNavigate();
   
   useEffect(()=>{
-    if(localStorage.getItem("token")) navigate('/pending')
+    if(localStorage.getItem("adminToken")) navigate('/pending')
   },[])
 
   const [formData, setFormData] = useState({
@@ -37,18 +37,14 @@ function AdminLogin() {
   };
 
   const handleSubmit = (e) => {
-    console.log("handlesubmit has been caled");
-    console.log(formData);
     setIsLoading(true);
     e.preventDefault();
     axios
       .post(`${SERVER_URL}/adminLogin`, formData)
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
-          alert("welcome to the future");
-          localStorage.setItem("token",res.data.token);
-          // navigate('/')
+          localStorage.setItem("adminToken",res.data.token);
+          navigate('/pending')
           setIsLoading(false)
         }
       })
@@ -59,7 +55,7 @@ function AdminLogin() {
   };
 
   return (
-    <div style={{ backgroundColor: "#E7EBF0", height: "600px" }}>
+    <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>

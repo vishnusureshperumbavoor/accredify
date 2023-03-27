@@ -9,49 +9,34 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Button } from '@material-ui/core';
-import { green, red } from '@material-ui/core/colors';
 import AdminNavbar from "./AdminNavbar";
+import { LinearProgress } from '@material-ui/core';
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
-function Registration() {
+function Approved() {
+  const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.post(`${SERVER_URL}/pending`)
-      .then(response => {
-        setUsers(response.data);
+    if (!localStorage.getItem("adminToken")) navigate("/adminlogin");
+    setIsLoading(true);
+    axios.post(`${SERVER_URL}/approvedpage`)
+      .then(res => {
+        console.log(res);
+        setUsers(res.data.users);
+        setIsLoading(false);
       })
       .catch(error => {
         console.log(error);
+        setIsLoading(true);
       });
   }, []);
-  
-  // useEffect(()=>{
-  //   if(localStorage.getItem("token")) navigate('/')
-  // },[])
-
-  const handleApprove=((id)=>{
-    axios.post(`${SERVER_URL}/approve/${id}`).then(res=>{
-      setUsers(res.data)
-    }).catch(err=>{
-      console.log(err);
-    })
-  })
-
-  const handleReject=((id)=>{
-    axios.post(`${SERVER_URL}/reject/${id}`).then(res=>{
-      setUsers(res.data)
-    }).catch(err=>{
-      console.log(err);
-    })
-  })
-
   return (
-    <div style={{ backgroundColor: "#E7EBF0", height: "600px" }}>
+    <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
       <AdminNavbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
+      {isLoading && <LinearProgress />}
         <TableContainer component={Paper}>
           <Table
             sx={{ "& td": { border: 0 }, minWidth: 650 }}
@@ -59,36 +44,21 @@ function Registration() {
           >
             <TableHead>
               <TableRow>
-                <TableCell
-                  className="fontLink"
-                  colSpan={17}
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: "20px",
-                    textAlign: "center",
-                  }}
-                >
-                  NBA PENDING REQUESTS
-                </TableCell>
-              </TableRow>
-              <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Type</TableCell>
-            <TableCell>Affiliation</TableCell>
-            <TableCell>Year</TableCell>
-            <TableCell>AISHE</TableCell>
-            <TableCell>Approval</TableCell>
-            <TableCell>Address</TableCell>
-            <TableCell>State</TableCell>
-            <TableCell>District</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Website</TableCell>
-            <TableCell>TAN/PAN No</TableCell>
-            <TableCell>Fax</TableCell>
-            <TableCell>Mobile No</TableCell>
-            <TableCell>Phone</TableCell>
-            <TableCell>Pin Code</TableCell>
-            <TableCell>Approve/Reject</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>Name</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>Type</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>Affiliation</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>Year</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>AISHE</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>Approval</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>Address</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>State</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>District</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>Email</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>Website</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>TAN/PAN No</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>Fax</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>Mobile No</TableCell>
+            <TableCell style={{fontWeight:"bold"}}>Phone</TableCell>
           </TableRow>
             </TableHead>
             <TableBody>
@@ -109,13 +79,6 @@ function Registration() {
               <TableCell>{user.fax}</TableCell>
               <TableCell>{user.mobile_no}</TableCell>
               <TableCell>{user.phone}</TableCell>
-              <TableCell>{user.pin_code}</TableCell>
-              <TableCell><Button variant="contained" style={{ backgroundColor: green[500], color: '#fff' }} onClick={handleApprove(user._id)}>
-            Approve
-          </Button>
-          <Button variant="contained" style={{ backgroundColor: red[500], color: '#fff' }} onClick={handleReject(user._id)}>
-            Reject
-          </Button></TableCell>
             </TableRow>
           ))}
             </TableBody>
@@ -125,4 +88,4 @@ function Registration() {
     </div>
   );
 }
-export default Registration;
+export default Approved;

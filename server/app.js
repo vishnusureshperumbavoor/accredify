@@ -1,17 +1,18 @@
 const express = require("express");
 const app = express();
 const MONGOOSE = require("mongoose");
+const ObjectId = MONGOOSE.Types.ObjectId;
 const dotenv = require("dotenv");
 dotenv.config();
 const MONGO_URI = process.env.MONGODB_URI;
 const PORT = process.env.PORT;
 const JWT_SECRET = process.env.JWT_SECRET;
 const collections = require("./collections");
-
 const bodyParser = require("body-parser");
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const adminHelpers = require("./helpers/adminhelpers")
 const CLIENT_URL = process.env.CLIENT_URL;
 
 app.use(
@@ -119,47 +120,83 @@ app.post("/adminLogin", urlencodedParser, (req, res) => {
   );
 });
 
-app.post("/pending",urlencodedParser,(req,res)=>{
-  let users = db.collection(collections.USER_REQUESTS).find({status:'pending'}).toArray().then((err,users)=>{
-    if(err){
-      console.log(err);
-      res.status(500).send('Error retrieving user details')
-    }
-    else{
-      console.log(users);
-      res.send(users)
-    }
+app.post("/pendingpage",urlencodedParser,(req,res)=>{
+  console.log("pending table loading");
+  db.collection(collections.USER_REQUESTS).find({status:"pending"}).toArray().then((users)=>{
+    console.log("pending table loading")
+    res.status(200).json({ users });
+  }).catch((err)=>{
+    console.log("pending table error");
+    res.status(500).json("failed");
+  })
+})
+app.post("/approvedpage",urlencodedParser,(req,res)=>{
+  console.log("approved table loading");
+  db.collection(collections.USER_REQUESTS).find({status:"approved"}).toArray().then((users)=>{
+    console.log("approved table working")
+    res.status(200).json({ users });
+  }).catch((err)=>{
+    console.log("approved table error");
+    res.status(500).json("failed");
   })
 })
 
-app.post('/approve/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const updatedUser = await User.findOneAndUpdate(
-      { _id: id },
-      { status: 'approved' },
-      { new: true } // Return the updated document
-    );
-    res.json(updatedUser);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Server Error');
-  }
+app.post("/rejectedpage",urlencodedParser,(req,res)=>{
+  console.log("rejected has been called");
+  db.collection(collections.USER_REQUESTS).find({status:"rejected"}).toArray().then((users)=>{
+    console.log("rejected table working")
+    res.status(200).json({ users });
+  }).catch((err)=>{
+    console.log("rejected table error");
+    res.status(500).json("failed");
+  })
+})
+
+app.post('/approve', (req, res) => {
+  console.log("has been called for approval");
+  console.log(req.body);
+  const id = req.body.id;
+  db.collection(collections.USER_REQUESTS).updateOne(
+      { _id: ObjectId(id) },
+      {
+        $set:{
+          status: 'approved'
+        }
+      }
+  )
+  .then((user)=>{
+      console.log("approval success");
+      let msg = "Congratz your institution has been approved for NBA Accreditation"
+      adminHelpers.sendMail(req.body,msg)   
+      res.status(200).json(user);
+    })
+    .catch((err)=>{
+      console.log("approval error");
+      res.status(500).send('Server Error');
+  })
 });
 
-app.post('/reject/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const updatedUser = await User.findOneAndUpdate(
-      { _id: id },
-      { status: 'reject' },
-      { new: true } // Return the updated document
-    );
-    res.json(updatedUser);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Server Error');
-  }
+
+app.post('/reject', async (req, res) => {
+  const id  = req.body.id;
+    db.collection(collections.USER_REQUESTS).updateOne(
+      { _id: ObjectId(id) },
+      {
+        $set:{
+          status: 'rejected'
+        }
+      }
+    )
+    .then((user)=>{
+      console.log("rejection success");
+      let msg = "Your institution is not eligible for NBA Accreditation"
+      adminHelpers.sendMail(req.body,msg)
+      res.status(200).json(user);
+    })
+    .catch((err)=>{
+      console.log("rejection error");
+      res.status(500).send('Server Error');
+    })
 });
 
 app.post("/logout", (req, res) => {

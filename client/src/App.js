@@ -1,6 +1,5 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./UserPages/Home";
 import Login from "./UserPages/Login";
 import Signup from "./UserPages/Signup";
 import Sidebar from "./Components/Sidebar/Sidebar";
@@ -10,13 +9,11 @@ import Approved from "./AdminPages/Approved";
 import Rejected from "./AdminPages/Rejected";
 import Pending from "./AdminPages/Pending";
 
-
 function App() {
   return (
     <div>
       <Router>
           <Routes>
-            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/registration" element={<Registration />} />

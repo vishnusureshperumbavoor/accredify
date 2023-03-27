@@ -7,15 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 function AdminNavbar() {
     const navigate = useNavigate();
-    const adminApproved=(()=>{
-        navigate('/approved')
-    })
-    const adminRejected=(()=>{
-        navigate('/rejected')
-    })
-    const adminPending=(()=>{
-        navigate('/pending')
-    })
   return (
     <div>
         <AppBar position="static">
@@ -30,7 +21,7 @@ function AdminNavbar() {
                 mr: 2,
                 display: { xs: "none", md: "flex" },
                 fontFamily: "monospace",
-                fontWeight: 700,
+                fontWeight: 900,
                 letterSpacing: ".3rem",
                 color: "inherit",
                 textDecoration: "none"
@@ -50,9 +41,10 @@ function AdminNavbar() {
                 color: "inherit",
                 textDecoration: "none"
               }}
-              onClick={adminPending}
+              onClick={()=>navigate('/approved')}
+              style={{ fontFamily: 'Open Sans, sans-serif',fontWeight:800 }}
             >
-              Pending
+              Approved Requests
             </Typography> 
             <Typography
               noWrap
@@ -66,25 +58,10 @@ function AdminNavbar() {
                 color: "inherit",
                 textDecoration: "none"
               }}
-              onClick={adminApproved}
+              onClick={()=>navigate('/rejected')}
+              style={{ fontFamily: 'Open Sans, sans-serif',fontWeight:800 }}
             >
-              Approved
-            </Typography> 
-            <Typography
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                ml: 8,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 50,
-                color: "inherit",
-                textDecoration: "none"
-              }}
-              onClick={adminRejected}
-            >
-              Rejected
+              Rejected Requests
             </Typography> 
           </Toolbar>
         </Container>
