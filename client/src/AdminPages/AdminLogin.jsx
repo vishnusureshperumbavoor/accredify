@@ -89,7 +89,7 @@ function AdminLogin() {
               <TableRow>
                 <TableCell
                   className="fontLink"
-                  colSpan={4}
+                  colSpan={2}
                   style={{
                     fontWeight: "bold",
                     fontSize: "20px",
@@ -129,7 +129,7 @@ function AdminLogin() {
               </TableRow>
               
               <TableRow>
-                <TableCell colSpan={4} style={{
+                <TableCell colSpan={2} style={{
                     textAlign: "center",
                   }}>
                   <Button disabled={isLoading} variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 

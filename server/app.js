@@ -167,7 +167,8 @@ app.post('/approve', (req, res) => {
   .then((user)=>{
       console.log("approval success");
       let msg = "Congratz your institution has been approved for NBA Accreditation"
-      adminHelpers.sendMail(req.body,msg)   
+      // adminHelpers.sendMail(req.body,msg)   
+      adminHelpers.sendWhatsApp(req.body,msg)
       res.status(200).json(user);
     })
     .catch((err)=>{

@@ -23,6 +23,10 @@ function Pending() {
   useEffect(() => {
     if (!localStorage.getItem("adminToken")) navigate("/adminlogin");
     setIsLoading(true);
+    loadTable()
+  }, []);
+  
+  const loadTable=(()=>{
     axios.post(`${SERVER_URL}/pendingpage`).then((res)=>{
       console.log(res.data.users);
       setUsers(res.data.users)
@@ -32,7 +36,7 @@ function Pending() {
       console.log(err);
       setIsLoading(true);
     })
-  }, []);
+  })
 
   const handleApprove=((row)=>{
     const data = {
@@ -42,6 +46,7 @@ function Pending() {
     };
     axios.post(`${SERVER_URL}/approve`,data).then(res=>{
       setUsers(res.data.users)
+      loadTable()
     }).catch(err=>{
       console.log(err);
     })
@@ -55,6 +60,7 @@ function Pending() {
     };
     axios.post(`${SERVER_URL}/reject`,data).then(res=>{
       setUsers(res.data.users)
+      loadTable()
     }).catch(err=>{
       console.log(err);
     })

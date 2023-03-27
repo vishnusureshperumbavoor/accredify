@@ -107,7 +107,7 @@ function Registration() {
     axios.post(`${SERVER_URL}/signup`, formData).then((res)=>{
       if(res.status===200){
         localStorage.setItem("userToken",res.data.token)
-        alert("insertion successful")
+        // alert("insertion successful")
         setIsLoading(false);
         // navigate('/')
       }
