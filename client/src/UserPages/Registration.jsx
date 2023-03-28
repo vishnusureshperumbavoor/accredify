@@ -41,7 +41,7 @@ function Registration() {
   const [selectedDistrict, setSelectedDistrict] = useState('');
 
   useEffect(() => {
-      axios.post(`${SERVER_URL}/states`)
+      axios.post('https://cdn-api.co-vin.in/api/v2/admin/location/states')
         .then((response) => {
           setStates(response.data.states);
         })
@@ -392,8 +392,8 @@ function Registration() {
                 <TextField name="phone" onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
               </TableRow>
-              <TableRow>
-                {/*<TableCell
+              {/* <TableRow>
+                <TableCell
                   style={{
                     fontWeight: "bold",
                     textAlign: "right",
@@ -447,9 +447,9 @@ function Registration() {
                       ))}
                     </Select>
                   </FormControl>
-                      </TableCell> */}
+                      </TableCell>
                 
-              </TableRow>
+              </TableRow> */}
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",

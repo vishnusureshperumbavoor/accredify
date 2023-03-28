@@ -2,6 +2,10 @@ const nodemailer = require("nodemailer")
 const EMAIL = process.env.EMAIL 
 const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD
 const { Client, LocalAuth } = require('whatsapp-web.js');
+const collections = require("../collections");
+const MONGOOSE = require("mongoose");
+const db = MONGOOSE.connection;
+
 const qrcode = require('qrcode-terminal');
 const client = new Client({
     authStrategy: new LocalAuth()
@@ -18,6 +22,52 @@ client.on('ready',async () => {
 client.initialize();
 
 module.exports = {
+    doSignup:(user)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.collection(collections.USER_REQUESTS).insertOne(user).then((data)=>{
+                resolve(data)
+            })
+            .catch((err)=>{
+                reject(err)
+            })
+        })
+    },
+    adminLogin:(user)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.collection(collections.ADMIN_LOGIN).findOne({name:user.adminName}).then((data)=>{
+                if(data && data.password === user.password){
+                    resolve(data)
+                }else{
+                    reject("Invalid Password")
+                }
+            })
+            .catch((err)=>{
+                reject(err)
+            })
+        })
+    },
+    approveRequest:(data)=>{
+        return new Promise(async(resolve,reject)=>{
+            id = MONGOOSE.Types.ObjectId(data._id);
+            db.collection(collections.USER_REQUESTS).updateOne({_id: id},{$set:{status:"approved"}}).then((data)=>{
+                resolve(data)
+            })
+            .catch((err)=>{
+                reject(err)
+            })
+        })
+    },
+    rejectRequest:(data)=>{
+        return new Promise(async(resolve,reject)=>{
+            id = MONGOOSE.Types.ObjectId(data._id);
+            db.collection(collections.USER_REQUESTS).updateOne({_id: id},{$set:{status:"rejected"}}).then((data)=>{
+                resolve(data)
+            })
+            .catch((err)=>{
+                reject(err)
+            })
+        })
+    },
     sendMail:(user,msg)=>{
         return new Promise(async(resolve,reject)=>{
             let transporter = nodemailer.createTransport({
