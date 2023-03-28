@@ -1,11 +1,21 @@
 const nodemailer = require("nodemailer")
-const twilio = require('twilio');
 const EMAIL = process.env.EMAIL 
 const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD
-const TWILIO_SID = process.env.TWILIO_SID 
-const TWILIO_AUTHY = process.env.TWILIO_AUTHY
-const client = twilio(TWILIO_SID, TWILIO_AUTHY);
-const wbm = require('wbm');
+const { Client, LocalAuth } = require('whatsapp-web.js');
+const qrcode = require('qrcode-terminal');
+const client = new Client({
+    authStrategy: new LocalAuth()
+});
+
+client.on('qr', (qr) => {
+    qrcode.generate(qr, {small: true});
+});
+
+client.on('ready',async () => {
+    console.log('Whatapp automation is ready');
+});
+
+client.initialize();
 
 module.exports = {
     sendMail:(user,msg)=>{
@@ -32,13 +42,16 @@ module.exports = {
     },
     sendWhatsApp:(user,msg)=>{
         return new Promise(async(resolve,reject)=>{
-            client.messages
-  .create({
-     body: 'This is a test message',
-     from: '+91 87142 67479', // Replace with your Twilio phone number
-     to: '+917902963981' // Replace with your mobile phone number
-   })
-  .then(message => console.log(message.sid));
+            const number = user.mobile;
+            const sanitized_number = number.toString().replace(/[- )(]/g, ""); // remove unnecessary chars from the number
+            const final_number = `91${sanitized_number.substring(sanitized_number.length - 10)}`; // add 91 before the number here 91 is country code of India
+            const number_details = await client.getNumberId(final_number);
+            if (number_details) {
+                await client.sendMessage(number_details._serialized, msg); 
+                console.log("WhatsApp Message sent");
+            } else {
+                console.log(final_number, "Mobile number is not registered on whatsapp");
+            }
         })
     },
 

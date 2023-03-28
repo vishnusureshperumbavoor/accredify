@@ -168,7 +168,7 @@ app.post('/approve', (req, res) => {
       console.log("approval success");
       let msg = "Congratz your institution has been approved for NBA Accreditation"
       // adminHelpers.sendMail(req.body,msg)   
-      adminHelpers.sendWhatsApp(req.body,msg)
+      // adminHelpers.sendWhatsApp(req.body,msg)
       res.status(200).json(user);
     })
     .catch((err)=>{
@@ -191,7 +191,8 @@ app.post('/reject', async (req, res) => {
     .then((user)=>{
       console.log("rejection success");
       let msg = "Your institution is not eligible for NBA Accreditation"
-      adminHelpers.sendMail(req.body,msg)
+      //adminHelpers.sendMail(req.body,msg)
+      //adminHelpers.sendWhatsApp(req.body,msg)
       res.status(200).json(user);
     })
     .catch((err)=>{
