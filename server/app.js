@@ -37,9 +37,16 @@ app.use(function (req, res, next) {
 app.set("view engine", "hbs");
 app.set("views", "");
 
-app.post("/signup", urlencodedParser, (req, res) => {
+app.post("/registration", urlencodedParser, (req, res) => {
   const user = new User(req.body);
-  adminHelpers.doSignup(user).then((user)=>{
+  adminHelpers.doRegistration(user).then((user)=>{
+      let msg = "New member has been registered for accreditation. Please check the dashboard for more details."     
+      let admin = {
+        email:process.env.EMAIL,
+        mobile:process.env.ADMIN_MOBILE
+      } 
+      // adminHelpers.sendMail(admin,msg)   
+      // adminHelpers.sendWhatsApp(admin,msg)
       const token = jwt.sign({ user }, JWT_SECRET);
       console.log("successfully inserted");
       res.status(200).json({ token, user: user });
@@ -102,7 +109,7 @@ app.post("/rejectedpage",urlencodedParser,(req,res)=>{
 
 app.post('/approve', (req, res) => {
   adminHelpers.approveRequest(req.body).then((user)=>{
-      let msg = "Congratz your institution has been approved for NBA Accreditation"
+      let msg = "Congratz your institution has been approved for NBA Accreditation. Now check the website to create username and password"
       console.log("approved");
       // adminHelpers.sendMail(req.body,msg)   
       // adminHelpers.sendWhatsApp(req.body,msg)

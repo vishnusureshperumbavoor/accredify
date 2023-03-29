@@ -22,7 +22,7 @@ client.on('ready',async () => {
 client.initialize();
 
 module.exports = {
-    doSignup:(user)=>{
+    doRegistration:(user)=>{
         return new Promise(async(resolve,reject)=>{
             db.collection(collections.USER_REQUESTS).insertOne(user).then((data)=>{
                 resolve(data)
@@ -92,6 +92,7 @@ module.exports = {
     },
     sendWhatsApp:(user,msg)=>{
         return new Promise(async(resolve,reject)=>{
+            console.log(user)
             const number = user.mobile;
             const sanitized_number = number.toString().replace(/[- )(]/g, ""); // remove unnecessary chars from the number
             const final_number = `91${sanitized_number.substring(sanitized_number.length - 10)}`; // add 91 before the number here 91 is country code of India

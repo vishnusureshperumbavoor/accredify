@@ -42,8 +42,10 @@ function AdminLogin() {
     axios
       .post(`${SERVER_URL}/adminLogin`, formData)
       .then((res) => {
+        console.log(res.data.username);
         if (res.status === 200) {
           localStorage.setItem("adminToken",res.data.token);
+          localStorage.setItem("adminName",res.data.username);
           navigate('/pending')
           setIsLoading(false)
         }

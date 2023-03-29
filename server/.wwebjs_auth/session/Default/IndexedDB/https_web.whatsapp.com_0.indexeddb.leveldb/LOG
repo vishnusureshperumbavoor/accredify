@@ -1,0 +1,25 @@
+2023/03/29-12:55:51.994 3248 Reusing MANIFEST C:\Users\gptcp\OneDrive\Desktop\VSP\college_main_project\server\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/03/29-12:55:51.995 3248 Recovering log #522
+2023/03/29-12:55:52.002 3248 Reusing old log C:\Users\gptcp\OneDrive\Desktop\VSP\college_main_project\server\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000522.log 
+2023/03/29-12:56:02.585 222c Compacting 1@1 + 9@2 files
+2023/03/29-12:56:02.850 222c Generated table #537@1: 24769 keys, 2275743 bytes
+2023/03/29-12:56:03.131 222c Generated table #538@1: 27195 keys, 2254389 bytes
+2023/03/29-12:56:03.376 222c Generated table #539@1: 16658 keys, 2235304 bytes
+2023/03/29-12:56:03.592 222c Generated table #540@1: 8972 keys, 2130391 bytes
+2023/03/29-12:56:03.808 222c Generated table #541@1: 73086 keys, 2215810 bytes
+2023/03/29-12:56:04.018 222c Generated table #542@1: 96014 keys, 2245610 bytes
+2023/03/29-12:56:04.240 222c Generated table #543@1: 95552 keys, 2246158 bytes
+2023/03/29-12:56:04.438 222c Generated table #544@1: 96244 keys, 2245114 bytes
+2023/03/29-12:56:04.596 222c Generated table #545@1: 48587 keys, 1137461 bytes
+2023/03/29-12:56:04.596 222c Compacted 1@1 + 9@2 files => 18985980 bytes
+2023/03/29-12:56:04.619 222c compacted to: files[ 0 0 19 0 0 0 0 ]
+2023/03/29-12:56:04.620 222c Delete type=2 #461
+2023/03/29-12:56:04.620 222c Delete type=2 #513
+2023/03/29-12:56:04.620 222c Delete type=2 #514
+2023/03/29-12:56:04.620 222c Delete type=2 #515
+2023/03/29-12:56:04.621 222c Delete type=2 #516
+2023/03/29-12:56:04.621 222c Delete type=2 #517
+2023/03/29-12:56:04.621 222c Delete type=2 #518
+2023/03/29-12:56:04.621 222c Delete type=2 #519
+2023/03/29-12:56:04.621 222c Delete type=2 #520
+2023/03/29-12:56:04.621 222c Delete type=2 #525

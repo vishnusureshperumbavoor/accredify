@@ -1,0 +1,38 @@
+2023/03/29-12:55:28.192 36fc Reusing MANIFEST C:\Users\gptcp\OneDrive\Desktop\VSP\college_main_project\server\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/03/29-12:55:28.192 36fc Recovering log #505
+2023/03/29-12:55:28.475 36fc Reusing old log C:\Users\gptcp\OneDrive\Desktop\VSP\college_main_project\server\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000505.log 
+2023/03/29-12:55:45.921 1a9c Level-0 table #523: started
+2023/03/29-12:55:46.297 1a9c Level-0 table #523: 1057768 bytes OK
+2023/03/29-12:55:46.353 1a9c Delete type=0 #505
+2023/03/29-12:55:46.386 1a9c Compacting 1@0 + 0@1 files
+2023/03/29-12:55:46.624 1a9c Generated table #524@0: 19967 keys, 401438 bytes
+2023/03/29-12:55:46.668 1a9c Generated table #525@0: 1138 keys, 67004 bytes
+2023/03/29-12:55:46.668 1a9c Compacted 1@0 + 0@1 files => 468442 bytes
+2023/03/29-12:55:46.690 1a9c compacted to: files[ 0 2 21 0 0 0 0 ]
+2023/03/29-12:55:46.690 1a9c Delete type=2 #523
+2023/03/29-12:55:46.746 1a9c Compacting 1@1 + 12@2 files
+2023/03/29-12:55:47.025 1a9c Generated table #526@1: 49134 keys, 2236512 bytes
+2023/03/29-12:55:47.355 1a9c Generated table #527@1: 2274 keys, 2151173 bytes
+2023/03/29-12:55:47.584 1a9c Generated table #528@1: 2504 keys, 2153474 bytes
+2023/03/29-12:55:47.783 1a9c Generated table #529@1: 2065 keys, 2153094 bytes
+2023/03/29-12:55:47.991 1a9c Generated table #530@1: 2032 keys, 2157749 bytes
+2023/03/29-12:55:48.176 1a9c Generated table #531@1: 2031 keys, 2159428 bytes
+2023/03/29-12:55:48.361 1a9c Generated table #532@1: 2522 keys, 2157221 bytes
+2023/03/29-12:55:48.601 1a9c Generated table #533@1: 2990 keys, 2156392 bytes
+2023/03/29-12:55:48.763 1a9c Generated table #534@1: 6843 keys, 2164055 bytes
+2023/03/29-12:55:49.011 1a9c Generated table #535@1: 29940 keys, 2202330 bytes
+2023/03/29-12:55:49.011 1a9c Compacted 1@1 + 12@2 files => 21691428 bytes
+2023/03/29-12:55:49.032 1a9c compacted to: files[ 0 1 19 0 0 0 0 ]
+2023/03/29-12:55:49.033 1a9c Delete type=2 #440
+2023/03/29-12:55:49.033 1a9c Delete type=2 #481
+2023/03/29-12:55:49.033 1a9c Delete type=2 #482
+2023/03/29-12:55:49.033 1a9c Delete type=2 #483
+2023/03/29-12:55:49.033 1a9c Delete type=2 #484
+2023/03/29-12:55:49.033 1a9c Delete type=2 #485
+2023/03/29-12:55:49.033 1a9c Delete type=2 #486
+2023/03/29-12:55:49.033 1a9c Delete type=2 #487
+2023/03/29-12:55:49.033 1a9c Delete type=2 #488
+2023/03/29-12:55:49.033 1a9c Delete type=2 #489
+2023/03/29-12:55:49.033 1a9c Delete type=2 #510
+2023/03/29-12:55:49.033 1a9c Delete type=2 #511
+2023/03/29-12:55:49.033 1a9c Delete type=2 #524

@@ -104,12 +104,12 @@ function Registration() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    axios.post(`${SERVER_URL}/signup`, formData).then((res)=>{
+    axios.post(`${SERVER_URL}/registration`, formData).then((res)=>{
       if(res.status===200){
         localStorage.setItem("userToken",res.data.token)
-        // alert("insertion successful")
         setIsLoading(false);
-        // navigate('/')
+        // alert("Registration Successful")
+        navigate('/waitforapproval')
       }
     }).catch((err)=>{
       alert("error")
