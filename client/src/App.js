@@ -9,13 +9,15 @@ import Approved from "./AdminPages/Approved";
 import Rejected from "./AdminPages/Rejected";
 import Pending from "./AdminPages/Pending";
 import WaitApprovalPage from "./UserPages/WaitApprovalPage";
+import HomePage from "./UserPages/HomePage";
 
 function App() {
   return (
     <div>
       <Router>
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/adminlogin" element={<AdminLogin />} />

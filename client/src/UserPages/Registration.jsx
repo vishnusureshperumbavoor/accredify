@@ -105,8 +105,10 @@ function Registration() {
     e.preventDefault();
     setIsLoading(true);
     axios.post(`${SERVER_URL}/registration`, formData).then((res)=>{
+      console.log(res.data)
       if(res.status===200){
         localStorage.setItem("userToken",res.data.token)
+        localStorage.setItem("userId",res.data.user.insertedId)
         setIsLoading(false);
         // alert("Registration Successful")
         navigate('/waitforapproval')

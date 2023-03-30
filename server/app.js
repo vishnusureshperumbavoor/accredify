@@ -10,9 +10,12 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const adminHelpers = require("./helpers/adminhelpers")
+const userHelpers = require("./helpers/userhelpers")
 const CLIENT_URL = process.env.CLIENT_URL;
 const db = require("./connection");
+const Registration = require("./models/registrationSchema");
 const User = require("./models/userSchema");
+const web3helpers = require("./web3/web3.js")
 
 app.use(
   cors({
@@ -38,8 +41,8 @@ app.set("view engine", "hbs");
 app.set("views", "");
 
 app.post("/registration", urlencodedParser, (req, res) => {
-  const user = new User(req.body);
-  adminHelpers.doRegistration(user).then((user)=>{
+  const user = new Registration(req.body);
+  userHelpers.doRegistration(user).then((user)=>{
       let msg = "New member has been registered for accreditation. Please check the dashboard for more details."     
       let admin = {
         email:process.env.EMAIL,
@@ -55,6 +58,21 @@ app.post("/registration", urlencodedParser, (req, res) => {
     console.log("failed");
       res.status(500).json("failed");
   })
+});
+
+app.post("/signup", urlencodedParser, async (req, res) => {
+  const user = new User(req.body);
+  await web3helpers.web3signup(user)
+  // await userHelpers.doSignup(user).then((user)=>{
+  //     // let msg = "Your username and password has been created. Now you can login to your account."     
+  //     // adminHelpers.sendMail(admin,msg)   
+  //     // adminHelpers.sendWhatsApp(admin,msg)
+  //     const token = jwt.sign({ user }, JWT_SECRET);
+  //     res.status(200).json({ token, user: user });
+  // })
+  // .catch((err)=>{
+  //     res.status(500).json("failed");
+  // })
 });
 
 app.post("/login", urlencodedParser, (req, res) => {

@@ -1,25 +1,37 @@
-2023/03/29-12:55:51.994 3248 Reusing MANIFEST C:\Users\gptcp\OneDrive\Desktop\VSP\college_main_project\server\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/03/29-12:55:51.995 3248 Recovering log #522
-2023/03/29-12:55:52.002 3248 Reusing old log C:\Users\gptcp\OneDrive\Desktop\VSP\college_main_project\server\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000522.log 
-2023/03/29-12:56:02.585 222c Compacting 1@1 + 9@2 files
-2023/03/29-12:56:02.850 222c Generated table #537@1: 24769 keys, 2275743 bytes
-2023/03/29-12:56:03.131 222c Generated table #538@1: 27195 keys, 2254389 bytes
-2023/03/29-12:56:03.376 222c Generated table #539@1: 16658 keys, 2235304 bytes
-2023/03/29-12:56:03.592 222c Generated table #540@1: 8972 keys, 2130391 bytes
-2023/03/29-12:56:03.808 222c Generated table #541@1: 73086 keys, 2215810 bytes
-2023/03/29-12:56:04.018 222c Generated table #542@1: 96014 keys, 2245610 bytes
-2023/03/29-12:56:04.240 222c Generated table #543@1: 95552 keys, 2246158 bytes
-2023/03/29-12:56:04.438 222c Generated table #544@1: 96244 keys, 2245114 bytes
-2023/03/29-12:56:04.596 222c Generated table #545@1: 48587 keys, 1137461 bytes
-2023/03/29-12:56:04.596 222c Compacted 1@1 + 9@2 files => 18985980 bytes
-2023/03/29-12:56:04.619 222c compacted to: files[ 0 0 19 0 0 0 0 ]
-2023/03/29-12:56:04.620 222c Delete type=2 #461
-2023/03/29-12:56:04.620 222c Delete type=2 #513
-2023/03/29-12:56:04.620 222c Delete type=2 #514
-2023/03/29-12:56:04.620 222c Delete type=2 #515
-2023/03/29-12:56:04.621 222c Delete type=2 #516
-2023/03/29-12:56:04.621 222c Delete type=2 #517
-2023/03/29-12:56:04.621 222c Delete type=2 #518
-2023/03/29-12:56:04.621 222c Delete type=2 #519
-2023/03/29-12:56:04.621 222c Delete type=2 #520
-2023/03/29-12:56:04.621 222c Delete type=2 #525
+2023/03/30-16:10:06.990 688 Reusing MANIFEST C:\Users\gptcp\OneDrive\Desktop\VSP\college_main_project\server\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/03/30-16:10:06.991 688 Recovering log #740
+2023/03/30-16:10:07.132 688 Reusing old log C:\Users\gptcp\OneDrive\Desktop\VSP\college_main_project\server\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000740.log 
+2023/03/30-16:10:08.522 688 Level-0 table #767: started
+2023/03/30-16:10:08.635 688 Level-0 table #767: 1121147 bytes OK
+2023/03/30-16:10:08.675 688 Delete type=0 #740
+2023/03/30-16:10:18.206 15b0 Compacting 1@0 + 0@1 files
+2023/03/30-16:10:18.281 15b0 Generated table #768@0: 18635 keys, 401707 bytes
+2023/03/30-16:10:18.327 15b0 Generated table #769@0: 604 keys, 33654 bytes
+2023/03/30-16:10:18.327 15b0 Compacted 1@0 + 0@1 files => 435361 bytes
+2023/03/30-16:10:18.344 15b0 compacted to: files[ 0 2 25 0 0 0 0 ]
+2023/03/30-16:10:18.344 15b0 Delete type=2 #767
+2023/03/30-16:10:18.871 2408 Compacting 1@1 + 10@2 files
+2023/03/30-16:10:19.183 2408 Generated table #770@1: 63347 keys, 2246715 bytes
+2023/03/30-16:10:19.468 2408 Generated table #771@1: 22777 keys, 2177145 bytes
+2023/03/30-16:10:19.737 2408 Generated table #772@1: 2635 keys, 2152380 bytes
+2023/03/30-16:10:20.065 2408 Generated table #773@1: 2099 keys, 2155172 bytes
+2023/03/30-16:10:20.345 2408 Generated table #774@1: 2061 keys, 2151772 bytes
+2023/03/30-16:10:20.607 2408 Generated table #775@1: 2002 keys, 2159578 bytes
+2023/03/30-16:10:20.840 2408 Generated table #776@1: 2145 keys, 2160245 bytes
+2023/03/30-16:10:21.067 2408 Generated table #777@1: 2930 keys, 2156344 bytes
+2023/03/30-16:10:21.412 2408 Generated table #778@1: 2912 keys, 2154883 bytes
+2023/03/30-16:10:21.778 2408 Generated table #779@1: 24471 keys, 2202784 bytes
+2023/03/30-16:10:21.826 2408 Generated table #780@1: 1320 keys, 110226 bytes
+2023/03/30-16:10:21.826 2408 Compacted 1@1 + 10@2 files => 21827244 bytes
+2023/03/30-16:10:21.852 2408 compacted to: files[ 0 1 26 0 0 0 0 ]
+2023/03/30-16:10:21.853 2408 Delete type=2 #745
+2023/03/30-16:10:21.853 2408 Delete type=2 #746
+2023/03/30-16:10:21.853 2408 Delete type=2 #747
+2023/03/30-16:10:21.853 2408 Delete type=2 #748
+2023/03/30-16:10:21.853 2408 Delete type=2 #749
+2023/03/30-16:10:21.853 2408 Delete type=2 #750
+2023/03/30-16:10:21.853 2408 Delete type=2 #751
+2023/03/30-16:10:21.853 2408 Delete type=2 #752
+2023/03/30-16:10:21.853 2408 Delete type=2 #753
+2023/03/30-16:10:21.853 2408 Delete type=2 #754
+2023/03/30-16:10:21.853 2408 Delete type=2 #768

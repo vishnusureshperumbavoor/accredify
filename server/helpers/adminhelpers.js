@@ -22,16 +22,6 @@ client.on('ready',async () => {
 client.initialize();
 
 module.exports = {
-    doRegistration:(user)=>{
-        return new Promise(async(resolve,reject)=>{
-            db.collection(collections.USER_REQUESTS).insertOne(user).then((data)=>{
-                resolve(data)
-            })
-            .catch((err)=>{
-                reject(err)
-            })
-        })
-    },
     adminLogin:(user)=>{
         return new Promise(async(resolve,reject)=>{
             db.collection(collections.ADMIN_LOGIN).findOne({name:user.adminName}).then((data)=>{
