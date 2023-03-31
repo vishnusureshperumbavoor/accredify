@@ -62,17 +62,16 @@ app.post("/registration", urlencodedParser, (req, res) => {
 
 app.post("/signup", urlencodedParser, async (req, res) => {
   const user = new User(req.body);
-  await web3helpers.web3signup(user)
-  // await userHelpers.doSignup(user).then((user)=>{
-  //     // let msg = "Your username and password has been created. Now you can login to your account."     
-  //     // adminHelpers.sendMail(admin,msg)   
-  //     // adminHelpers.sendWhatsApp(admin,msg)
-  //     const token = jwt.sign({ user }, JWT_SECRET);
-  //     res.status(200).json({ token, user: user });
-  // })
-  // .catch((err)=>{
-  //     res.status(500).json("failed");
-  // })
+  await userHelpers.doSignup(user).then((user)=>{
+      // let msg = "Your username and password has been created. Now you can login to your account."     
+      // adminHelpers.sendMail(admin,msg)   
+      // adminHelpers.sendWhatsApp(admin,msg)
+      const token = jwt.sign({ user }, JWT_SECRET);
+      res.status(200).json({ token, user: user });
+  })
+  .catch((err)=>{
+      res.status(500).json("failed");
+  })
 });
 
 app.post("/login", urlencodedParser, (req, res) => {
