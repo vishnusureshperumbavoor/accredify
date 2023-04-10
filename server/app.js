@@ -15,10 +15,9 @@ const CLIENT_URL = process.env.CLIENT_URL;
 const db = require("./connection");
 const Registration = require("./models/registrationSchema");
 const User = require("./models/userSchema");
-const web3helpers = require("./web3/web3.js")
 
 app.use(
-  cors({
+  cors({ 
     origin: [CLIENT_URL],
     methods: ["GET", "POST"],
     credentials: true,

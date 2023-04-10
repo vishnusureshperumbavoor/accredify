@@ -25,7 +25,7 @@ function WaitApprovalPage() {
         Wait for Admin Approval
       </Typography>
       <Typography variant="body1">
-        Your registration has been submitted successfully. Please wait for admin approval before you can create a username and password.
+        Your registration has been submitted successfully. Please wait for admin approval before you can apply for pre-qualifiers.
       </Typography>
     </div>
   );
