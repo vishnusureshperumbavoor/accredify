@@ -24,11 +24,19 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from '@material-ui/core';
+import Navbar from "../Components/Navbar/Navbar";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Condition2() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [selectedOption, setSelectedOption] = useState(localStorage.getItem('condition2') || '');
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+  useEffect(() => {
+    localStorage.setItem('condition2', selectedOption);
+  }, [selectedOption]);
   
   {/*useEffect(()=>{
     if(localStorage.getItem("token")) navigate('/')
@@ -112,29 +120,7 @@ function Condition2() {
 
   return (
     <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
-      <AppBar position="static">
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none"
-              }}
-            >
-              ACCREDITATION WORKFLOW MANAGEMENT SYSTEM
-            </Typography> 
-          </Toolbar>
-        </Container>
-      </AppBar>
+      <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
           <Table
@@ -166,11 +152,12 @@ function Condition2() {
                     textAlign: "center",
                   }}
                 >
-                  Whether approval of AICTE for the programs under construction has been obtained for all the years including the current year?
+                  <h3>Approval of AICTE for the programs under construction has been obtained for all the years including the current year.</h3>
+                  <h4>Whether approval of AICTE for the programs under construction has been obtained for all the years including the current year?</h4>
                 </TableCell>
                 </TableRow>
                 <TableRow >
-                <TableCell align="center" colSpan={3}>
+                <TableCell style={{paddingLeft:"800px"}}>
                   <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
@@ -181,11 +168,15 @@ function Condition2() {
                       value="Yes"
                       control={<Radio />}
                       label="Yes"
+                      checked={selectedOption === 'Yes'}
+                      onChange={handleOptionChange}
                     />
                     <FormControlLabel
                       value="No"
                       control={<Radio />}
                       label="No"
+                      checked={selectedOption === 'No'}
+                      onChange={handleOptionChange}
                     />
                     
                   </RadioGroup>

@@ -25,6 +25,7 @@ import FormControl from "@mui/material/FormControl";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Navbar from "../Components/Navbar/Navbar";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const useStyles = makeStyles((theme) => ({
@@ -119,6 +120,7 @@ function Condition5() {
   const [num19, setNum19] = useState(0);
   const [num20, setNum20] = useState(0);
   const [num21, setNum21] = useState(0);
+
   const subTotal1 = num1 + num7 + num13;
   const subTotal2 = num2 + num8 + num14;
   const subTotal3 = num3 + num9 + num15;
@@ -128,6 +130,7 @@ function Condition5() {
   const total1 = subTotal1 + subTotal2;
   const total2 = subTotal3 + subTotal4;
   const total3 = subTotal5 + subTotal6;
+
   const sfr1 = (total1/num19).toFixed(2);
   const sfr2 = (total2/num20).toFixed(2);
   const sfr3 = (total3/num21).toFixed(2);
@@ -173,29 +176,7 @@ function Condition5() {
 
   return (
     <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
-      <AppBar position="static">
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none"
-              }}
-            >
-              ACCREDITATION WORKFLOW MANAGEMENT SYSTEM
-            </Typography> 
-          </Toolbar>
-        </Container>
-      </AppBar>
+      <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
           <Table
@@ -229,7 +210,8 @@ function Condition5() {
                     textAlign: "center",
                   }}
                 >
-                  Total Number of students (Department level)
+                  Student Faculty Ratio (SFR) <br/>
+                  Average SFR in the current academic year and previous 2 academic years should be 1:25
                 </TableCell>
                 </TableRow>
                 <TableRow >

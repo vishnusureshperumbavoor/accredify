@@ -24,11 +24,35 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from '@material-ui/core';
+import Navbar from "../Components/Navbar/Navbar";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Condition3() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [data, setData] = useState({
+    num1:"",
+    num2:"",
+    num3:"",
+    num4:"",
+    num5:"",
+    num6:"",
+    total:"",
+  });
+
+  useEffect(() => {
+    const storedData = localStorage.getItem('condition3');
+    if (storedData) {
+      setData(JSON.parse(storedData));
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      localStorage.setItem('condition3', JSON.stringify(data));
+    };
+  }, [data]);
+  
   
   {/*useEffect(()=>{
     if(localStorage.getItem("token")) navigate('/')
@@ -97,27 +121,10 @@ function Condition3() {
   const sum2 = num4 + num5 + num6;
   const total = ((sum2*100) / sum1).toFixed(2);
 
-  const handleNum1Change = (event) => {
-    setNum1(parseInt(event.target.value));
-  };
-
-  const handleNum2Change = (event) => {
-    setNum2(parseInt(event.target.value));
-  };
-
-  const handleNum3Change = (event) => {
-    setNum3(parseInt(event.target.value));
-  };
-  const handleNum4Change = (event) => {
-    setNum4(parseInt(event.target.value));
-  };
-
-  const handleNum5Change = (event) => {
-    setNum5(parseInt(event.target.value));
-  };
-
-  const handleNum6Change = (event) => {
-    setNum6(parseInt(event.target.value));
+  const handleNumChange = (event,setState) => {
+    setState(parseInt(event.target.value));
+    setData({ ...data, [event.target.name]: event.target.value });
+    localStorage.setItem('condition3', JSON.stringify(data));
   };
 
   const handleChange = (e) => {
@@ -155,29 +162,7 @@ function Condition3() {
 
   return (
     <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
-      <AppBar position="static">
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none"
-              }}
-            >
-              ACCREDITATION WORKFLOW MANAGEMENT SYSTEM
-            </Typography> 
-          </Toolbar>
-        </Container>
-      </AppBar>
+      <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
           <Table
@@ -208,7 +193,8 @@ function Condition3() {
                     textAlign: "center",
                   }}
                 >
-                  Student Admission (Institute level)
+                  Student Admission (Institute level) <br/>
+                  Students admitted over last 3 assessment years in the institution should be greater than 50%
                 </TableCell>
                 </TableRow>
                 <TableRow >
@@ -231,9 +217,9 @@ function Condition3() {
               <TableCell component="th" scope="row" >
                 Sanctioned Intake
               </TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num1} onChange={handleNum1Change} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num2} onChange={handleNum2Change} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num3} onChange={handleNum3Change} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num1}  onChange={(e)=>{handleNumChange(e,setNum1)}} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num2} onChange={(e)=>{handleNumChange(e,setNum2)}} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num3} onChange={(e)=>{handleNumChange(e,setNum3)}} /></TableCell>
               <TableCell align="right">{sum1}</TableCell>
             </TableRow>
             <TableRow
@@ -242,9 +228,9 @@ function Condition3() {
               <TableCell component="th" scope="row" >
                 Number of Student admitted
               </TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num4} onChange={handleNum4Change} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num5} onChange={handleNum5Change} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num6} onChange={handleNum6Change} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num4} onChange={(e)=>handleNumChange(e,setNum4)} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num5} onChange={(e)=>handleNumChange(e,setNum5)} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num6} onChange={(e)=>handleNumChange(e,setNum6)} /></TableCell>
               <TableCell align="right">{sum2}</TableCell>
             </TableRow>
         </TableBody>

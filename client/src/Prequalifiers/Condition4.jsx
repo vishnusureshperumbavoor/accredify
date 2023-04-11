@@ -24,6 +24,7 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from '@material-ui/core';
+import Navbar from "../Components/Navbar/Navbar";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Condition4() {
@@ -155,29 +156,7 @@ function Condition4() {
 
   return (
     <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
-      <AppBar position="static">
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none"
-              }}
-            >
-              ACCREDITATION WORKFLOW MANAGEMENT SYSTEM
-            </Typography> 
-          </Toolbar>
-        </Container>
-      </AppBar>
+      <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
           <Table
@@ -208,7 +187,8 @@ function Condition4() {
                     textAlign: "center",
                   }}
                 >
-                  Student Admissions (Program level)
+                  Student Admissions (Program level) <br/>
+                  Students admitted over last 3 assessment years in the department should be greater than 50%
                 </TableCell>
                 </TableRow>
                 <TableRow >

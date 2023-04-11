@@ -1,3 +1,6 @@
-2023/04/11-09:28:30.410 2484 Reusing MANIFEST C:\Users\gptcp\OneDrive\Desktop\VSP\college_main_project\server\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
-2023/04/11-09:28:30.509 2484 Recovering log #4
-2023/04/11-09:28:30.510 2484 Reusing old log C:\Users\gptcp\OneDrive\Desktop\VSP\college_main_project\server\.wwebjs_auth\session\Default\Local Storage\leveldb/000004.log 
+2023/04/11-10:45:41.029 1878 Reusing MANIFEST C:\Users\gptcp\OneDrive\Desktop\VSP\college_main_project\server\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
+2023/04/11-10:45:41.035 1878 Recovering log #4
+2023/04/11-10:45:41.036 1878 Reusing old log C:\Users\gptcp\OneDrive\Desktop\VSP\college_main_project\server\.wwebjs_auth\session\Default\Local Storage\leveldb/000004.log 
+2023/04/11-11:26:02.873 3604 Level-0 table #7: started
+2023/04/11-11:26:02.921 3604 Level-0 table #7: 12073 bytes OK
+2023/04/11-11:26:02.949 3604 Delete type=0 #4

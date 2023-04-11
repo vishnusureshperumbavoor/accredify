@@ -24,11 +24,17 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from '@material-ui/core';
+import Navbar from "../Components/Navbar/Navbar";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Condition6() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    console.log(formData);
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
   
   {/*useEffect(()=>{
     if(localStorage.getItem("token")) navigate('/')
@@ -91,48 +97,18 @@ function Condition6() {
   const [num2, setNum2] = useState(0);
   const [num3, setNum3] = useState(0);
   const [num4, setNum4] = useState(0);
-  const [num5, setNum5] = useState(0);
-  const [num6, setNum6] = useState(0);
-  const sum1 = (num1 + num2 + num3).toFixed(2);
-  const sum2 = (num4 + num5 + num6).toFixed(2);
-  const total = ((sum2*100) / sum1).toFixed(2);
 
-  const handleNum1Change = (event) => {
-    setNum1(parseInt(event.target.value));
-  };
+  const fac1 = (num1/25).toFixed();
+  const fac2 = (num2/25).toFixed();
+  const req1 = (fac1/10).toFixed()
+  const req2 = (fac2/10).toFixed()
 
-  const handleNum2Change = (event) => {
-    setNum2(parseInt(event.target.value));
+  const handleNumChange = (event,setState) => {
+    setState(parseInt(event.target.value));
   };
-
-  const handleNum3Change = (event) => {
-    setNum3(parseInt(event.target.value));
-  };
-  const handleNum4Change = (event) => {
-    setNum4(parseInt(event.target.value));
-  };
-
-  const handleNum5Change = (event) => {
-    setNum5(parseInt(event.target.value));
-  };
-
-  const handleNum6Change = (event) => {
-    setNum6(parseInt(event.target.value));
-  };
-
-  const handleChange = (e) => {
-    console.log(formData);
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
   }
-  
-  const rows = [
-    createData('Sanctioned Intake', 159, 6.0, 24, 4.0),
-    createData('Number of Student admitted', 237, 9.0, 37, 4.3),
-  ];
   
 
   const handleSubmit = (e) => {
@@ -155,29 +131,8 @@ function Condition6() {
 
   return (
     <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
-      <AppBar position="static">
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none"
-              }}
-            >
-              ACCREDITATION WORKFLOW MANAGEMENT SYSTEM
-            </Typography> 
-          </Toolbar>
-        </Container>
-      </AppBar>
+      
+      <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
           <Table
@@ -208,66 +163,42 @@ function Condition6() {
                     textAlign: "center",
                   }}
                 >
-                  Number of Ph.D faculty in the department
+                  At least one Professor or one Assistant Professor on regular basis with Ph.D degree is available in the previous and current academic year
                 </TableCell>
                 </TableRow>
                 <TableRow >
-                <TableCell align="center">
-                <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell style={{fontWeight:"bolder"}}>Designation</TableCell>
-            <TableCell align="center" style={{fontWeight:"bolder"}}>2020-23</TableCell>
-            <TableCell align="center" style={{fontWeight:"bolder"}}>2019-22</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" >
-                Professor
-              </TableCell>
-              <TableCell align="center"><TextField id="outlined-basic" variant="outlined" type="number" value={num1} onChange={handleNum1Change} /></TableCell>
-              <TableCell align="center"><TextField id="outlined-basic" variant="outlined" type="number" value={num2} onChange={handleNum2Change} /></TableCell>
-            </TableRow>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" >
-                Associate Professor
-              </TableCell>
-              <TableCell align="center"><TextField id="outlined-basic" variant="outlined" type="number" value={num4} onChange={handleNum4Change} /></TableCell>
-              <TableCell align="center"><TextField id="outlined-basic" variant="outlined" type="number" value={num5} onChange={handleNum5Change} /></TableCell>
-            </TableRow>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" >
-                Assistant Professor
-              </TableCell>
-              <TableCell align="center"><TextField id="outlined-basic" variant="outlined" type="number" value={num4} onChange={handleNum4Change} /></TableCell>
-              <TableCell align="center"><TextField id="outlined-basic" variant="outlined" type="number" value={num5} onChange={handleNum5Change} /></TableCell>
-            </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
+                <TableCell style={{paddingLeft:"800px"}}>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="institute_type"
+                    onChange={handleChange}
+                  >
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
+                    
+                  </RadioGroup>
                 </TableCell>
                 </TableRow>
-                <TableRow style={{textAlign:"center",fontWeight:"bold",fontSize:"40px"}}> 
-                  % of students admitted over last 3 assessment years : {total}
-                </TableRow>
+                
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",
                   }}>
                   <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition3")}>
+                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition5")}>
                     Go Back
                   </Button>
                   <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition5")}>
+                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition7")}>
                     Continue
                   </Button>
                 </TableCell>
