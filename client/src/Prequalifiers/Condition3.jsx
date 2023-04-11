@@ -108,7 +108,7 @@ function Condition3() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" >
-                Number of Student admitted
+                Number of Student admitted in the 1st year
               </TableCell>
               <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" name="num4" value={data.num4} onChange={handleNumChange} /></TableCell>
               <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" name="num5" value={data.num5} onChange={handleNumChange} /></TableCell>

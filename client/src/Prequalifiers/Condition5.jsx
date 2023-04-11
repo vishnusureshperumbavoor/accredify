@@ -39,35 +39,44 @@ function Condition5() {
     num10:0,
     num11:0,
     num12:0,
-    num1:0,
-    num2:0,
-    num3:0,
-    num4:0,
-    num5:0,
-    num6:0,
-    sum1:0,
-    sum2:0,
-    total:0,
+    num13:0,
+    num14:0,
+    num15:0,
+    num16:0,
+    num17:0,
+    num18:0,
+    num19:0,
+    num20:0,
+    num21:0,
   });
 
-  const subTotal1 = num1 + num7 + num13;
-  const subTotal2 = num2 + num8 + num14;
-  const subTotal3 = num3 + num9 + num15;
-  const subTotal4 = num4 + num10 + num16;
-  const subTotal5 = num5 + num11 + num17;
-  const subTotal6 = num6 + num12 + num18;
-  const total1 = subTotal1 + subTotal2;
-  const total2 = subTotal3 + subTotal4;
-  const total3 = subTotal5 + subTotal6;
+  useEffect(() => {
+    const storedData = localStorage.getItem('condition5');
+    if (storedData) {
+      setData(JSON.parse(storedData));
+    }
+  }, []);
 
-  const sfr1 = (total1/num19).toFixed(2);
-  const sfr2 = (total2/num20).toFixed(2);
-  const sfr3 = (total3/num21).toFixed(2);
-  const sfr = sfr1+sfr2+sfr3
+  const subTotal1 = Number(data.num1) + Number(data.num7) + Number(data.num13);
+  const subTotal2 = Number(data.num2) + Number(data.num8) + Number(data.num14);
+  const subTotal3 = Number(data.num3) + Number(data.num9) + Number(data.num15);
+  const subTotal4 = Number(data.num4) + Number(data.num10) + Number(data.num16);
+  const subTotal5 = Number(data.num5) + Number(data.num11) + Number(data.num17);
+  const subTotal6 = Number(data.num6) + Number(data.num12) + Number(data.num18);
+  const total1 = Number(subTotal1) + Number(subTotal2);
+  const total2 = Number(subTotal3) + Number(subTotal4);
+  const total3 = Number(subTotal5) + Number(subTotal6);
 
-  const handleNumChange = (event,setState) => {
-    setState(parseInt(event.target.value));
+  const sfr1 = (Number(total1)/Number(data.num19)).toFixed(2);
+  const sfr2 = (Number(total2)/Number(data.num20)).toFixed(2);
+  const sfr3 = (Number(total3)/Number(data.num21)).toFixed(2);
+  const sfr = ((Number(sfr1)+Number(sfr2)+Number(sfr3))/3).toFixed(2)
+
+  const handleNumChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+    localStorage.setItem('condition5', JSON.stringify(data));
   };
+
   return (
     <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
       <Navbar/>
@@ -148,22 +157,22 @@ function Condition5() {
                 1st year
               </TableCell>
               <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num1} onChange={(e)=>handleNumChange(e,setNum1)} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num1} name="num1" onChange={handleNumChange} />
               </TableCell>
               <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num2} onChange={(e)=>handleNumChange(e,setNum2)} style={{marginLeft:"3px"}} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num2} name="num2" onChange={handleNumChange} style={{marginLeft:"3px"}} />
               </TableCell>
               <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num3} onChange={(e)=>handleNumChange(e,setNum3)} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num3} name="num3" onChange={handleNumChange} />
               </TableCell>
               <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num4} onChange={(e)=>handleNumChange(e,setNum4)} style={{marginLeft:"3px"}} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num4} name="num4" onChange={handleNumChange} style={{marginLeft:"3px"}} />
               </TableCell>
               <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num5} onChange={(e)=>handleNumChange(e,setNum5)} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num5} name="num5" onChange={handleNumChange} />
               </TableCell>
               <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num6} onChange={(e)=>handleNumChange(e,setNum6)} style={{marginLeft:"3px"}} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num6} name="num6" onChange={handleNumChange} style={{marginLeft:"3px"}} />
                 </TableCell>
             </TableRow>
             <TableRow
@@ -173,22 +182,22 @@ function Condition5() {
                 2nd year
               </TableCell>
               <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num7} onChange={(e)=>handleNumChange(e,setNum7)} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num7} name="num7" onChange={handleNumChange} />
               </TableCell>
               <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num8} onChange={(e)=>handleNumChange(e,setNum8)} style={{marginLeft:"3px"}} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num8} name="num8" onChange={handleNumChange} style={{marginLeft:"3px"}} />
               </TableCell>
               <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num9} onChange={(e)=>handleNumChange(e,setNum9)} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num9} name="num9" onChange={handleNumChange} />
               </TableCell>
               <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num10} onChange={(e)=>handleNumChange(e,setNum10)} style={{marginLeft:"3px"}} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num10} name="num10" onChange={handleNumChange} style={{marginLeft:"3px"}} />
               </TableCell>
               <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num11} onChange={(e)=>handleNumChange(e,setNum11)} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num11} name="num11" onChange={handleNumChange} />
               </TableCell>
               <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num12} onChange={(e)=>handleNumChange(e,setNum12)} style={{marginLeft:"3px"}} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num12} name="num12" onChange={handleNumChange} style={{marginLeft:"3px"}} />
                 </TableCell>
             </TableRow>
             <TableRow
@@ -198,22 +207,22 @@ function Condition5() {
                 3rd year
               </TableCell>
               <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num13} onChange={(e)=>handleNumChange(e,setNum13)} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num13} name="num13" onChange={handleNumChange} />
               </TableCell>
               <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num14} onChange={(e)=>handleNumChange(e,setNum14)} style={{marginLeft:"3px"}} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num14} name="num14" onChange={handleNumChange} style={{marginLeft:"3px"}} />
               </TableCell>
               <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num15} onChange={(e)=>handleNumChange(e,setNum15)} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num15} name="num15" onChange={handleNumChange} />
               </TableCell>
               <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num16} onChange={(e)=>handleNumChange(e,setNum16)} style={{marginLeft:"3px"}} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num16} name="num16" onChange={handleNumChange} style={{marginLeft:"3px"}} />
               </TableCell>
               <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num17} onChange={(e)=>handleNumChange(e,setNum17)} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num17} name="num17" onChange={handleNumChange} />
               </TableCell>
               <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={num18} onChange={(e)=>handleNumChange(e,setNum18)} style={{marginLeft:"3px"}} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num18} name="num18" onChange={handleNumChange} style={{marginLeft:"3px"}} />
                 </TableCell>
             </TableRow>
             <TableRow
@@ -259,9 +268,9 @@ function Condition5() {
               <TableCell component="th" scope="row" style={{fontWeight:"bold",fontSize:"15px"}} >
                 No. of Faculty in the department
               </TableCell>
-              <TableCell align="center" colSpan={2}><TextField id="outlined-basic" variant="outlined" type="number" value={num19} onChange={(e)=>handleNumChange(e,setNum19)} /></TableCell>
-              <TableCell align="center" colSpan={2}><TextField id="outlined-basic" variant="outlined" type="number" value={num20} onChange={(e)=>handleNumChange(e,setNum20)} /></TableCell>
-              <TableCell align="center" colSpan={2}><TextField id="outlined-basic" variant="outlined" type="number" value={num21} onChange={(e)=>handleNumChange(e,setNum21)} /></TableCell>
+              <TableCell align="center" colSpan={2}><TextField id="outlined-basic" variant="outlined" type="number" value={data.num19} name="num19" onChange={handleNumChange} /></TableCell>
+              <TableCell align="center" colSpan={2}><TextField id="outlined-basic" variant="outlined" type="number" value={data.num20} name="num20" onChange={handleNumChange} /></TableCell>
+              <TableCell align="center" colSpan={2}><TextField id="outlined-basic" variant="outlined" type="number" value={data.num21} name="num21" onChange={handleNumChange} /></TableCell>
             </TableRow>
 
             <TableRow

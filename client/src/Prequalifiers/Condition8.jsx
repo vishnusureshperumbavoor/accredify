@@ -30,64 +30,6 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 function Condition7() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  
-  {/*useEffect(()=>{
-    if(localStorage.getItem("token")) navigate('/')
-  },[])*/}
-
-  const [states, setStates] = useState([]);
-  const [districts, setDistricts] = useState([]);
-  const [selectedStateId, setSelectedStateId] = useState('');
-  const [selectedStateName, setSelectedStateName] = useState('');
-  const [selectedDistrict, setSelectedDistrict] = useState('');
-
-  useEffect(() => {
-      axios.post('https://cdn-api.co-vin.in/api/v2/admin/location/states')
-        .then((response) => {
-          setStates(response.data.states);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-  }, []);
-
-  const handleStateChange= ((e)=>{
-    setSelectedStateId(e.target.value);
-    setSelectedStateName(e.target.getAttribute("name"))
-    setSelectedDistrict('')
-  })
-
-  useEffect(() => {
-    const getDistrict=(async()=>{
-      const getDis = await fetch(
-      `https://cdn-api.co-vin.in/api/v2/admin/location/districts/${selectedStateId}`
-    );
-    const res = await getDis.json();
-    setDistricts(await res.districts);
-    })
-    if(selectedStateId){
-      getDistrict()
-    }
-  }, [selectedStateId]);
-
-
-  // const handleDistrict = (e) => {
-  //   const getStateId = e.target.value;
-  //   setStateId(getStateId);
-  //   getDistrict();
-  // };
-
-  const [formData, setFormData] = useState({
-    c1: "",
-    c2: "",
-    c3: "",
-    c4: "",
-    c5: "",
-    c6: "",
-    c7: "",
-    c8: "",
-  });
-
   const [num1, setNum1] = useState(0);
   const [num2, setNum2] = useState(0);
   const [num3, setNum3] = useState(0);
@@ -101,28 +43,6 @@ function Condition7() {
 
   const handleNumChange = (event,setState) => {
     setState(parseInt(event.target.value));
-  };
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    axios.post(`${SERVER_URL}/prequalifier`, formData).then((res)=>{
-      console.log(res.data)
-      if(res.status===200){
-        localStorage.setItem("userToken",res.data.token)
-        localStorage.setItem("userId",res.data.user.insertedId)
-        setIsLoading(false);
-        // alert("Registration Successful")
-        navigate('/waitforapproval')
-      }
-    }).catch((err)=>{
-      alert("error")
-      setIsLoading(false);
-    })
   };
 
   return (
