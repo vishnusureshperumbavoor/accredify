@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,147 +8,40 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import axios from "axios";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
 import { useNavigate } from "react-router-dom";
-import { CircularProgress } from '@material-ui/core';
 import Navbar from "../Components/Navbar/Navbar";
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Condition4() {
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  
-  {/*useEffect(()=>{
-    if(localStorage.getItem("token")) navigate('/')
-  },[])*/}
-
-  const [states, setStates] = useState([]);
-  const [districts, setDistricts] = useState([]);
-  const [selectedStateId, setSelectedStateId] = useState('');
-  const [selectedStateName, setSelectedStateName] = useState('');
-  const [selectedDistrict, setSelectedDistrict] = useState('');
-
-  useEffect(() => {
-      axios.post('https://cdn-api.co-vin.in/api/v2/admin/location/states')
-        .then((response) => {
-          setStates(response.data.states);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-  }, []);
-
-  const handleStateChange= ((e)=>{
-    setSelectedStateId(e.target.value);
-    setSelectedStateName(e.target.getAttribute("name"))
-    setSelectedDistrict('')
-  })
-
-  useEffect(() => {
-    const getDistrict=(async()=>{
-      const getDis = await fetch(
-      `https://cdn-api.co-vin.in/api/v2/admin/location/districts/${selectedStateId}`
-    );
-    const res = await getDis.json();
-    setDistricts(await res.districts);
-    })
-    if(selectedStateId){
-      getDistrict()
-    }
-  }, [selectedStateId]);
-
-
-  // const handleDistrict = (e) => {
-  //   const getStateId = e.target.value;
-  //   setStateId(getStateId);
-  //   getDistrict();
-  // };
-
-  const [formData, setFormData] = useState({
-    c1: "",
-    c2: "",
-    c3: "",
-    c4: "",
-    c5: "",
-    c6: "",
-    c7: "",
-    c8: "",
+  const [data, setData] = useState({
+    num1:0,
+    num2:0,
+    num3:0,
+    num4:0,
+    num5:0,
+    num6:0,
+    sum1:0,
+    sum2:0,
+    total:0,
   });
 
-  const [num1, setNum1] = useState(0);
-  const [num2, setNum2] = useState(0);
-  const [num3, setNum3] = useState(0);
-  const [num4, setNum4] = useState(0);
-  const [num5, setNum5] = useState(0);
-  const [num6, setNum6] = useState(0);
-  const sum1 = (num1 + num2 + num3).toFixed(2);
-  const sum2 = (num4 + num5 + num6).toFixed(2);
+  useEffect(() => {
+    const storedData = localStorage.getItem('condition4');
+    if (storedData) {
+      setData(JSON.parse(storedData));
+    }
+  }, []);
+
+  const sum1 = Number(data.num1) + Number(data.num2) + Number(data.num3);
+  const sum2 = Number(data.num4) + Number(data.num5) + Number(data.num6);
   const total = ((sum2*100) / sum1).toFixed(2);
 
-  const handleNum1Change = (event) => {
-    setNum1(parseInt(event.target.value));
+  const handleNumChange = (event) => { 
+    setData({ ...data, [event.target.name]: event.target.value });
+    localStorage.setItem('condition4', JSON.stringify(data));
   };
 
-  const handleNum2Change = (event) => {
-    setNum2(parseInt(event.target.value));
-  };
-
-  const handleNum3Change = (event) => {
-    setNum3(parseInt(event.target.value));
-  };
-  const handleNum4Change = (event) => {
-    setNum4(parseInt(event.target.value));
-  };
-
-  const handleNum5Change = (event) => {
-    setNum5(parseInt(event.target.value));
-  };
-
-  const handleNum6Change = (event) => {
-    setNum6(parseInt(event.target.value));
-  };
-
-  const handleChange = (e) => {
-    console.log(formData);
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
-  const rows = [
-    createData('Sanctioned Intake', 159, 6.0, 24, 4.0),
-    createData('Number of Student admitted', 237, 9.0, 37, 4.3),
-  ];
-  
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    axios.post(`${SERVER_URL}/prequalifier`, formData).then((res)=>{
-      console.log(res.data)
-      if(res.status===200){
-        localStorage.setItem("userToken",res.data.token)
-        localStorage.setItem("userId",res.data.user.insertedId)
-        setIsLoading(false);
-        // alert("Registration Successful")
-        navigate('/waitforapproval')
-      }
-    }).catch((err)=>{
-      alert("error")
-      setIsLoading(false);
-    })
-  };
 
   return (
     <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
@@ -211,20 +100,20 @@ function Condition4() {
               <TableCell component="th" scope="row" >
                 Sanctioned Intake
               </TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num1} onChange={handleNum1Change} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num2} onChange={handleNum2Change} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num3} onChange={handleNum3Change} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num1} name="num1" onChange={handleNumChange} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num2} name="num2" onChange={handleNumChange} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num3} name="num3" onChange={handleNumChange} /></TableCell>
               <TableCell align="right">{sum1}</TableCell>
             </TableRow>
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" >
-                Number of Student admitted
+                Number of Student admitted in the 1st year
               </TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num4} onChange={handleNum4Change} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num5} onChange={handleNum5Change} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={num6} onChange={handleNum6Change} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num4} name="num4" onChange={handleNumChange} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num5} name="num5" onChange={handleNumChange} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num6} name="num6" onChange={handleNumChange} /></TableCell>
               <TableCell align="right">{sum2}</TableCell>
             </TableRow>
         </TableBody>
