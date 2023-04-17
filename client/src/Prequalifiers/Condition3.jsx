@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { Typography } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar/Navbar";
 
@@ -26,6 +27,16 @@ function Condition3() {
     total:0,
   });
 
+  const [num1, setNum1] = useState('');
+  const [num2, setNum2] = useState('');
+  const [num3, setNum3] = useState('');
+  const [num4, setNum4] = useState('');
+  const [num5, setNum5] = useState('');
+  const [num6, setNum6] = useState('');
+  const [error1, setError1] = useState(false);
+  const [error2, setError2] = useState(false);
+  const [error3, setError3] = useState(false);
+
   useEffect(() => {
     const storedData = localStorage.getItem('condition3');
     if (storedData) {
@@ -33,17 +44,55 @@ function Condition3() {
     }
   }, []);
 
+  const handleNum4Blur = () => {
+    if (Number(num4) > Number(num1)) {
+      setError1(true);
+    } else {
+      setError1(false);
+    }
+  };
+
+  const handleNum5Blur = () => {
+    if (Number(num5) > Number(num2)) {
+      setError2(true);
+    } else {
+      setError2(false);
+    }
+  };
+
+  const handleNum6Blur = () => {
+    if (Number(num6) > Number(num3)) {
+      setError3(true);
+    } else {
+      setError3(false);
+    }
+  };
+
   const sum1 = Number(data.num1) + Number(data.num2) + Number(data.num3);
   const sum2 = Number(data.num4) + Number(data.num5) + Number(data.num6);
   const total = ((sum2*100) / sum1).toFixed(2);
 
-  const handleNumChange = (event) => { 
+  const handleNumChange = (event,setNum) => { 
+    setNum(event.target.value)
     setData({ ...data, [event.target.name]: event.target.value });
     localStorage.setItem('condition3', JSON.stringify(data));
   };
 
+  const saveResult = () => {
+    const existingResults = JSON.parse(localStorage.getItem("results")) || {};
+    const result = total < 50 ? "No" : "Yes";
+    existingResults.page3 = result;
+    localStorage.setItem("results", JSON.stringify(existingResults));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    saveResult();
+    navigate("/condition4")
+  };
+
   return (
-    <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
@@ -86,9 +135,9 @@ function Condition3() {
         <TableHead>
           <TableRow>
             <TableCell style={{fontWeight:"bolder"}}>Description</TableCell>
-            <TableCell align="right" style={{fontWeight:"bolder"}}>2020-23</TableCell>
-            <TableCell align="right" style={{fontWeight:"bolder"}}>2019-22</TableCell>
-            <TableCell align="right" style={{fontWeight:"bolder"}}>2018-21</TableCell>
+            <TableCell align="right" style={{fontWeight:"bolder"}}>2022-23</TableCell>
+            <TableCell align="right" style={{fontWeight:"bolder"}}>2021-22</TableCell>
+            <TableCell align="right" style={{fontWeight:"bolder"}}>2020-21</TableCell>
             <TableCell align="right" style={{fontWeight:"bolder"}}>Total</TableCell>
           </TableRow>
         </TableHead>
@@ -97,11 +146,20 @@ function Condition3() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" >
-                Sanctioned Intake
+                Sanctioned Intake in the 1st year
               </TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num1} name="num1" onChange={handleNumChange} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num2} name="num2" onChange={handleNumChange} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num3} name="num3" onChange={handleNumChange} /></TableCell>
+              <TableCell align="right">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num1} name="num1" 
+                onChange={(e)=>{handleNumChange(e,setNum1)}} />
+              </TableCell>
+              <TableCell align="right">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num2} name="num2" 
+                onChange={(e)=>{handleNumChange(e,setNum2)}} />
+              </TableCell>
+              <TableCell align="right">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num3} name="num3" 
+                onChange={(e)=>{handleNumChange(e,setNum3)}} />
+              </TableCell>
               <TableCell align="right">{sum1}</TableCell>
             </TableRow>
             <TableRow
@@ -110,9 +168,21 @@ function Condition3() {
               <TableCell component="th" scope="row" >
                 Number of Student admitted in the 1st year
               </TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" name="num4" value={data.num4} onChange={handleNumChange} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" name="num5" value={data.num5} onChange={handleNumChange} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" name="num6" value={data.num6} onChange={handleNumChange} /></TableCell>
+              <TableCell align="right">
+                <TextField id="outlined-basic" variant="outlined" type="number" name="num4" value={data.num4} 
+                onChange={(e)=>{handleNumChange(e,setNum4);}} onBlur={handleNum4Blur} error={error1}
+                helperText={error1 && 'Number should be lesser than sanctioned intake'} />
+              </TableCell>
+              <TableCell align="right">
+                <TextField id="outlined-basic" variant="outlined" type="number" name="num5" value={data.num5} 
+                onChange={(e)=>{handleNumChange(e,setNum5);}} onBlur={handleNum5Blur} error={error2}
+                helperText={error2 && 'Number should be lesser than sanctioned intake'} />
+              </TableCell>
+              <TableCell align="right">
+                <TextField id="outlined-basic" variant="outlined" type="number" name="num6" value={data.num6} 
+                onChange={(e)=>{handleNumChange(e,setNum6);}} onBlur={handleNum6Blur} error={error3}
+                helperText={error3 && 'Number should be lesser than sanctioned intake'} />
+              </TableCell>
               <TableCell align="right">{sum2}</TableCell>
             </TableRow>
         </TableBody>
@@ -123,16 +193,26 @@ function Condition3() {
                 <TableRow style={{textAlign:"center",fontWeight:"bold",fontSize:"40px"}}> 
                   % of students admitted over last 3 assessment years : {total}
                 </TableRow>
+
+                {total < 50 ? (
+                  <Typography color="error" style={{
+                    textAlign: "center",paddingTop:"15px"
+                  }}>
+                    You cannot apply for NB Accreditation if the percentage of students admitted over last 3 assessment years in the 
+                    institution is less than 50%
+                  </Typography>
+                ) : null}
+
               <TableRow>
                 <TableCell colSpan={4} style={{
-                    textAlign: "center",
+                    textAlign: "center", 
                   }}>
                   <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
                   sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition2")}>
                     Go Back
                   </Button>
                   <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition4")}>
+                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>
                     Continue
                   </Button>
                 </TableCell>

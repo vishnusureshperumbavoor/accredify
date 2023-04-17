@@ -5,6 +5,7 @@ import Signup from "./UserPages/Signup";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import Registration from "./UserPages/Registration";
 import AdminLogin from "./AdminPages/AdminLogin";
+import Dashboard from "./AdminPages/Dashboard";
 import Approved from "./AdminPages/Approved";
 import Rejected from "./AdminPages/Rejected";
 import Pending from "./AdminPages/Pending";
@@ -18,8 +19,8 @@ import Condition5 from "./Prequalifiers/Condition5";
 import Condition6 from "./Prequalifiers/Condition6";
 import Condition7 from "./Prequalifiers/Condition7";
 import Condition8 from "./Prequalifiers/Condition8";
+import Condition from "./Prequalifiers/Condition";
 import { ThemeProvider } from "@material-ui/core/styles";
-import Condition9 from "./Prequalifiers/Condition9";
 
 function App() {
   return (
@@ -43,7 +44,8 @@ function App() {
             <Route path="/condition6" element={<Condition6 />} />
             <Route path="/condition7" element={<Condition7 />} />
             <Route path="/condition8" element={<Condition8 />} />
-            <Route path="/condition9" element={<Condition9 />} />
+            <Route path="/condition" element={<Condition />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
       </Router>
     </div>

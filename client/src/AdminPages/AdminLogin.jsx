@@ -20,6 +20,8 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function AdminLogin() {
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState(false);
 
   const navigate = useNavigate();
   
@@ -56,8 +58,15 @@ function AdminLogin() {
       });
   };
 
+  const handleEmailChange = (event) => {
+    const input = event.target.value;
+    setEmail(input);
+    setEmailError(!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input));
+    handleChange(event);
+  };
+
   return (
-    <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -113,7 +122,9 @@ function AdminLogin() {
                     Email
                 </TableCell>
                 <TableCell>
-                <TextField id="outlined-basic" variant="outlined" name="email" onChange={handleChange} />
+                <TextField id="outlined-basic" variant="outlined" name="email" value={email} onChange={handleEmailChange}
+      error={emailError}
+      helperText={emailError ? 'Enter valid email address' : ''} />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -126,7 +137,7 @@ function AdminLogin() {
                     Password
                 </TableCell>
                 <TableCell>
-                <TextField name="password" onChange={handleChange} id="outlined-basic" variant="outlined" />
+                <TextField name="password" onChange={handleChange} id="outlined-basic" variant="outlined" type="password" />
                 </TableCell>
               </TableRow>
               

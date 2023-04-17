@@ -11,21 +11,39 @@ import Button from "@mui/material/Button";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar/Navbar";
 
 function Condition1() {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState(localStorage.getItem('condition1') || '');
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
+  const [result, setResult] = useState("Yes");
+
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
+    setResult(e.target.value === "Yes" ? "Yes" : "No");
   };
+
+  const saveResult = () => {
+    const existingResults = JSON.parse(localStorage.getItem("results")) || {};
+    existingResults.page1 = result;
+    localStorage.setItem("results", JSON.stringify(existingResults));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    saveResult();
+    navigate("/condition2")
+  };
+
+
   useEffect(() => {
     localStorage.setItem('condition1', selectedOption);
   }, [selectedOption]);
 
   return (
-    <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
@@ -58,14 +76,18 @@ function Condition1() {
                     textAlign: "center",
                   }}
                 >
-                  <h3>Vision, Mission and PEOs <br/>
-                  Vision and mission and PEOs of the department should be stated in the prospectus / website.</h3> <br/><br/>
-                  <h4>1. Are the vision and mission of the department stated in the prospectus / website?<br/>
-                  2. Are the PEOs of the department stated in the prospectus / website?</h4> 
+                  <h3>
+                    Vision, Mission and PEOs <br/>
+                    Vision and mission and PEOs of the department should be stated in the prospectus / website.
+                  </h3> <br/><br/>
+                  <h4>
+                    1. Are the vision and mission of the department stated in the prospectus / website?<br/>
+                    2. Are the PEOs of the department stated in the prospectus / website?
+                  </h4> 
                 </TableCell>
                 </TableRow>
-                <TableRow align="center" >
-                    <TableCell style={{paddingLeft:"800px"}}>
+                <TableRow>
+                    <TableCell>
                   <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
@@ -89,12 +111,17 @@ function Condition1() {
                   </RadioGroup>
                   </TableCell>
                 </TableRow>
+                {selectedOption === 'No' && 
+                  <Typography variant="body1" color="error" style={{textAlign:"center"}}>
+                    You cannot apply for NB Accreditation if mission, vision and PEOs is not mentioned on the prospectus / website.
+                  </Typography>
+                }
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",
                   }}>
                   <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition2")} >Continue
+                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit} >Continue
                   </Button>
                 </TableCell>
               </TableRow>

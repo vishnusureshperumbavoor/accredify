@@ -11,34 +11,68 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar/Navbar";
+import { Typography } from "@mui/material";
 
 function Condition7() {
   const navigate = useNavigate();
 
   const [data, setData] = useState({});
+  const [data2, setData2] = useState({
+    num1:0,
+    num2:0,
+  });
 
+  
   useEffect(() => {
     const storedData = localStorage.getItem('condition5');
+    const storedData2 = localStorage.getItem('condition7');
     if (storedData) {
       setData(JSON.parse(storedData));
     }
+    if (storedData2) {
+      setData2(JSON.parse(storedData2));
+    }
   }, []);
 
-  const [num1, setNum1] = useState(0);
-  const [num2, setNum2] = useState(0);
+  const total1 = Number(data.num1) + Number(data.num2) + Number(data.num7) + Number(data.num8);
+  const total2 = Number(data.num3) + Number(data.num4) + Number(data.num9) + Number(data.num10);
+
+  const fac1 = Math.ceil(total1/25)
+  const fac2 = Math.ceil(total2/25)
+
+  const req1 = Math.ceil(fac1/10)
+  const req2 = Math.ceil(fac2/10)
+
+  
   const [num3, setNum3] = useState(0);
   const [num4, setNum4] = useState(0);
+  
+  const phd1 = ((num3*100)/Number(data.num19)).toFixed(2)
+  const phd2 = ((num4*100)/Number(data.num20)).toFixed(2)
 
-  const fac1 = (num1/25).toFixed();
-  const fac2 = (num2/25).toFixed();
-  const req1 = (fac1/10).toFixed()
-  const req2 = (fac2/10).toFixed()
+  const phd = ((Number(phd1)+Number(phd2))/2).toFixed(2);
 
-  const handleNumChange = (event,setState) => {
-    setState(parseInt(event.target.value));
+  const handleNumChange = (e,setState) => {
+    setState(parseInt(e.target.value));
+    setData2({ ...data2, [e.target.name]: e.target.value });
+    localStorage.setItem('condition7', JSON.stringify(data2));
   };
+
+  const saveResult = () => {
+    const existingResults = JSON.parse(localStorage.getItem("results")) || {};
+    const result = phd < 10 ? "No" : "Yes";
+    existingResults.page7 = result;
+    localStorage.setItem("results", JSON.stringify(existingResults));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    saveResult();
+    navigate("/condition8")
+  };
+
   return (
-    <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
@@ -70,7 +104,7 @@ function Condition7() {
                     textAlign: "center",
                   }}
                 >
-                  Number of available Ph.Ds in the department is greater than or equal to 10% of the required number of faculty averaged for previous and current academic year
+                  Number of available Ph.Ds in the department should be greater than or equal to 10% of the required number of faculty averaged for previous and current academic year
                 </TableCell>
                 </TableRow>
                 <TableRow >
@@ -80,8 +114,8 @@ function Condition7() {
         <TableHead>
           <TableRow>
             <TableCell style={{fontWeight:"bolder"}}>Designation</TableCell>
-            <TableCell align="center" style={{fontWeight:"bolder"}}>2020-23</TableCell>
-            <TableCell align="center" style={{fontWeight:"bolder"}}>2019-22</TableCell>
+            <TableCell align="center" style={{fontWeight:"bolder"}}>2022-23</TableCell>
+            <TableCell align="center" style={{fontWeight:"bolder"}}>2021-22</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -89,10 +123,14 @@ function Condition7() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" >
-                Total Number of students
+                Number of students in the department (3rd year + 2nd year)
               </TableCell>
-              <TableCell align="center"><TextField id="outlined-basic" variant="outlined" type="number" value={num1} onChange={(e)=>handleNumChange(e,setNum1)} /></TableCell>
-              <TableCell align="center"><TextField id="outlined-basic" variant="outlined" type="number" value={num2} onChange={(e)=>handleNumChange(e,setNum2)} /></TableCell>
+              <TableCell align="center">
+                {total1}
+              </TableCell>
+              <TableCell align="center">
+                {total2}  
+              </TableCell>
             </TableRow>
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -103,6 +141,17 @@ function Condition7() {
               <TableCell align="center">{fac1}</TableCell>
               <TableCell align="center">{fac2}</TableCell>
             </TableRow>
+
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row" >
+                  Actual Number of faculties
+              </TableCell>
+              <TableCell align="center">{data.num19}</TableCell>
+              <TableCell align="center">{data.num20}</TableCell>
+            </TableRow>
+            
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
@@ -112,15 +161,68 @@ function Condition7() {
               <TableCell align="center">{req1}</TableCell>
               <TableCell align="center">{req2}</TableCell>
             </TableRow>
+
+
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" >
-               Total number of faculties with Ph.Ds
+               Actual number of faculties with Ph.Ds
               </TableCell>
-              <TableCell align="center"><TextField id="outlined-basic" variant="outlined" type="number" value={num3} onChange={(e)=>handleNumChange(e,setNum3)} /></TableCell>
-              <TableCell align="center"><TextField id="outlined-basic" variant="outlined" type="number" value={num4} onChange={(e)=>handleNumChange(e,setNum4)} /></TableCell>
+              <TableCell align="center">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={num3} 
+                onChange={(e)=>handleNumChange(e,setNum3)} />
+              </TableCell>
+              <TableCell align="center">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={num4} 
+                onChange={(e)=>handleNumChange(e,setNum4)} />
+              </TableCell>
             </TableRow>
+
+
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row" >
+               % of faculties with PhDs with total faculties
+              </TableCell>
+              <TableCell align="center">
+                {phd1}
+              </TableCell>
+              <TableCell align="center">
+                {phd2}
+              </TableCell>
+            </TableRow>
+
+
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row" >
+               Average % 
+              </TableCell>
+              <TableCell align="center" colSpan={2}>
+                {phd}
+              </TableCell>
+            </TableRow>
+
+            <TableRow>
+              <TableCell colSpan={2} style={{textAlign:"center"}}>
+            {phd < 10 ? (
+                  <Typography color="error" style={{
+                    textAlign: "center",paddingTop:"15px"
+                  }}>
+                    You cannot apply for NB Accreditation if the percentage of faculties with PhDs and total faculties is
+                    lesser than 10%
+                  </Typography>
+            ) : null}
+              </TableCell>
+            </TableRow>
+
+
+
+
+
         </TableBody>
       </Table>
     </TableContainer>
@@ -136,7 +238,7 @@ function Condition7() {
                     Go Back
                   </Button>
                   <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition8")}>
+                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>
                     Continue
                   </Button>
                 </TableCell>

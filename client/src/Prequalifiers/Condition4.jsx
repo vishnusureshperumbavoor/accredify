@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar/Navbar";
+import { Typography } from "@material-ui/core";
 
 function Condition4() {
   const navigate = useNavigate();
@@ -42,9 +43,22 @@ function Condition4() {
     localStorage.setItem('condition4', JSON.stringify(data));
   };
 
+  const saveResult = () => {
+    const existingResults = JSON.parse(localStorage.getItem("results")) || {};
+    const result = total < 50 ? "No" : "Yes";
+    existingResults.page4 = result;
+    localStorage.setItem("results", JSON.stringify(existingResults));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    saveResult();
+    navigate("/condition5")
+  };
+
 
   return (
-    <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{height: "100vh",width:"100vw",margin:0,padding:0 }}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
@@ -87,9 +101,9 @@ function Condition4() {
         <TableHead>
           <TableRow>
             <TableCell style={{fontWeight:"bolder"}}>Description</TableCell>
-            <TableCell align="right" style={{fontWeight:"bolder"}}>2020-23</TableCell>
-            <TableCell align="right" style={{fontWeight:"bolder"}}>2019-22</TableCell>
-            <TableCell align="right" style={{fontWeight:"bolder"}}>2018-21</TableCell>
+            <TableCell align="right" style={{fontWeight:"bolder"}}>2022-23</TableCell>
+            <TableCell align="right" style={{fontWeight:"bolder"}}>2021-22</TableCell>
+            <TableCell align="right" style={{fontWeight:"bolder"}}>2020-21</TableCell>
             <TableCell align="right" style={{fontWeight:"bolder"}}>Total</TableCell>
           </TableRow>
         </TableHead>
@@ -98,7 +112,7 @@ function Condition4() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" >
-                Sanctioned Intake
+                Sanctioned Intake in the 1st year
               </TableCell>
               <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num1} name="num1" onChange={handleNumChange} /></TableCell>
               <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num2} name="num2" onChange={handleNumChange} /></TableCell>
@@ -124,6 +138,16 @@ function Condition4() {
                 <TableRow style={{textAlign:"center",fontWeight:"bold",fontSize:"40px"}}> 
                   % of students admitted over last 3 assessment years : {total}
                 </TableRow>
+
+                {total < 50 ? (
+                  <Typography color="error" style={{
+                    textAlign: "center",paddingTop:"15px"
+                  }}>
+                    You cannot apply for NB Accreditation if the percentage of students admitted over last 3 assessment years in the 
+                    department is less than 50%
+                  </Typography>
+                ) : null}
+
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",
@@ -133,7 +157,7 @@ function Condition4() {
                     Go Back
                   </Button>
                   <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition5")}>
+                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>
                     Continue
                   </Button>
                 </TableCell>

@@ -1,25 +1,25 @@
-const nodemailer = require("nodemailer")
+// const nodemailer = require("nodemailer")
 const EMAIL = process.env.EMAIL 
 const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD
-const { Client, LocalAuth } = require('whatsapp-web.js');
+// const { Client, LocalAuth } = require('whatsapp-web.js');
 const collections = require("../collections");
 const MONGOOSE = require("mongoose");
 const db = MONGOOSE.connection;
 
-const qrcode = require('qrcode-terminal');
-const client = new Client({
-    authStrategy: new LocalAuth()
-});
+// const qrcode = require('qrcode-terminal');
+// const client = new Client({
+//     authStrategy: new LocalAuth()
+// });
 
-client.on('qr', (qr) => {
-    qrcode.generate(qr, {small: true});
-});
+// client.on('qr', (qr) => {
+//     qrcode.generate(qr, {small: true});
+// });
 
-client.on('ready',async () => {
-    console.log('Whatapp automation is ready');
-});
+// client.on('ready',async () => {
+//     console.log('Whatapp automation is ready');
+// });
 
-client.initialize();
+// client.initialize();
 
 module.exports = {
     adminLogin:(user)=>{

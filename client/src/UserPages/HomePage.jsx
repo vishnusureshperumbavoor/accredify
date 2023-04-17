@@ -1,6 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Container, Typography } from '@material-ui/core';
+import Navbar from '../Components/Navbar/Navbar';
+import { useNavigate } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,18 +17,26 @@ const useStyles = makeStyles((theme) => ({
 
 function HomePage(props) {
   const classes = useStyles();
-
-  function handleLogout() {
-    props.onLogout();
-  }
-
+  const navigate = useNavigate();
   return (
+    <>
+    <Navbar/>
     <Container className={classes.root}>
       <Typography variant="h4" gutterBottom>Welcome to the National Board of Accreditation for Diploma Program!</Typography>
-      <Typography variant="body1" gutterBottom>This program is designed to provide students with the knowledge and skills needed to succeed in the field of science and technology.</Typography>
-      <Typography variant="body1" gutterBottom>Please explore the different features of the program using the navigation menu above.</Typography>
-      <Button className={classes.button} variant="contained" color="primary" onClick={handleLogout}>Logout</Button>
+      <Typography variant="body1" gutterBottom>
+      NBA is designed to promote excellence in technical education programs in India by evaluating and 
+      accrediting them based on predefined criteria.
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        To get your college accredited, first you have to check 8 conditions before creating the registration form. <br />
+        You can expect visit from the authorities after getting the admin approval. 
+        </Typography>
+        <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px",backgroundColor: "#8B00FF"}} 
+          sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition1")} >
+            Get Started
+        </Button>
     </Container>
+    </>
   );
 }
 

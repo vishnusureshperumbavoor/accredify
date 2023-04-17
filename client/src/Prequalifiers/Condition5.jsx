@@ -24,8 +24,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Condition5() {
+
   const classes = useStyles();
   const navigate = useNavigate();
+
   const [data, setData] = useState({
     num1:0,
     num2:0,
@@ -39,12 +41,6 @@ function Condition5() {
     num10:0,
     num11:0,
     num12:0,
-    num13:0,
-    num14:0,
-    num15:0,
-    num16:0,
-    num17:0,
-    num18:0,
     num19:0,
     num20:0,
     num21:0,
@@ -57,15 +53,20 @@ function Condition5() {
     }
   }, []);
 
-  const subTotal1 = Number(data.num1) + Number(data.num7) + Number(data.num13);
-  const subTotal2 = Number(data.num2) + Number(data.num8) + Number(data.num14);
-  const subTotal3 = Number(data.num3) + Number(data.num9) + Number(data.num15);
-  const subTotal4 = Number(data.num4) + Number(data.num10) + Number(data.num16);
-  const subTotal5 = Number(data.num5) + Number(data.num11) + Number(data.num17);
-  const subTotal6 = Number(data.num6) + Number(data.num12) + Number(data.num18);
+  const subTotal1 = Number(data.num1) + Number(data.num7);
+  const subTotal2 = Number(data.num2) + Number(data.num8);
+  const subTotal3 = Number(data.num3) + Number(data.num9);
+  const subTotal4 = Number(data.num4) + Number(data.num10);
+  const subTotal5 = Number(data.num5) + Number(data.num11);
+  const subTotal6 = Number(data.num6) + Number(data.num12);
+
   const total1 = Number(subTotal1) + Number(subTotal2);
   const total2 = Number(subTotal3) + Number(subTotal4);
   const total3 = Number(subTotal5) + Number(subTotal6);
+
+  const req1 = Math.ceil(total1/25)
+  const req2 = Math.ceil(total2/25)
+  const req3 = Math.ceil(total3/25)
 
   const sfr1 = (Number(total1)/Number(data.num19)).toFixed(2);
   const sfr2 = (Number(total2)/Number(data.num20)).toFixed(2);
@@ -77,8 +78,21 @@ function Condition5() {
     localStorage.setItem('condition5', JSON.stringify(data));
   };
 
+  const saveResult = () => {
+    const existingResults = JSON.parse(localStorage.getItem("results")) || {};
+    const result = sfr > 25 ? "No" : "Yes";
+    existingResults.page5 = result;
+    localStorage.setItem("results", JSON.stringify(existingResults));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    saveResult();
+    navigate("/condition6")
+  };
+
   return (
-    <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
@@ -114,7 +128,7 @@ function Condition5() {
                   }}
                 >
                   Student Faculty Ratio (SFR) <br/>
-                  Average SFR in the current academic year and previous 2 academic years should be 1:25
+                  Average SFR in the department in the current academic year and previous 2 academic years should be equal to or lesser than 1:25
                 </TableCell>
                 </TableRow>
                 <TableRow >
@@ -124,9 +138,9 @@ function Condition5() {
         <TableHead>
           <TableRow>
             <TableCell style={{fontWeight:"bolder",fontSize:"18px"}} rowSpan={2}>Year of study</TableCell>
-            <TableCell align="center" style={{fontWeight:"bolder",fontSize:"20px"}} colSpan={2}>2020-23</TableCell>
-            <TableCell align="center" style={{fontWeight:"bolder",fontSize:"20px"}} colSpan={2}>2019-22</TableCell>
-            <TableCell align="center" style={{fontWeight:"bolder",fontSize:"20px"}} colSpan={2}>2018-21</TableCell>
+            <TableCell align="center" style={{fontWeight:"bolder",fontSize:"20px"}} colSpan={2}>2022-23</TableCell>
+            <TableCell align="center" style={{fontWeight:"bolder",fontSize:"20px"}} colSpan={2}>2021-22</TableCell>
+            <TableCell align="center" style={{fontWeight:"bolder",fontSize:"20px"}} colSpan={2}>2020-21</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="right" style={{fontWeight:"bolder"}}>
@@ -154,10 +168,11 @@ function Condition5() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" >
-                1st year
+                3rd year
               </TableCell>
               <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num1} name="num1" onChange={handleNumChange} />
+                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num1} name="num1" 
+                onChange={handleNumChange} />
               </TableCell>
               <TableCell align="left">
                 <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num2} name="num2" onChange={handleNumChange} style={{marginLeft:"3px"}} />
@@ -203,31 +218,6 @@ function Condition5() {
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row" >
-                3rd year
-              </TableCell>
-              <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num13} name="num13" onChange={handleNumChange} />
-              </TableCell>
-              <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num14} name="num14" onChange={handleNumChange} style={{marginLeft:"3px"}} />
-              </TableCell>
-              <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num15} name="num15" onChange={handleNumChange} />
-              </TableCell>
-              <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num16} name="num16" onChange={handleNumChange} style={{marginLeft:"3px"}} />
-              </TableCell>
-              <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num17} name="num17" onChange={handleNumChange} />
-              </TableCell>
-              <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num18} name="num18" onChange={handleNumChange} style={{marginLeft:"3px"}} />
-                </TableCell>
-            </TableRow>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
               <TableCell component="th" scope="row" style={{fontWeight:"bold",fontSize:"20px"}}>
                 Sub-total
               </TableCell>
@@ -255,22 +245,49 @@ function Condition5() {
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row" style={{fontWeight:"bold",fontSize:"20px"}} >
-                Total
+              <TableCell component="th" scope="row" style={{fontWeight:"bold",fontSize:"17px"}} >
+                Number students in 3rd and 2nd year
               </TableCell>
               <TableCell align="center" colSpan={2} style={{fontWeight:"bold",fontSize:"20px"}}>{total1}</TableCell>
               <TableCell align="center" colSpan={2} style={{fontWeight:"bold",fontSize:"20px"}}>{total2}</TableCell>
               <TableCell align="center" colSpan={2} style={{fontWeight:"bold",fontSize:"20px"}}>{total3}</TableCell>
             </TableRow>
+
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row" style={{fontWeight:"bold",fontSize:"15px"}} >
+                Required number of faculties
+              </TableCell>
+              <TableCell align="center" colSpan={2}>
+                {req1}
+              </TableCell>
+              <TableCell align="center" colSpan={2}>
+                {req2}
+              </TableCell>
+              <TableCell align="center" colSpan={2}>
+                {req3}
+              </TableCell>
+            </TableRow>
+            
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" style={{fontWeight:"bold",fontSize:"15px"}} >
                 No. of Faculty in the department
               </TableCell>
-              <TableCell align="center" colSpan={2}><TextField id="outlined-basic" variant="outlined" type="number" value={data.num19} name="num19" onChange={handleNumChange} /></TableCell>
-              <TableCell align="center" colSpan={2}><TextField id="outlined-basic" variant="outlined" type="number" value={data.num20} name="num20" onChange={handleNumChange} /></TableCell>
-              <TableCell align="center" colSpan={2}><TextField id="outlined-basic" variant="outlined" type="number" value={data.num21} name="num21" onChange={handleNumChange} /></TableCell>
+              <TableCell align="center" colSpan={2}>
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num19} name="num19" 
+                onChange={handleNumChange} />
+              </TableCell>
+              <TableCell align="center" colSpan={2}>
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num20} name="num20" 
+                onChange={handleNumChange} />
+              </TableCell>
+              <TableCell align="center" colSpan={2}>
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num21} name="num21" 
+                onChange={handleNumChange} />
+              </TableCell>
             </TableRow>
 
             <TableRow
@@ -293,6 +310,14 @@ function Condition5() {
             </TableRow>
 
 
+            {sfr > 25 ? (
+                  <Typography color="error" style={{
+                    textAlign: "center",paddingTop:"15px"
+                  }}>
+                    You cannot apply for NB Accreditation if the Student Faculty Ratio is greater than 1:25
+                  </Typography>
+            ) : null}
+
             <TableRow>
                 <TableCell colSpan={7} style={{
                     textAlign: "center",
@@ -302,7 +327,7 @@ function Condition5() {
                     Go Back
                   </Button>
                   <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition6")}>
+                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>
                     Continue
                   </Button>
                 </TableCell>

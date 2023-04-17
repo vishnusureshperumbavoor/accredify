@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,111 +12,37 @@ import Button from "@mui/material/Button";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import axios from "axios";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
 import { useNavigate } from "react-router-dom";
-import { CircularProgress } from '@material-ui/core';
 import Navbar from "../Components/Navbar/Navbar";
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Condition2() {
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState(localStorage.getItem('condition2') || '');
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
+  const [result, setResult] = useState("Yes");
+
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
+    setResult(e.target.value === "Yes" ? "Yes" : "No");
   };
+
+  const saveResult = () => {
+    const existingResults = JSON.parse(localStorage.getItem("results")) || {};
+    existingResults.page2 = result;
+    localStorage.setItem("results", JSON.stringify(existingResults));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    saveResult();
+    navigate("/condition3")
+  };
+
   useEffect(() => {
     localStorage.setItem('condition2', selectedOption);
   }, [selectedOption]);
-  
-  {/*useEffect(()=>{
-    if(localStorage.getItem("token")) navigate('/')
-  },[])*/}
-
-  const [states, setStates] = useState([]);
-  const [districts, setDistricts] = useState([]);
-  const [selectedStateId, setSelectedStateId] = useState('');
-  const [selectedStateName, setSelectedStateName] = useState('');
-  const [selectedDistrict, setSelectedDistrict] = useState('');
-
-  useEffect(() => {
-      axios.post('https://cdn-api.co-vin.in/api/v2/admin/location/states')
-        .then((response) => {
-          setStates(response.data.states);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-  }, []);
-
-  const handleStateChange= ((e)=>{
-    setSelectedStateId(e.target.value);
-    setSelectedStateName(e.target.getAttribute("name"))
-    setSelectedDistrict('')
-  })
-
-  useEffect(() => {
-    const getDistrict=(async()=>{
-      const getDis = await fetch(
-      `https://cdn-api.co-vin.in/api/v2/admin/location/districts/${selectedStateId}`
-    );
-    const res = await getDis.json();
-    setDistricts(await res.districts);
-    })
-    if(selectedStateId){
-      getDistrict()
-    }
-  }, [selectedStateId]);
-
-
-  // const handleDistrict = (e) => {
-  //   const getStateId = e.target.value;
-  //   setStateId(getStateId);
-  //   getDistrict();
-  // };
-
-  const [formData, setFormData] = useState({
-    c1: "",
-    c2: "",
-    c3: "",
-    c4: "",
-    c5: "",
-    c6: "",
-    c7: "",
-    c8: "",
-  });
-
-  const handleChange = (e) => {
-    console.log(formData);
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    axios.post(`${SERVER_URL}/prequalifier`, formData).then((res)=>{
-      console.log(res.data)
-      if(res.status===200){
-        localStorage.setItem("userToken",res.data.token)
-        localStorage.setItem("userId",res.data.user.insertedId)
-        setIsLoading(false);
-        // alert("Registration Successful")
-        navigate('/waitforapproval')
-      }
-    }).catch((err)=>{
-      alert("error")
-      setIsLoading(false);
-    })
-  };
 
   return (
-    <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
@@ -152,17 +75,16 @@ function Condition2() {
                     textAlign: "center",
                   }}
                 >
-                  <h3>Approval of AICTE for the programs under construction has been obtained for all the years including the current year.</h3>
-                  <h4>Whether approval of AICTE for the programs under construction has been obtained for all the years including the current year?</h4>
+                  <h3>Approval of AICTE, for the programs under construction, should be obtained for the current year and the previous 2 years.</h3>
+                  <h4>Is approval of AICTE, for the programs under construction, obtained for the current year and the previous 2 years?</h4>
                 </TableCell>
                 </TableRow>
-                <TableRow >
-                <TableCell style={{paddingLeft:"800px"}}>
+                <TableRow>
+                <TableCell>
                   <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
                     name="institute_type"
-                    onChange={handleChange}
                   >
                     <FormControlLabel
                       value="Yes"
@@ -182,6 +104,12 @@ function Condition2() {
                   </RadioGroup>
                 </TableCell>
                 </TableRow>
+                {selectedOption === 'No' && 
+                  <Typography variant="body1" color="error" style={{textAlign:"center"}}>
+                    You cannot apply for NB Accreditation, if approval is not obtained from AICTE for the current program under construction,
+                    for current year and previous 2 years.
+                  </Typography>
+                }
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",
@@ -191,7 +119,7 @@ function Condition2() {
                     Go Back
                   </Button>
                   <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition3")}>
+                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>
                     Continue
                   </Button>
                 </TableCell>

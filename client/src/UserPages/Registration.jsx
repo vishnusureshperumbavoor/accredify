@@ -29,10 +29,8 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 function Registration() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  
-  {/*useEffect(()=>{
-    if(localStorage.getItem("token")) navigate('/')
-  },[])*/}
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState(false);
 
   const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -75,7 +73,7 @@ function Registration() {
   //   setStateId(getStateId);
   //   getDistrict();
   // };
-
+  
   const [formData, setFormData] = useState({
     institute_type:"",
     institute_name:"",
@@ -88,29 +86,25 @@ function Registration() {
     district:selectedDistrict,
     email:"",
     website:"",
-    tan_pan_no:"",
-    fax:"",
-    mobile_no:"",
     phone:"",
     pin_code:"",
     status:"pending",
   });
 
   const handleChange = (e) => {
-    console.log(formData);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
+    console.log(formData)
     axios.post(`${SERVER_URL}/registration`, formData).then((res)=>{
       console.log(res.data)
       if(res.status===200){
         localStorage.setItem("userToken",res.data.token)
         localStorage.setItem("userId",res.data.user.insertedId)
         setIsLoading(false);
-        // alert("Registration Successful")
         navigate('/waitforapproval')
       }
     }).catch((err)=>{
@@ -119,8 +113,16 @@ function Registration() {
     })
   };
 
+
+  const handleEmailChange = (event) => {
+    const input = event.target.value;
+    setEmail(input);
+    setEmailError(!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input));
+    handleChange(event);
+  };
+
   return (
-    <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -242,7 +244,9 @@ function Registration() {
                     Email
                 </TableCell>
                 <TableCell>
-                <TextField id="outlined-basic" variant="outlined" />
+                <TextField id="outlined-basic" variant="outlined" value={email} onChange={handleEmailChange}
+      error={emailError} name="email"
+      helperText={emailError ? 'Please enter a valid email address' : ''} />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -263,10 +267,10 @@ function Registration() {
                     textAlign: "right",
                     fontSize: "15px",
                   }}>
-                    Re Enter Email
+                    PIN Code
                 </TableCell>
                 <TableCell>
-                <TextField name="email" onChange={handleChange} id="outlined-basic" variant="outlined" />
+                <TextField name="pin_code" onChange={handleChange} id="outlined-basic" variant="outlined" type="number" />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -280,10 +284,10 @@ function Registration() {
                   Year of establishment
                 </TableCell>
                 <TableCell>
-                  <TextField name="year_of_establishment" onChange={handleChange} id="outlined-basic" variant="outlined" />
+                  <TextField name="year_of_establishment" onChange={handleChange} id="outlined-basic" variant="outlined" type="number"/>
                 </TableCell>
                 <TableCell style={{
-                    fontWeight: "bold",
+                    fontWeight: "bold", 
                     textAlign: "right",
                     fontSize: "15px",
                   }}>
@@ -306,42 +310,6 @@ function Registration() {
                 <TableCell>
                   <TextField name="aishe_code" onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
-                <TableCell style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}>
-                    TAN/PAN No.
-                </TableCell>
-                <TableCell>
-                <TextField name="tan_pan_no" onChange={handleChange} id="outlined-basic" variant="outlined" />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}
-                >
-                  Year of obtaining 1st approval letter from AICTE
-                </TableCell>
-                <TableCell>
-                  <TextField name="first_approval" onChange={handleChange} id="outlined-basic" variant="outlined" />
-                </TableCell>
-                <TableCell style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}>
-                    Fax
-                </TableCell>
-                <TableCell>
-                <TextField name="fax" onChange={handleChange} id="outlined-basic" variant="outlined" />
-                </TableCell>
-              </TableRow>
-              <TableRow>
                 <TableCell
                   style={{
                     fontWeight: "bold",
@@ -360,39 +328,41 @@ function Registration() {
                     onChange={handleChange}
                   />
                 </TableCell>
-                <TableCell style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}>
-                    Mobile No.
-                </TableCell>
-                <TableCell>
-                <TextField name="mobile_no" onChange={handleChange} id="outlined-basic" variant="outlined" />
-                </TableCell>
+                
               </TableRow>
               <TableRow>
-              <TableCell style={{
+                <TableCell
+                  style={{
                     fontWeight: "bold",
                     textAlign: "right",
                     fontSize: "15px",
-                  }}>
-                    PIN Code
+                  }}
+                >
+                  Year of obtaining 1st approval letter from AICTE
                 </TableCell>
                 <TableCell>
-                <TextField name="pin_code" onChange={handleChange} id="outlined-basic" variant="outlined" />
+                  <TextField name="first_approval" onChange={handleChange} id="outlined-basic" variant="outlined" type="number" />
                 </TableCell>
-                
                 <TableCell style={{
                     fontWeight: "bold",
                     textAlign: "right",
                     fontSize: "15px",
                   }}>
-                    Phone
+                    Phone No.
                 </TableCell>
                 <TableCell>
                 <TextField name="phone" onChange={handleChange} id="outlined-basic" variant="outlined" />
                 </TableCell>
+                
+              </TableRow>
+              <TableRow>
+                
+                
+              </TableRow>
+              <TableRow>
+              
+                
+                
               </TableRow>
               {/* <TableRow>
                 <TableCell

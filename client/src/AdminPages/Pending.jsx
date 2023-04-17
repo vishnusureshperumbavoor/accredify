@@ -21,7 +21,7 @@ function Pending() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("adminToken")) navigate("/adminlogin");
+    // if (!localStorage.getItem("adminToken")) navigate("/adminlogin");
     setIsLoading(true);
     loadTable()
   }, []);
@@ -86,7 +86,6 @@ function Pending() {
             <TableCell style={{fontWeight:"bold"}}>Address</TableCell>
             <TableCell style={{fontWeight:"bold"}}>Email</TableCell>
             <TableCell style={{fontWeight:"bold"}}>Website</TableCell>
-            <TableCell style={{fontWeight:"bold"}}>TAN/PAN No</TableCell>
             <TableCell style={{fontWeight:"bold"}}>Mobile No</TableCell>
             <TableCell style={{fontWeight:"bold"}}>Approve/Reject</TableCell>
             </TableHead>
@@ -102,7 +101,6 @@ function Pending() {
               <TableCell>{user.postal_address}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.website}</TableCell>
-              <TableCell>{user.tan_pan_no}</TableCell>
               <TableCell>{user.mobile_no}</TableCell>
               <TableCell>
                 {[
