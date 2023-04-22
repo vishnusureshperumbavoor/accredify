@@ -12,9 +12,8 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../Components/Navbar/Navbar";
+import Navbar from "../Components/Navbar";
 import { Typography } from "@mui/material";
-
 function Condition6() {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState(localStorage.getItem('condition6') || '');
@@ -26,6 +25,7 @@ function Condition6() {
   };
 
   useEffect(() => {
+    localStorage.setItem('lastVisitedPage', window.location.pathname);
     localStorage.setItem('condition6', selectedOption);
   }, [selectedOption]);
 
@@ -42,7 +42,7 @@ function Condition6() {
   };
 
   return (
-    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 , paddingTop: "30px"}}>
       
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
@@ -75,11 +75,12 @@ function Condition6() {
                     textAlign: "center",
                   }}
                 >
-                  At least one Professor or one Assistant Professor on regular basis with Ph.D degree is available in the previous and current academic year
+                  Is at least one Professor or one Assistant Professor on regular basis with Ph.D degree is available in the previous and current academic year?
                 </TableCell>
                 </TableRow>
                 <TableRow >
                 <TableCell>
+                <div style={{ display: "flex", justifyContent: "center" }}>
                   <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
@@ -101,15 +102,9 @@ function Condition6() {
                     />
                     
                   </RadioGroup>
+                  </div>
                 </TableCell>
                 </TableRow>
-                {selectedOption === 'No' && 
-                  <Typography variant="body1" color="error" style={{textAlign:"center"}}>
-                    You cannot apply for NB Accreditation, if there is no Professor or Assistant Professor on regular basis with Ph.D 
-                    degree, available in the previous and current academic year.
-                  </Typography>
-                }
-                
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",

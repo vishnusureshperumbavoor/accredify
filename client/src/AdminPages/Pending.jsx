@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
+import { Typography } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,11 +8,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import TablePagination from "@mui/material/TablePagination";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import { green} from '@material-ui/core/colors';
-import AdminNavbar from "./AdminNavbar";
 import { LinearProgress } from '@material-ui/core';
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
@@ -26,7 +27,7 @@ function Pending() {
     loadTable()
   }, []);
   
-  const loadTable=(()=>{
+const loadTable=(()=>{
     axios.post(`${SERVER_URL}/pendingpage`).then((res)=>{
       console.log(res.data.users);
       setUsers(res.data.users)
@@ -36,7 +37,7 @@ function Pending() {
       console.log(err);
       setIsLoading(true);
     })
-  })
+})
 
   const handleApprove=((row)=>{
     const data = {
@@ -66,10 +67,24 @@ function Pending() {
     })
   })
 
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const count = users.length;
+
   return (
-    <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
-      <AdminNavbar/>
-      <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
+    <div style={{ height: "80vh",width:"90vw",margin:0,padding:0 }}>
+      <Typography style={{textAlign:"center",fontWeight:"bold",fontSize:"20px"}}>PENDING REQUESTS</Typography>
+      <Card sx={{ minWidth: 275 }} style={{ margin: "20px" }}>
       {isLoading && <LinearProgress />}
         <TableContainer component={Paper}>
           <Table
@@ -90,11 +105,15 @@ function Pending() {
             <TableCell style={{fontWeight:"bold"}}>Approve/Reject</TableCell>
             </TableHead>
             <TableBody>
-            {users && users.map((user) => (
-            <TableRow key={user._id}>
-              <TableCell>{user.institute_name}</TableCell>
-              <TableCell>{user.institute_type}</TableCell>
-              <TableCell>{user.affiliated_by}</TableCell>
+
+            {(rowsPerPage > 0
+                ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : users
+              ).map((user) => (
+                <TableRow key={user._id}>
+                  <TableCell>{user.institute_name}</TableCell>
+                  <TableCell>{user.institute_type}</TableCell>
+                  <TableCell>{user.affiliated_by}</TableCell>
               <TableCell>{user.year_of_establishment}</TableCell>
               <TableCell>{user.aishe_code}</TableCell>
               <TableCell>{user.first_approval}</TableCell>
@@ -114,11 +133,20 @@ function Pending() {
                 </Button>
                 ]}
             </TableCell>
-            </TableRow>
-          ))}
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+          component="div"
+          count={count}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Card>
     </div>
   );

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import { TablePagination } from "@mui/material";
 import Card from "@mui/material/Card";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -13,7 +11,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import AdminNavbar from "./AdminNavbar";
 import { LinearProgress } from '@material-ui/core';
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
@@ -36,9 +33,24 @@ function Rejected() {
         setIsLoading(true);
       });
   }, []);
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const count = users.length;
+
   return (
-    <div style={{ backgroundColor: "#E7EBF0", height: "100vh",width:"100vw",margin:0,padding:0 }}>
-      <AdminNavbar/>
+    <div style={{ height: "80vh",width:"90vw",margin:0,padding:0 }}>
+      <Typography style={{textAlign:"center",fontWeight:"bold",fontSize:"20px"}}>REJECTED REQUESTS</Typography>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
       {isLoading && <LinearProgress />}
         <TableContainer component={Paper}>
@@ -66,28 +78,35 @@ function Rejected() {
           </TableRow>
             </TableHead>
             <TableBody>
-            {users.map((user) => (
-            <TableRow key={user._id}>
-              <TableCell>{user.institute_name}</TableCell>
-              <TableCell>{user.institute_type}</TableCell>
-              <TableCell>{user.affiliated_by}</TableCell>
+            {(rowsPerPage > 0
+                ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : users
+              ).map((user) => (
+                <TableRow key={user._id}>
+                  <TableCell>{user.institute_name}</TableCell>
+                  <TableCell>{user.institute_type}</TableCell>
+                  <TableCell>{user.affiliated_by}</TableCell>
               <TableCell>{user.year_of_establishment}</TableCell>
               <TableCell>{user.aishe_code}</TableCell>
               <TableCell>{user.first_approval}</TableCell>
               <TableCell>{user.postal_address}</TableCell>
-              <TableCell>{user.state}</TableCell>
-              <TableCell>{user.district}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.website}</TableCell>
-              <TableCell>{user.tan_pan_no}</TableCell>
-              <TableCell>{user.fax}</TableCell>
               <TableCell>{user.mobile_no}</TableCell>
-              <TableCell>{user.phone}</TableCell>
-            </TableRow>
-          ))}
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+          component="div"
+          count={count}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Card>
     </div>
   );

@@ -1,104 +1,163 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
+import * as React from 'react';
+import { useState } from 'react';
+import { styled, useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import CssBaseline from '@mui/material/CssBaseline';
+import MuiAppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import Pending from './Pending';
+import Rejected from './Rejected';
+import Approved from './Approved';
+import Statistics from './Statistics'
 
-const institutionTypes = [
-    { type: 'University', count: 10 },
-    { type: 'College', count: 20 },
-    { type: 'Institute', count: 15 },
-    { type: 'School', count: 5 },
-];
+const drawerWidth = 240;
 
-const pinCodes = [
-  { pinCode: '110001', count: 5 },
-  { pinCode: '110002', count: 10 },
-  { pinCode: '110003', count: 15 },
-  { pinCode: '110004', count: 20 },
-];
-
-const affiliations = [
-    { name: 'AICTE', value: 60 },
-    { name: 'UGC', value: 30 },
-    { name: 'NAAC', value: 10 },
-];
-
-const establishmentYears = [
-    { year: '2010', count: 10 },
-    { year: '2011', count: 20 },
-    { year: '2012', count: 15 },
-    { year: '2013', count: 5 },
-  ];
-
-  const approvalYears = [
-    { approvalYear: '2015', establishmentYear: '2010' },
-    { approvalYear: '2016', establishmentYear: '2011' },
-    { approvalYear: '2017', establishmentYear: '2012' },
-    { approvalYear: '2018', establishmentYear: '2013' },
-  ];
-
-function Dashboard() {
-    return (
-      <div className="dashboard">
-        <div className="sidebar">
-          <h2>Institution Types</h2>
-          <BarChart width={400} height={300} data={institutionTypes}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="type" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="count" fill="#8884d8" />
-          </BarChart>
-        </div>
-        <div className="sidebar">
-          <h2>Pin Code Map</h2>
-          <ComposableMap projection="geoMercator" width={400} height={300}>
-            <Geographies geography="https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json">
-              {({ geographies }) =>
-                geographies
-                .filter((geo) => geo.properties.NAME === "India")
-                .map((geo) => (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    fill="#EAEAEC"
-                    stroke="#D6D6DA"
-                  />
-                ))
-              }
-            </Geographies>
-          </ComposableMap>
-        </div>
-        <div className="sidebar">
-          <h2>Affiliations</h2>
-          <PieChart width={400} height={300}>
-            <Pie data={affiliations} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} fill="#8884d8" label />
-            <Tooltip />
-          </PieChart>
-        </div>
-        <div className="sidebar">
-          <h2>Establishment Years</h2>
-          <LineChart width={400} height={300} data={establishmentYears}>
-            <XAxis dataKey="year" />
-            <YAxis />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="count" stroke="#8884d8" activeDot={{ r: 8 }} />
-          </LineChart>
-        </div>
-        <div className="sidebar">
-          <h2>Approval Year vs Establishment Year</h2>
-          <ScatterChart width={400} height={300}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" dataKey="establishmentYear" name="Establishment Year" />
-            <YAxis type="number" dataKey="approvalYear" name="Approval Year" />
-            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-            <Legend />
-            <Scatter name="A school" data={[{ approvalYear: '2015', establishmentYear: '2010' }, { approvalYear: '2016', establishmentYear: '2011' }]} fill="#8884d8" />
-            <Scatter name="B school" data={[{ approvalYear: '2017', establishmentYear: '2012' }, { approvalYear: '2018', establishmentYear: '2013' }]} fill="#82ca9d" />
-          </ScatterChart>
-        </div>
-      </div>
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: `-${drawerWidth}px`,
+    ...(open && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+    }),
+  }),
 );
-}      
-export Default Dashboard;
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-end',
+}));
+
+export default function Dashboard() {
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const [currentPage, setCurrentPage] = useState('Statistics');
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  const handleListItemClick = (page) => {
+    setCurrentPage(page);
+    setOpen(false);
+  };
+
+  const renderPage = (page) => {
+    switch (page) {
+      case 'Dashboard':
+        return <Statistics/>;
+      case 'Pending':
+        return <Pending />;
+      case 'Approved':
+        return <Approved/>;
+      case 'Rejected':
+        return <Rejected/>;
+      default:
+        return <Statistics/>;
+    }
+  };
+
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar position="fixed" open={open}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap component="div">
+            ACCREDITATION MANAGEMENT SYSTEM
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={open}
+      >
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </DrawerHeader>
+        <List>
+          {['Dashboard','Pending', 'Approved', 'Rejected'].map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton onClick={() => handleListItemClick(text)}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+      <Main open={open}>
+        <DrawerHeader />
+        {renderPage(currentPage)}
+      </Main>
+    </Box>
+  );
+}

@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
-import Navbar from "../Components/Navbar/Navbar";
+import Navbar from "../Components/Navbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Condition5() {
-
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -47,6 +46,7 @@ function Condition5() {
   });
 
   useEffect(() => {
+    localStorage.setItem('lastVisitedPage', window.location.pathname);
     const storedData = localStorage.getItem('condition5');
     if (storedData) {
       setData(JSON.parse(storedData));
@@ -91,8 +91,13 @@ function Condition5() {
     navigate("/condition6")
   };
 
+  const headings = [
+    { text: "Sanction Intake", align: "right" },
+    { text: "Lateral Entry", align: "left" },
+  ];
+
   return (
-    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0, paddingTop: "30px" }}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
@@ -127,8 +132,7 @@ function Condition5() {
                     textAlign: "center",
                   }}
                 >
-                  Student Faculty Ratio (SFR) <br/>
-                  Average SFR in the department in the current academic year and previous 2 academic years should be equal to or lesser than 1:25
+                  Student Faculty Ratio (SFR)
                 </TableCell>
                 </TableRow>
                 <TableRow >
@@ -143,24 +147,16 @@ function Condition5() {
             <TableCell align="center" style={{fontWeight:"bolder",fontSize:"20px"}} colSpan={2}>2020-21</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align="right" style={{fontWeight:"bolder"}}>
-              <Typography >Sanction Intake</Typography>
-            </TableCell>
-            <TableCell align="left" style={{fontWeight:"bolder"}}>
-              <Typography >Lateral Entry</Typography>
-            </TableCell>
-            <TableCell align="right" style={{fontWeight:"bolder"}}>
-              <Typography >Sanction Intake</Typography>
-            </TableCell>
-            <TableCell align="left" style={{fontWeight:"bolder"}}>
-              <Typography >Lateral Entry</Typography>
-            </TableCell>
-            <TableCell align="right" style={{fontWeight:"bolder"}}>
-              <Typography >Sanction Intake</Typography>
-            </TableCell>
-            <TableCell align="left" style={{fontWeight:"bolder"}}>
-              <Typography >Lateral Entry</Typography>
-            </TableCell>
+          {[0, 1, 2].map((i) => (
+  <>
+    <TableCell align="right" style={{fontWeight:"bolder"}}>
+      <Typography >Enrolled</Typography>
+    </TableCell>
+    <TableCell align="left" style={{fontWeight:"bolder"}}>
+      <Typography >Lateral Entry</Typography>
+    </TableCell>
+  </>
+))}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -218,58 +214,13 @@ function Condition5() {
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row" style={{fontWeight:"bold",fontSize:"20px"}}>
-                Sub-total
-              </TableCell>
-              <TableCell align="right" style={{fontWeight:"bold",fontSize:"20px"}}>
-                {subTotal1}
-              </TableCell>
-              <TableCell align="left" style={{fontWeight:"bold",fontSize:"20px"}}>
-              {subTotal2}
-              </TableCell>
-              <TableCell align="right" style={{fontWeight:"bold",fontSize:"20px"}}>
-              {subTotal3}
-              </TableCell>
-              <TableCell align="left" style={{fontWeight:"bold",fontSize:"20px"}}>
-              {subTotal4}
-              </TableCell>
-              <TableCell align="right" style={{fontWeight:"bold",fontSize:"20px"}}>
-              {subTotal5}
-              </TableCell>
-              <TableCell align="left" style={{fontWeight:"bold",fontSize:"20px"}}>
-              {subTotal6}
-                </TableCell>
-            </TableRow>
-
-
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
               <TableCell component="th" scope="row" style={{fontWeight:"bold",fontSize:"17px"}} >
-                Number students in 3rd and 2nd year
+                Total number of students
               </TableCell>
               <TableCell align="center" colSpan={2} style={{fontWeight:"bold",fontSize:"20px"}}>{total1}</TableCell>
               <TableCell align="center" colSpan={2} style={{fontWeight:"bold",fontSize:"20px"}}>{total2}</TableCell>
               <TableCell align="center" colSpan={2} style={{fontWeight:"bold",fontSize:"20px"}}>{total3}</TableCell>
             </TableRow>
-
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" style={{fontWeight:"bold",fontSize:"15px"}} >
-                Required number of faculties
-              </TableCell>
-              <TableCell align="center" colSpan={2}>
-                {req1}
-              </TableCell>
-              <TableCell align="center" colSpan={2}>
-                {req2}
-              </TableCell>
-              <TableCell align="center" colSpan={2}>
-                {req3}
-              </TableCell>
-            </TableRow>
-            
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
@@ -289,35 +240,6 @@ function Condition5() {
                 onChange={handleNumChange} />
               </TableCell>
             </TableRow>
-
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" style={{fontWeight:"bold",fontSize:"15px"}} >
-                Student Faculty Ratio (SFR)
-              </TableCell>
-              <TableCell align="center" colSpan={2} style={{fontWeight:"bold",fontSize:"20px"}}>{sfr1}</TableCell>
-              <TableCell align="center" colSpan={2} style={{fontWeight:"bold",fontSize:"20px"}}>{sfr2}</TableCell>
-              <TableCell align="center" colSpan={2} style={{fontWeight:"bold",fontSize:"20px"}}>{sfr3}</TableCell>
-            </TableRow>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" style={{fontWeight:"bold",fontSize:"20px"}} >
-                Average SFR
-              </TableCell>
-              <TableCell align="center" colSpan={7} style={{fontWeight:"bold",fontSize:"20px"}}>{sfr}</TableCell>
-            </TableRow>
-
-
-            {sfr > 25 ? (
-                  <Typography color="error" style={{
-                    textAlign: "center",paddingTop:"15px"
-                  }}>
-                    You cannot apply for NB Accreditation if the Student Faculty Ratio is greater than 1:25
-                  </Typography>
-            ) : null}
-
             <TableRow>
                 <TableCell colSpan={7} style={{
                     textAlign: "center",

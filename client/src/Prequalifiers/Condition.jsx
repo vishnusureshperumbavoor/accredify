@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../Components/Navbar/Navbar";
+import Navbar from "../Components/Navbar";
 import { Typography } from "@mui/material";
 
 function Condition() {
@@ -48,7 +48,7 @@ function Condition() {
   };
 
   return (
-    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0, paddingTop: "30px" }}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>

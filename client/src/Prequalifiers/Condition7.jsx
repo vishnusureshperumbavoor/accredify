@@ -10,12 +10,11 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../Components/Navbar/Navbar";
+import Navbar from "../Components/Navbar";
 import { Typography } from "@mui/material";
 
 function Condition7() {
   const navigate = useNavigate();
-
   const [data, setData] = useState({});
   const [data2, setData2] = useState({
     num1:0,
@@ -24,6 +23,7 @@ function Condition7() {
 
   
   useEffect(() => {
+    localStorage.setItem('lastVisitedPage', window.location.pathname);
     const storedData = localStorage.getItem('condition5');
     const storedData2 = localStorage.getItem('condition7');
     if (storedData) {
@@ -72,7 +72,7 @@ function Condition7() {
   };
 
   return (
-    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0, paddingTop: "30px" }}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
@@ -119,55 +119,12 @@ function Condition7() {
           </TableRow>
         </TableHead>
         <TableBody>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" >
-                Number of students in the department (3rd year + 2nd year)
-              </TableCell>
-              <TableCell align="center">
-                {total1}
-              </TableCell>
-              <TableCell align="center">
-                {total2}  
-              </TableCell>
-            </TableRow>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" >
-                Required Number of faculties
-              </TableCell>
-              <TableCell align="center">{fac1}</TableCell>
-              <TableCell align="center">{fac2}</TableCell>
-            </TableRow>
-
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" >
-                  Actual Number of faculties
-              </TableCell>
-              <TableCell align="center">{data.num19}</TableCell>
-              <TableCell align="center">{data.num20}</TableCell>
-            </TableRow>
             
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" >
-                Required number of faculties with Ph.Ds
-              </TableCell>
-              <TableCell align="center">{req1}</TableCell>
-              <TableCell align="center">{req2}</TableCell>
-            </TableRow>
-
-
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" >
-               Actual number of faculties with Ph.Ds
+               Number of faculties with Ph.Ds
               </TableCell>
               <TableCell align="center">
                 <TextField id="outlined-basic" variant="outlined" type="number" value={num3} 
@@ -178,51 +135,6 @@ function Condition7() {
                 onChange={(e)=>handleNumChange(e,setNum4)} />
               </TableCell>
             </TableRow>
-
-
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" >
-               % of faculties with PhDs with total faculties
-              </TableCell>
-              <TableCell align="center">
-                {phd1}
-              </TableCell>
-              <TableCell align="center">
-                {phd2}
-              </TableCell>
-            </TableRow>
-
-
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" >
-               Average % 
-              </TableCell>
-              <TableCell align="center" colSpan={2}>
-                {phd}
-              </TableCell>
-            </TableRow>
-
-            <TableRow>
-              <TableCell colSpan={2} style={{textAlign:"center"}}>
-            {phd < 10 ? (
-                  <Typography color="error" style={{
-                    textAlign: "center",paddingTop:"15px"
-                  }}>
-                    You cannot apply for NB Accreditation if the percentage of faculties with PhDs and total faculties is
-                    lesser than 10%
-                  </Typography>
-            ) : null}
-              </TableCell>
-            </TableRow>
-
-
-
-
-
         </TableBody>
       </Table>
     </TableContainer>

@@ -6,6 +6,7 @@
   "dependencies": {
     "@vonage/server-sdk": "^3.2.0",
     "aws-sdk": "^2.1343.0",
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "concurrently": "^7.6.0",
     "cookie-parser": "^1.4.6",

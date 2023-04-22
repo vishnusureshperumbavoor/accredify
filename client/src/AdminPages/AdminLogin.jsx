@@ -48,7 +48,7 @@ function AdminLogin() {
         if (res.status === 200) {
           localStorage.setItem("adminToken",res.data.token);
           localStorage.setItem("adminName",res.data.username);
-          navigate('/pending')
+          navigate('/dashboard')
           setIsLoading(false)
         }
       })

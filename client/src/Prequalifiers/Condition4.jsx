@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../Components/Navbar/Navbar";
+import Navbar from "../Components/Navbar";
 import { Typography } from "@material-ui/core";
 
 function Condition4() {
@@ -28,6 +28,7 @@ function Condition4() {
   });
 
   useEffect(() => {
+    localStorage.setItem('lastVisitedPage', window.location.pathname);
     const storedData = localStorage.getItem('condition4');
     if (storedData) {
       setData(JSON.parse(storedData));
@@ -58,7 +59,7 @@ function Condition4() {
 
 
   return (
-    <div style={{height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{height: "100vh",width:"100vw",margin:0,padding:0, paddingTop: "30px" }}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
@@ -90,8 +91,7 @@ function Condition4() {
                     textAlign: "center",
                   }}
                 >
-                  Student Admissions (Program level) <br/>
-                  Students admitted over last 3 assessment years in the department should be greater than 50%
+                  Student Admissions (Program level)
                 </TableCell>
                 </TableRow>
                 <TableRow >
@@ -138,16 +138,6 @@ function Condition4() {
                 <TableRow style={{textAlign:"center",fontWeight:"bold",fontSize:"40px"}}> 
                   % of students admitted over last 3 assessment years : {total}
                 </TableRow>
-
-                {total < 50 ? (
-                  <Typography color="error" style={{
-                    textAlign: "center",paddingTop:"15px"
-                  }}>
-                    You cannot apply for NB Accreditation if the percentage of students admitted over last 3 assessment years in the 
-                    department is less than 50%
-                  </Typography>
-                ) : null}
-
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",

@@ -13,7 +13,7 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../Components/Navbar/Navbar";
+import Navbar from "../Components/Navbar";
 
 function Condition2() {
   const navigate = useNavigate();
@@ -38,11 +38,12 @@ function Condition2() {
   };
 
   useEffect(() => {
+    localStorage.setItem('lastVisitedPage', window.location.pathname);
     localStorage.setItem('condition2', selectedOption);
   }, [selectedOption]);
 
   return (
-    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 , paddingTop: "30px"}}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
@@ -75,12 +76,12 @@ function Condition2() {
                     textAlign: "center",
                   }}
                 >
-                  <h3>Approval of AICTE, for the programs under construction, should be obtained for the current year and the previous 2 years.</h3>
                   <h4>Is approval of AICTE, for the programs under construction, obtained for the current year and the previous 2 years?</h4>
                 </TableCell>
                 </TableRow>
                 <TableRow>
                 <TableCell>
+                <div style={{ display: "flex", justifyContent: "center" }}>
                   <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
@@ -102,14 +103,9 @@ function Condition2() {
                     />
                     
                   </RadioGroup>
+                  </div>
                 </TableCell>
                 </TableRow>
-                {selectedOption === 'No' && 
-                  <Typography variant="body1" color="error" style={{textAlign:"center"}}>
-                    You cannot apply for NB Accreditation, if approval is not obtained from AICTE for the current program under construction,
-                    for current year and previous 2 years.
-                  </Typography>
-                }
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",

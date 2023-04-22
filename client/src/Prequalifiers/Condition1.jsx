@@ -13,7 +13,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../Components/Navbar/Navbar";
+import Navbar from "../Components/Navbar";
 
 function Condition1() {
   const navigate = useNavigate();
@@ -39,11 +39,12 @@ function Condition1() {
 
 
   useEffect(() => {
+    localStorage.setItem('lastVisitedPage', window.location.pathname);
     localStorage.setItem('condition1', selectedOption);
   }, [selectedOption]);
 
   return (
-    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 , paddingTop: "30px"}}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
@@ -76,18 +77,16 @@ function Condition1() {
                     textAlign: "center",
                   }}
                 >
-                  <h3>
-                    Vision, Mission and PEOs <br/>
-                    Vision and mission and PEOs of the department should be stated in the prospectus / website.
-                  </h3> <br/><br/>
+                  
                   <h4>
                     1. Are the vision and mission of the department stated in the prospectus / website?<br/>
                     2. Are the PEOs of the department stated in the prospectus / website?
                   </h4> 
                 </TableCell>
                 </TableRow>
-                <TableRow>
+                <TableRow sx={{ justifyContent: 'center' }}>
                     <TableCell>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
                   <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
@@ -109,19 +108,20 @@ function Condition1() {
                     />
                     
                   </RadioGroup>
+                  </div>
                   </TableCell>
                 </TableRow>
-                {selectedOption === 'No' && 
-                  <Typography variant="body1" color="error" style={{textAlign:"center"}}>
-                    You cannot apply for NB Accreditation if mission, vision and PEOs is not mentioned on the prospectus / website.
-                  </Typography>
-                }
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",
                   }}>
                   <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit} >Continue
+                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/collegedetails")}>
+                    Go Back
+                  </Button>
+                  <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
+                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>
+                    Continue
                   </Button>
                 </TableCell>
               </TableRow>

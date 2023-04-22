@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Typography } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../Components/Navbar/Navbar";
+import Navbar from "../Components/Navbar";
 
 function Condition3() {
   const navigate = useNavigate();
@@ -38,6 +38,7 @@ function Condition3() {
   const [error3, setError3] = useState(false);
 
   useEffect(() => {
+    localStorage.setItem('lastVisitedPage', window.location.pathname);
     const storedData = localStorage.getItem('condition3');
     if (storedData) {
       setData(JSON.parse(storedData));
@@ -92,7 +93,7 @@ function Condition3() {
   };
 
   return (
-    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0, paddingTop: "30px" }}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
@@ -124,8 +125,7 @@ function Condition3() {
                     textAlign: "center",
                   }}
                 >
-                  Student Admission (Institute level) <br/>
-                  Students admitted over last 3 assessment years in the institution should be greater than 50%
+                  Student Admission (Institute level)
                 </TableCell>
                 </TableRow>
                 <TableRow >
@@ -193,15 +193,6 @@ function Condition3() {
                 <TableRow style={{textAlign:"center",fontWeight:"bold",fontSize:"40px"}}> 
                   % of students admitted over last 3 assessment years : {total}
                 </TableRow>
-
-                {total < 50 ? (
-                  <Typography color="error" style={{
-                    textAlign: "center",paddingTop:"15px"
-                  }}>
-                    You cannot apply for NB Accreditation if the percentage of students admitted over last 3 assessment years in the 
-                    institution is less than 50%
-                  </Typography>
-                ) : null}
 
               <TableRow>
                 <TableCell colSpan={4} style={{

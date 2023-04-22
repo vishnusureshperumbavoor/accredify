@@ -13,8 +13,12 @@ const adminHelpers = require("./helpers/adminhelpers")
 const userHelpers = require("./helpers/userhelpers")
 const CLIENT_URL = process.env.CLIENT_URL;
 const db = require("./connection");
-const Registration = require("./models/registrationSchema");
+const Registration = require("./models/userSchema");
 const User = require("./models/userSchema");
+const bcrypt = require('bcrypt');
+
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
 
 app.use(
   cors({ 
@@ -39,9 +43,11 @@ app.use(function (req, res, next) {
 app.set("view engine", "hbs");
 app.set("views", "");
 
-app.post("/registration", urlencodedParser, (req, res) => {
+app.post("/signup", urlencodedParser, (req, res) => {
+  const plaintextPassword = req.body.password
+  req.body.password = bcrypt.hashSync(plaintextPassword, salt);
   const user = new Registration(req.body);
-  userHelpers.doRegistration(user).then((user)=>{
+  userHelpers.doSignup(user).then((user)=>{
       let msg = "New member has been registered for accreditation. Please check the dashboard for more details."     
       let admin = {
         email:process.env.EMAIL,
@@ -59,34 +65,68 @@ app.post("/registration", urlencodedParser, (req, res) => {
   })
 });
 
-app.post("/signup", urlencodedParser, async (req, res) => {
-  const user = new User(req.body);
-  await userHelpers.doSignup(user).then((user)=>{
-      // let msg = "Your username and password has been created. Now you can login to your account."     
-      // adminHelpers.sendMail(admin,msg)   
-      // adminHelpers.sendWhatsApp(admin,msg)
-      const token = jwt.sign({ user }, JWT_SECRET);
-      res.status(200).json({ token, user: user });
+app.post("/addDetails/:userId", urlencodedParser, (req, res) => {
+  const userId = req.params.userId;
+  const formData = req.body
+  userHelpers.doAddDetails(formData,userId).then((user)=>{
+      console.log("successfully added");
+      res.status(200).json({ user: user });
   })
   .catch((err)=>{
+    console.log("failed");
       res.status(500).json("failed");
   })
 });
 
+app.get('/api/checkEmail/:email', async (req, res) => {
+  console.log("mail check called")
+  const { email } = req.params;
+  const user = await userHelpers.checkEmail(email);
+
+  if (user) {
+    res.json({ exists: true });
+  } else {
+    res.json({ exists: false });
+  }
+});
+
+app.get('/api/checkUsername/:username', async (req, res) => {
+  console.log("username check called")
+  const { username } = req.params;
+  const user = await userHelpers.checkUsername(username);
+
+  if (user) {
+    res.json({ exists: true });
+  } else {
+    res.json({ exists: false });
+  }
+});
+
+
+// app.post("/signup", urlencodedParser, async (req, res) => {
+//   const user = new User(req.body);
+//   await userHelpers.doSignup(user).then((user)=>{
+      // let msg = "Your username and password has been created. Now you can login to your account."     
+      // adminHelpers.sendMail(admin,msg)   
+      // adminHelpers.sendWhatsApp(admin,msg)
+//       const token = jwt.sign({ user }, JWT_SECRET);
+//       res.status(200).json({ token, user: user });
+//   })
+//   .catch((err)=>{
+//       res.status(500).json("failed");
+//   })
+// });
+
 app.post("/login", urlencodedParser, (req, res) => {
-  db.collection(collections.USER_REQUESTS).findOne(
-    { username: req.body.username },
-    (err, user) => {
-      if (user && user.password === req.body.password) {
-        const token = jwt.sign({ user }, JWT_SECRET);
-        console.log("Login successful");
-        res.status(200).json({ token, user: user });
-      } else {
-        console.log("Invalid password");
-        res.status(500).json("failed");
-      }
-    }
-  );
+  userHelpers.doLogin(req.body).then((user)=>{
+      const token = jwt.sign({ user }, JWT_SECRET);
+      console.log("login successful");
+      res.status(200).json({ token, user: user });
+  })
+  .catch((err)=>{
+    console.log("login failed");
+      res.status(500).json("failed");
+  })
 });
 
 app.post("/adminLogin", urlencodedParser, (req, res) => {

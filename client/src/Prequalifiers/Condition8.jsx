@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../Components/Navbar/Navbar";
+import Navbar from "../Components/Navbar";
 import { Typography } from "@mui/material";
 
 function Condition7() {
@@ -23,6 +23,7 @@ function Condition7() {
   });
 
   useEffect(() => {
+    localStorage.setItem('lastVisitedPage', window.location.pathname);
     const storedData = localStorage.getItem('condition5');
     const storedData2 = localStorage.getItem('condition8');
     if (storedData) {
@@ -65,7 +66,7 @@ function Condition7() {
   };
 
   return (
-    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 }}>
+    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0, paddingTop: "30px" }}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>
@@ -107,7 +108,6 @@ function Condition7() {
         <TableHead>
           <TableRow>
             <TableCell style={{fontWeight:"bolder"}}>Designation</TableCell>
-            <TableCell align="center" style={{fontWeight:"bolder"}}>2022-23</TableCell>
             <TableCell align="center" style={{fontWeight:"bolder"}}>2021-22</TableCell>
             <TableCell align="center" style={{fontWeight:"bolder"}}>2020-21</TableCell>
           </TableRow>
@@ -117,16 +117,13 @@ function Condition7() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" >
-                Number of students in department (3rd year)
+                Number of students in department
               </TableCell>
               <TableCell align="center">
                 {total1}
               </TableCell>
               <TableCell align="center">
                   {total2}
-              </TableCell>
-              <TableCell align="center">
-                  {total3}
               </TableCell>
             </TableRow>
             <TableRow
@@ -143,10 +140,6 @@ function Condition7() {
                 <TextField id="outlined-basic" variant="outlined" type="number" value={data2.num5} name="num5" 
                 onChange={(e)=>handleNumChange(e,setNum5)} />
               </TableCell>
-              <TableCell align="center">
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data2.num6} name="num6" 
-                onChange={(e)=>handleNumChange(e,setNum6)} /> 
-              </TableCell>
             </TableRow>
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -156,25 +149,12 @@ function Condition7() {
               </TableCell>
               <TableCell align="center">{num7}</TableCell>
               <TableCell align="center">{num8}</TableCell>
-              <TableCell align="center">{num9}</TableCell>
             </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
                 </TableCell>
                 </TableRow>
-
-                <TableRow>
-              <TableCell colSpan={2} style={{textAlign:"center"}}>
-            {((num7 >= 80 && num8 >= 80) || (num7 >= 80 && num9 >= 80) || (num8 >= 80 && num9 >= 80)) ? null : (
-                  <Typography color="error" style={{
-                    textAlign: "center",paddingTop:"15px"
-                  }}>
-                    You cannot apply for NB Accreditaton if atleast 2 batches is not graduated with 80%
-                  </Typography>
-            )}
-              </TableCell>
-            </TableRow>
                 
               <TableRow>
                 <TableCell colSpan={4} style={{
