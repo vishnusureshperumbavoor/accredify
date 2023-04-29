@@ -15,22 +15,19 @@ import { Typography } from "@mui/material";
 
 function Condition7() {
   const navigate = useNavigate();
+  const [condition5Data, setCondition5Data] = useState({});
   const [data, setData] = useState({});
-  const [data2, setData2] = useState({
-    num1:0,
-    num2:0,
-  });
 
   
   useEffect(() => {
     localStorage.setItem('lastVisitedPage', window.location.pathname);
-    const storedData = localStorage.getItem('condition5');
-    const storedData2 = localStorage.getItem('condition7');
+    const condition5Data = localStorage.getItem('condition5');
+    const storedData = localStorage.getItem('condition7');
+    if (condition5Data) {
+      setCondition5Data(JSON.parse(condition5Data));
+    }
     if (storedData) {
       setData(JSON.parse(storedData));
-    }
-    if (storedData2) {
-      setData2(JSON.parse(storedData2));
     }
   }, []);
 
@@ -52,10 +49,9 @@ function Condition7() {
 
   const phd = ((Number(phd1)+Number(phd2))/2).toFixed(2);
 
-  const handleNumChange = (e,setState) => {
-    setState(parseInt(e.target.value));
-    setData2({ ...data2, [e.target.name]: e.target.value });
-    localStorage.setItem('condition7', JSON.stringify(data2));
+  const handleNumChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+    localStorage.setItem('condition7', JSON.stringify(data));
   };
 
   const saveResult = () => {
@@ -95,6 +91,8 @@ function Condition7() {
               </TableRow>
             </TableHead>
             <TableBody>
+            
+
               <TableRow>
                 <TableCell
                   style={{
@@ -104,7 +102,7 @@ function Condition7() {
                     textAlign: "center",
                   }}
                 >
-                  Number of available Ph.Ds in the department should be greater than or equal to 10% of the required number of faculty averaged for previous and current academic year
+                  Number of available Ph.Ds in the department
                 </TableCell>
                 </TableRow>
                 <TableRow >
@@ -119,7 +117,15 @@ function Condition7() {
           </TableRow>
         </TableHead>
         <TableBody>
-            
+        <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row" >
+                  Number of faculties in the department
+              </TableCell>
+              <TableCell align="center">{condition5Data.num19}</TableCell>
+              <TableCell align="center">{condition5Data.num20}</TableCell>
+            </TableRow>
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
@@ -127,12 +133,12 @@ function Condition7() {
                Number of faculties with Ph.Ds
               </TableCell>
               <TableCell align="center">
-                <TextField id="outlined-basic" variant="outlined" type="number" value={num3} 
-                onChange={(e)=>handleNumChange(e,setNum3)} />
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num3}  name="num3"
+                onChange={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
               <TableCell align="center">
-                <TextField id="outlined-basic" variant="outlined" type="number" value={num4} 
-                onChange={(e)=>handleNumChange(e,setNum4)} />
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num4} name="num4"
+                onChange={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
             </TableRow>
         </TableBody>
@@ -140,7 +146,14 @@ function Condition7() {
     </TableContainer>
                 </TableCell>
                 </TableRow>
-                
+                {/* {phd < 10 ? (
+                  <Typography color="error" style={{
+                    textAlign: "center",paddingTop:"15px"
+                  }}>
+                    You cannot apply for NB Accreditation if the percentage of faculties with PhDs and total faculties is
+                    lesser than 10%
+                  </Typography>
+            ) : null} */}
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",

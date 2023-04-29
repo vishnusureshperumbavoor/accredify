@@ -77,7 +77,7 @@ function Login() {
       localStorage.setItem("userToken",response.data.token)
       localStorage.setItem('username', response.data.user.username);
       localStorage.setItem('userId', response.data.user._id);
-      navigate('/condition1')
+      navigate('/collegedetails')
     })
     .catch((error) => {
         setIsLoading(false);
@@ -171,7 +171,7 @@ function Login() {
                   sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>
                     {isLoading ? <CircularProgress size={24} /> : 'LOGIN'}
                   </Button>
-                  <Typography>
+                  <Typography onClick={()=>navigate("/signup")}>
                     Doesn't have an account? Signup
                   </Typography>
                 </TableCell>

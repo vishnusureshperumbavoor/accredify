@@ -11,7 +11,6 @@ import Button from "@mui/material/Button";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 
@@ -79,8 +78,7 @@ function Condition1() {
                 >
                   
                   <h4>
-                    1. Are the vision and mission of the department stated in the prospectus / website?<br/>
-                    2. Are the PEOs of the department stated in the prospectus / website?
+                    Are the vision, mission and PEOs of the department stated in the prospectus / website?<br/>
                   </h4> 
                 </TableCell>
                 </TableRow>
@@ -111,6 +109,11 @@ function Condition1() {
                   </div>
                   </TableCell>
                 </TableRow>
+                {/* {selectedOption === 'No' && 
+                  <Typography variant="body1" color="error" style={{textAlign:"center"}}>
+                    You cannot apply for NB Accreditation if mission, vision and PEOs is not mentioned on the prospectus / website.
+                  </Typography>
+                } */}
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",

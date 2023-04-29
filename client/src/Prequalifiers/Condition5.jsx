@@ -27,23 +27,7 @@ function Condition5() {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  const [data, setData] = useState({
-    num1:0,
-    num2:0,
-    num3:0,
-    num4:0,
-    num5:0,
-    num6:0,
-    num7:0,
-    num8:0,
-    num9:0,
-    num10:0,
-    num11:0,
-    num12:0,
-    num19:0,
-    num20:0,
-    num21:0,
-  });
+  const [data, setData] = useState({});
 
   useEffect(() => {
     localStorage.setItem('lastVisitedPage', window.location.pathname);
@@ -63,10 +47,6 @@ function Condition5() {
   const total1 = Number(subTotal1) + Number(subTotal2);
   const total2 = Number(subTotal3) + Number(subTotal4);
   const total3 = Number(subTotal5) + Number(subTotal6);
-
-  const req1 = Math.ceil(total1/25)
-  const req2 = Math.ceil(total2/25)
-  const req3 = Math.ceil(total3/25)
 
   const sfr1 = (Number(total1)/Number(data.num19)).toFixed(2);
   const sfr2 = (Number(total2)/Number(data.num20)).toFixed(2);
@@ -229,17 +209,34 @@ function Condition5() {
               </TableCell>
               <TableCell align="center" colSpan={2}>
                 <TextField id="outlined-basic" variant="outlined" type="number" value={data.num19} name="num19" 
-                onChange={handleNumChange} />
+                onChange={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
               <TableCell align="center" colSpan={2}>
                 <TextField id="outlined-basic" variant="outlined" type="number" value={data.num20} name="num20" 
-                onChange={handleNumChange} />
+                onChange={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
               <TableCell align="center" colSpan={2}>
                 <TextField id="outlined-basic" variant="outlined" type="number" value={data.num21} name="num21" 
-                onChange={handleNumChange} />
+                onChange={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
             </TableRow>
+            <TableRow  > 
+            <TableCell colspan={7} style={{textAlign:"center",fontWeight:"bold",fontSize:"30px"}}>
+                  Student Faculty Ratio 1 : {sfr}
+            </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={7}>
+                  {/* {sfr > 25 ? (
+                  <Typography color="error" style={{
+                    textAlign: "center"
+                  }}>
+                    You cannot apply for NB Accreditation if the Student Faculty Ratio is greater than 1:25
+                  </Typography>
+            ) : null} */}
+                  </TableCell>
+                </TableRow>
+                
             <TableRow>
                 <TableCell colSpan={7} style={{
                     textAlign: "center",

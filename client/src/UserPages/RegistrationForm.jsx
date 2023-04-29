@@ -96,7 +96,6 @@ function RegistrationForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log(formData)
     if (!formData.institute_name) {
       setInstituteNameError(true)
       setIsLoading(false);
@@ -119,13 +118,13 @@ function RegistrationForm() {
     }
   
     axios.post(`${SERVER_URL}/signup`, formData).then((res)=>{
-      console.log(res.data)
-      if(res.status===200){
+        console.log(res.data)
+        console.log(res.data.user.username)
         localStorage.setItem("userToken",res.data.token)
         localStorage.setItem("username",res.data.user.username)
+        localStorage.setItem('userId', res.data.user._id);
         setIsLoading(false);
-        navigate('/condition1')
-      }
+        navigate('/collegedetails')
     }).catch((err)=>{
       alert("error")
       setIsLoading(false);

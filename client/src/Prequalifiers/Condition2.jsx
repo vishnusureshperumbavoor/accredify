@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -76,7 +75,7 @@ function Condition2() {
                     textAlign: "center",
                   }}
                 >
-                  <h4>Is approval of AICTE, for the programs under construction, obtained for the current year and the previous 2 years?</h4>
+                  <h4>Is approval of AICTE, for the department, obtained for the current and previous 2 years?</h4>
                 </TableCell>
                 </TableRow>
                 <TableRow>
@@ -105,7 +104,14 @@ function Condition2() {
                   </RadioGroup>
                   </div>
                 </TableCell>
+                
                 </TableRow>
+                {/* {selectedOption === 'No' && 
+                  <Typography variant="body1" color="error" style={{textAlign:"center"}}>
+                    You cannot apply for NB Accreditation, if approval is not obtained from AICTE for the current program under construction,
+                    for current year and previous 2 years.
+                  </Typography>
+                } */}
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",

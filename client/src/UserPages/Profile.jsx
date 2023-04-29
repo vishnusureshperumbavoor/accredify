@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import Table from "@mui/material/Table";
@@ -10,192 +13,171 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import TextField from "@mui/material/TextField";
+import TextareaAutosize from "@mui/base/TextareaAutosize";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import axios from "axios";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from '@material-ui/core';
 import Navbar from "../Components/Navbar";
-import {FormControl } from "@material-ui/core";
-import { InputLabel } from "@material-ui/core";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 export default function CollegeDetails() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  // const [email, setEmail] = useState('');
+  // const [emailError, setEmailError] = useState(false);
+  const [data,setData] = useState({})
+  const [institutionType,setInstitutionType] = useState('')
+  const [program,setProgram] = useState('')
+  const [affiliated,setAffiliated] = useState('')
+  const [phone,setPhone] = useState('')
+  const [establishment,setEstablishment] = useState('')
+  const [approval,setApproval] = useState('')
+  const [male,setMale] = useState('')
+  const [female,setFemale] = useState('')
+  const [other,setOther] = useState('')
+  const [permanent,setPermanent] = useState('')
+  const [temporary,setTemporary] = useState('')
+  const [classrooms,setClassrooms] = useState('')
+  const [library,setLibrary] = useState('')
+  const [canteen,setCanteen] = useState('')
+  const [playground,setPlayground] = useState('')
+  const [hostel,setHostel] = useState('')
+  const [wifi,setWifi] = useState('')
+  const [computerlab,setCompuerlab] = useState('')
+  const [electronicslab,setElectronicslab] = useState('')
+  const [mechlab,setMechlab] = useState('')
+  const [revenue,setRevenue] = useState('')
+  const [expenditure,setExpenditure] = useState('')
+  const [grants,setGrants] = useState('')
+  const [loans,setLoans] = useState('')
 
-  const [states, setStates] = useState([]);
-  const [stateId, setStateId] = useState('')
-  const [districts, setDistricts] = useState([]);
-  const [selectedStateId, setSelectedStateId] = useState('');
-  const [selectedStateName, setSelectedStateName] = useState('');
-  const [selectedDistrict, setSelectedDistrict] = useState('');
-  const [formData, setFormData] = useState({
-    institutionType:"government-institute",
-    program:"Diploma",
-    affiliatedBy:"AICTE",
-    canteen:"Yes",
-    playground:"Yes",
-    wifi:"Yes",
-    hostel:"Yes",
-  });
+  // const [states, setStates] = useState([]);
+  // const [districts, setDistricts] = useState([]);
+  // const [selectedStateId, setSelectedStateId] = useState('');
+  // const [selectedStateName, setSelectedStateName] = useState('');
+  // const [selectedDistrict, setSelectedDistrict] = useState('');
+  // const [formData, setFormData] = useState({
+  //   state:selectedStateName,
+  //   district:selectedDistrict,
+  //   status:"pending",
+  // });
 
-  useEffect(()=>{
-    const userId = localStorage.getItem("userId");
-    axios.post(`${SERVER_URL}/getUserDetails`,{userId}).then((response)=>{
-      console.log(response.data.user)
-      if(response.data.user.details)
-        setFormData(response.data.user.details);
-    }).catch((err)=>{
-      console.log(err)
-    })
-    
-  },[])
+  // const [genderData, setGenderData] = useState({})
+  // const handleGenderData=((event)=>{ 
+  //   setGenderData({...genderData, [event.target.name]: event.target.value})
+  // })
+  // const [facultyData, setFacultyData] = useState({})
+  // const handleFacultyData=((event)=>{ 
+  //   setFacultyData({...facultyData, [event.target.name]: event.target.value})
+  // })
+  
+  // const [infrastructureData, setInfrastructureData] = useState({})
+  // const handleInfrastructureData=((event)=>{
+  //   setInfrastructureData({...infrastructureData, [event.target.name]: event.target.value})
+  // })
+  // const [financeData, setFinanceData] = useState({})
+  // const handleFinanceData=((event)=>{
+  //   setFinanceData({...financeData, [event.target.name]: event.target.value})
+  // })
+
+  // const [laboratoriesData, setLaboratoriesData] = useState({})
+  // const handleLaboratoriesData=((event)=>{
+  //   setLaboratoriesData({...laboratoriesData, [event.target.name]: event.target.value})
+  // })
 
   useEffect(() => {
-    axios
-      .get("https://cdn-api.co-vin.in/api/v2/admin/location/states")
-      .then((response) => {
-        setStates(response.data.states);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const userId = localStorage.getItem("userId");  
+    if (userId) {
+      axios.post(`${SERVER_URL}/getUserDetails/${userId}`)
+        .then((res) => {
+              console.log(res.data);
+              setData(res.data);
+              setInstitutionType(res.data.user.collegeDetails.general.institutionType)
+              setProgram(res.data.user.collegeDetails.general.program)
+              setAffiliated(res.data.user.collegeDetails.general.organization)
+              setPhone(res.data.user.collegeDetails.general.phone)
+              setEstablishment(res.data.user.collegeDetails.general.year_of_establishment)
+              setApproval(res.data.user.collegeDetails.general.first_approval)
+              setMale(res.data.user.collegeDetails.gender.male)
+              setFemale(res.data.user.collegeDetails.gender.female)
+              setOther(res.data.user.collegeDetails.gender.other)
+              setPermanent(res.data.user.collegeDetails.faculty.permanent)
+              setTemporary(res.data.user.collegeDetails.faculty.temporary)
+              setClassrooms(res.data.user.collegeDetails.infrastructure.classrooms)
+              setLibrary(res.data.user.collegeDetails.infrastructure.library)
+              setCanteen(res.data.user.collegeDetails.infrastructure.canteen)
+              setPlayground(res.data.user.collegeDetails.infrastructure.playground)
+              setHostel(res.data.user.collegeDetails.infrastructure.hostel)
+              setWifi(res.data.user.collegeDetails.infrastructure.wifi)
+              setCompuerlab(res.data.user.collegeDetails.laboratories.computerLab)
+              setElectronicslab(res.data.user.collegeDetails.laboratories.electronicsLab)
+              setMechlab(res.data.user.collegeDetails.laboratories.mechanicalLab)
+              setRevenue(res.data.user.collegeDetails.finance.revenue)
+              setExpenditure(res.data.user.collegeDetails.finance.expenditure)
+              setGrants(res.data.user.collegeDetails.finance.grants)
+              setLoans(res.data.user.collegeDetails.finance.loans)
+        })
+        .catch((err) => {
+          console.log(err);
+          // Handle error
+        });
+    }
   }, []);
 
-  const handleStateChange= ((e)=>{
-    setSelectedStateId(e.target.value);
-    setSelectedStateName(e.target.getAttribute("name"))
-    setSelectedDistrict('')
-  })
-
-  useEffect(() => {
-    const getDistrict=(async()=>{
-      const getDis = await fetch(
-      `https://cdn-api.co-vin.in/api/v2/admin/location/districts/${selectedStateId}`
-    );
-    const res = await getDis.json();
-    setDistricts(await res.districts);
-    })
-    if(selectedStateId){
-      getDistrict()
-    }
-  }, [selectedStateId]);
+  // const handleStateChange= ((e)=>{
+  //   setSelectedStateId(e.target.value);
+  //   setSelectedStateName(e.target.getAttribute("name"))
+  //   setSelectedDistrict('')
+  // })
+  // const handleChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
 
 
-  const handleDistrict = (e) => {
-    const getStateId = e.target.value;
-    setStateId(getStateId);
-    // getDistrict();
-    };  
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   const generalDataObj = { general: formData };
+  //   const genderDataObj = { gender: genderData };
+  //   const facultyDataObj = { faculty: facultyData };
+  //   const infrastructureDataObj = { infrastructure: infrastructureData };
+  //   const financeDataObj = { finance: financeData };
+  //   const laboratoriesDataObj = { laboratories: laboratoriesData };
+  //   const dataObj = {
+  //     ...generalDataObj,
+  //     ...genderDataObj,
+  //     ...facultyDataObj,
+  //     ...infrastructureDataObj,
+  //     ...financeDataObj,
+  //     ...laboratoriesDataObj,
+  //   };
+  //   axios.post(`${SERVER_URL}/addDetails/${localStorage.getItem("userId")}`, dataObj).then((res)=>{
+  //     console.log(res.data) 
+  //     if(res.status===200){
+  //       setIsLoading(false);
+  //       navigate('/condition1')
+  //     }
+  //   }).catch((err)=>{
+  //     alert("error")
+  //     setIsLoading(false);
+  //   })
+  // };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    console.log(formData);
-  };
 
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    if (!formData.phone) {
-      alert("phone number should not be empty")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.yearOfEstablishment) {
-      alert("year of establishment should not be empty")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.yearOfApproval) {
-      alert("Year of approval from AICTE should not be empty")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.male) {
-      alert("Please enter number of male students")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.female) {
-      alert("Please enter number of female students")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.other) {
-      alert("Please enter number of students in other categories")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.permanent) {
-      alert("Please enter number of permanent faculty members")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.temporary) {
-      alert("Please enter number of temporary faculty members")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.classrooms) {
-      alert("Please enter number of classrooms")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.library) {
-      alert("Please enter number of libraries")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.computerLab) {
-      alert("Please enter number of computer Labs")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.electronicsLab) {
-      alert("Please enter number of electronics Labs")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.mechanicalLab) {
-      alert("Please enter number of mechanical labs")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.revenue) {
-      alert("Please enter revenue of the college")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.expenditure) {
-      alert("Please enter expenditure of the college")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.grants) {
-      alert("Please enter grants of the college. If college received any")
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.loans) {
-      alert("Please enter loans of the college")
-      setIsLoading(false);
-      return;
-    }
-
-    axios.post(`${SERVER_URL}/addDetails/${localStorage.getItem("userId")}`, formData).then((res)=>{
-      console.log(res.data)
-      if(res.status===200){
-        setIsLoading(false);
-        navigate('/condition1')
-      }
-    }).catch((err)=>{
-      alert("error")
-      setIsLoading(false);
-    })
-  };
+  // const handleEmailChange = (event) => {
+  //   const input = event.target.value;
+  //   setEmail(input);
+  //   setEmailError(!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input));
+  //   handleChange(event);
+  // };
 
   return (
     <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 , paddingTop: "30px"}}>
@@ -212,11 +194,12 @@ export default function CollegeDetails() {
                   className="fontLink"
                   colSpan={4}
                   style={{
-                    fontSize: "15px",
+                    fontWeight: "bold",
+                    fontSize: "20px",
                     textAlign: "center",
                   }}
                 >
-                  <Typography>Enter College Details</Typography>
+                  COLLEGE PROFILE
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -229,25 +212,10 @@ export default function CollegeDetails() {
                     fontSize: "15px",
                   }}
                 >
-                  Institute type
+                  Institute type:
                 </TableCell>
                 <TableCell align="left">
-                <Select
-        labelId="institution-type-select-label"
-        id="institution-type-select"
-        onChange={handleChange}
-        label="Institution Type"
-        name="institutionType"
-        defaultValue="government-institute"
-        value={formData.institutionType}
-      >
-        <MenuItem value={"government-institute"}>Government Institute</MenuItem>
-        <MenuItem value={"government-aided-institute"}>Government Aided Institute</MenuItem>
-        <MenuItem value={"self-supported-institute"}>Self Supported Institute</MenuItem>
-        <MenuItem value={"deemed-university"}>Deemed University</MenuItem>
-        <MenuItem value={"university"}>University</MenuItem>
-        <MenuItem value={"nit"}>NIT</MenuItem>
-      </Select>
+                  <Typography>{institutionType}</Typography>
                 </TableCell>
                 <TableCell
                   style={{
@@ -259,20 +227,7 @@ export default function CollegeDetails() {
                   Program
                 </TableCell>
                 <TableCell align="left">
-                <Select
-        labelId="course-select-label"
-        id="course-select"
-        onChange={handleChange}
-        label="Course"
-        name="program"
-        defaultValue="Diploma"
-        value={formData.program}
-      >
-        <MenuItem value="Diploma">Diploma</MenuItem>
-        <MenuItem value="BTech">B.Tech</MenuItem>
-        <MenuItem value="MTech">M.Tech</MenuItem>
-      </Select>
-
+                <Typography>{program}</Typography>
                 </TableCell>
               </TableRow>
               
@@ -287,22 +242,7 @@ export default function CollegeDetails() {
                   Affiliated By
                 </TableCell>
                 <TableCell>
-                <Select
-        labelId="organization-select-label"
-        id="organization-select"
-        onChange={handleChange}
-        label="Organization"
-        name="affiliatedBy"
-        value={formData.affiliatedBy}
-        defaultValue="AICTE"
-      >
-        <MenuItem value="AICTE">AICTE</MenuItem>
-        <MenuItem value="UGC">UGC</MenuItem>
-        <MenuItem value="MCI">MCI</MenuItem>
-        <MenuItem value="NCTE">NCTE</MenuItem>
-        <MenuItem value="BCI">BCI</MenuItem>
-        <MenuItem value="INC">INC</MenuItem>
-      </Select>
+                <Typography>{affiliated}</Typography>
                 </TableCell>
                 <TableCell style={{
                     fontWeight: "bold",
@@ -312,8 +252,7 @@ export default function CollegeDetails() {
                     Phone No.
                 </TableCell>
                 <TableCell>
-                <TextField name="phone" type="tel" onChange={handleChange} inputProps={{ pattern: "[0-9]{10}" }}  id="outlined-basic" 
-                variant="outlined" value={formData.phone} />
+                <Typography>{phone}</Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -327,7 +266,7 @@ export default function CollegeDetails() {
                   Year of establishment
                 </TableCell>
                 <TableCell>
-                  <TextField value={formData.yearOfEstablishment} name="yearOfEstablishment" onChange={handleChange} id="outlined-basic" variant="outlined" type="number"/>
+                <Typography>{establishment}</Typography>
                 </TableCell>
                 <TableCell
                   style={{
@@ -336,10 +275,10 @@ export default function CollegeDetails() {
                     fontSize: "15px",
                   }}
                 >
-                  Year of approval from AICTE
+                  Year of obtaining 1st approval letter from AICTE
                 </TableCell>
                 <TableCell>
-                  <TextField value={formData.yearOfApproval} name="yearOfApproval" onChange={handleChange} id="outlined-basic" variant="outlined" type="number" />
+                <Typography>{approval}</Typography>
                 </TableCell>
                 {/* <TableCell style={{
                     fontWeight: "bold", 
@@ -349,7 +288,7 @@ export default function CollegeDetails() {
                     Website
                 </TableCell>
                 <TableCell>
-                <TextField name="website" onChange={handleChange} id="outlined-basic" variant="outlined" />
+                <Typography>{data.user.collegeDetails.general.website}</Typography>
                 </TableCell> */}
               </TableRow>
               <TableRow>
@@ -364,13 +303,7 @@ export default function CollegeDetails() {
                   Postal Address
                 </TableCell>
                 <TableCell>
-                  <TextareaAutosize
-                    aria-label="minimum height"
-                    minRows={3}
-                    style={{ width: 200 }}
-                    name="postal_address"
-                    onChange={handleChange}
-                  />
+                { data  ? (<Typography>{data.user.collegeDetails.general.postal_address}</Typography>) : null }
                 </TableCell> */}
                 
               </TableRow>
@@ -396,21 +329,18 @@ export default function CollegeDetails() {
                     <Grid container justifyContent="flex-end">
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
     <Typography style={{ marginRight: '1rem' }}>Male</Typography>
-    <TextField type="number" value={formData.male} name="male" onChange={handleChange} id="outlined-basic" variant="outlined" sx={{ width: "50%" }} />
+    <Typography>{male}</Typography>
   </Grid>
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start'  }}>
     <Typography style={{ marginRight: '1rem' }}>Female</Typography>
-    <TextField type="number" value={formData.female} name="female" onChange={handleChange} id="outlined-basic" variant="outlined" sx={{ width: "50%" }} />
+    <Typography>{female}</Typography>
   </Grid>
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
     <Typography style={{ marginRight: '1rem' }}>Other</Typography>
-    <TextField type="number" value={formData.other} name="other" onChange={handleChange} id="outlined-basic" variant="outlined" sx={{ width: "50%" }}/>
+    <Typography>{other}</Typography>
   </Grid>
 </Grid>
-
                 </TableCell>
-               
-                
               </TableRow>
               <TableRow>
               <TableCell
@@ -430,11 +360,11 @@ export default function CollegeDetails() {
                     <Grid container justifyContent="flex-start">
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
     <Typography style={{ marginRight: '1rem' }}>Permanent</Typography>
-    <TextField type="number" name="permanent" value={formData.permanent} onChange={handleChange} id="outlined-basic" variant="outlined" sx={{ width: "50%" }} />
+    <Typography>{permanent}</Typography>
   </Grid>
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start'  }}>
     <Typography style={{ marginRight: '1rem' }}>Temporary</Typography>
-    <TextField type="number" name="temporary" value={formData.temporary} onChange={handleChange} id="outlined-basic" variant="outlined" sx={{ width: "50%" }} />
+    <Typography>{temporary}</Typography>
   </Grid>
 </Grid>
 
@@ -458,26 +388,15 @@ export default function CollegeDetails() {
                     <Grid container justifyContent="flex-start">
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
     <Typography style={{ marginRight: '1rem' }}>Classrooms</Typography>
-    <TextField type="number" value={formData.classrooms} name="classrooms" onChange={handleChange} id="outlined-basic" variant="outlined" sx={{ width: "50%" }} />
+    <Typography>{classrooms}</Typography>
   </Grid>
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start'  }}>
     <Typography style={{ marginRight: '1rem' }}>Libraries</Typography>
-    <TextField type="number" value={formData.library} name="library" onChange={handleChange} id="outlined-basic" variant="outlined" sx={{ width: "50%" }} />
+    <Typography>{library}</Typography>
   </Grid>
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start'  }}>
   <Typography style={{ marginRight: '1rem' }}>Canteen</Typography>
-    <Select
-    labelId="yes-no-label"
-    id="yes-no"
-    onChange={handleChange}
-    label="Yes or No"
-    name="canteen"
-    defaultValue="Yes"
-    value={formData.canteen}
-  >
-    <MenuItem value="Yes">Yes</MenuItem>
-    <MenuItem value="No">No</MenuItem>
-  </Select>
+  <Typography>{canteen}</Typography>
   </Grid>
 </Grid>
 
@@ -502,55 +421,19 @@ export default function CollegeDetails() {
                     <Grid container justifyContent="flex-start">
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
     <Typography style={{ marginRight: '1rem' }}>Playground</Typography>
-    <Select
-    labelId="yes-no-label"
-    id="yes-no"
-    onChange={handleChange}
-    label="Yes or No"
-    name="playground"
-    defaultValue="Yes"
-    value={formData.playground}
-  >
-    <MenuItem value="Yes">Yes</MenuItem>
-    <MenuItem value="No">No</MenuItem>
-  </Select>
+    <Typography>{playground}</Typography>
   </Grid>
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start'  }}>
     <Typography style={{ marginRight: '1rem' }}>Wi-Fi</Typography>
-    <Select
-    labelId="yes-no-label"
-    id="yes-no"
-    onChange={handleChange}
-    label="Yes or No"
-    name="wifi"
-    defaultValue="Yes"
-    value={formData.wifi}
-  >
-    <MenuItem value="Yes">Yes</MenuItem>
-    <MenuItem value="No">No</MenuItem>
-  </Select>
+    <Typography>{wifi}</Typography>
   </Grid>
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start'  }}>
     <Typography style={{ marginRight: '1rem' }}>Hostel</Typography>
-    <Select
-    labelId="yes-no-label"
-    id="yes-no"
-    onChange={handleChange}
-    label="Yes or No"
-    name="hostel"
-    defaultValue="Yes"
-    value={formData.hostel}
-  >
-    <MenuItem value="Yes">Yes</MenuItem>
-    <MenuItem value="No">No</MenuItem>
-  </Select>
+    <Typography>{hostel}</Typography>
   </Grid>
 </Grid>
-
                 </TableCell>
               </TableRow>
-              
-
               <TableRow>
               <TableCell
                   style={{
@@ -569,18 +452,17 @@ export default function CollegeDetails() {
                     <Grid container justifyContent="flex-start">
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
     <Typography style={{ marginRight: '1rem' }}>Computer Lab</Typography>
-    <TextField type="number" value={formData.computerLab} name="computerLab" onChange={handleChange} id="outlined-basic" variant="outlined" sx={{ width: "50%" }} />
+    <Typography>{computerlab}</Typography>
   </Grid>
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start'  }}>
     <Typography style={{ marginRight: '1rem' }}>Electronics Lab</Typography>
-    <TextField type="number" value={formData.electronicsLab} name="electronicsLab" onChange={handleChange} id="outlined-basic" variant="outlined" sx={{ width: "50%" }} />
+    <Typography>{electronicslab}</Typography>
   </Grid>
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start'  }}>
     <Typography style={{ marginRight: '1rem' }}>Mechanical Lab</Typography>
-    <TextField type="number" value={formData.mechanicalLab} name="mechanicalLab" onChange={handleChange} id="outlined-basic" variant="outlined" sx={{ width: "50%" }} />
+    <Typography>{mechlab}</Typography>
   </Grid>
 </Grid>
-
                 </TableCell>
               </TableRow>
               
@@ -602,15 +484,15 @@ export default function CollegeDetails() {
                     <Grid container justifyContent="flex-start">
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
     <Typography style={{ marginRight: '1rem' }}>Revenue</Typography>
-    <TextField type="number" value={formData.revenue} name="revenue" onChange={handleChange} id="outlined-basic" variant="outlined" sx={{ width: "50%" }} />
+    <Typography>{revenue}</Typography>
   </Grid>
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start'  }}>
     <Typography style={{ marginRight: '1rem' }}>Expenditure</Typography>
-    <TextField type="number" value={formData.expenditure} name="expenditure" onChange={handleChange} id="outlined-basic" variant="outlined" sx={{ width: "50%" }} />
+    <Typography>{expenditure}</Typography>
   </Grid>
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start'  }}>
     <Typography style={{ marginRight: '1rem' }}>Grants</Typography>
-    <TextField type="number" value={formData.grants} name="grants" onChange={handleChange} id="outlined-basic" variant="outlined" sx={{ width: "50%" }} />
+    <Typography>{grants}</Typography>
   </Grid>
 </Grid>
 
@@ -627,13 +509,15 @@ export default function CollegeDetails() {
                     <Grid container justifyContent="flex-start">
   <Grid item xs={12} sm={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
     <Typography style={{ marginRight: '1rem' }}>Loans</Typography>
-    <TextField type="number" value={formData.loans} name="loans" onChange={handleChange} id="outlined-basic" variant="outlined" sx={{ width: "50%" }} />
+    <Typography>{loans}</Typography>
   </Grid>
-  
 </Grid>
-
                 </TableCell>
               </TableRow>
+
+
+
+
               {/* <TableRow>
                 <TableCell
                   style={{
@@ -645,7 +529,7 @@ export default function CollegeDetails() {
                   State
                 </TableCell>
                 <TableCell>
-                  <FormControl sx={{ m: 1, minWidth: 240 }}>
+                  <FormControl sx={{ m: 1, minWidth: 140 }}>
                     <InputLabel id="demo-simple-select-label">
                       Select State
                     </InputLabel>
@@ -656,7 +540,7 @@ export default function CollegeDetails() {
                       onChange={handleStateChange}
                     >
                       {states.map((res) => (
-                        <MenuItem key={res.state_id} value={res.state_name} name={res.state_name}>
+                        <MenuItem key={res.state_id} value={res.state_id} name={res.state_name}>
                           {res.state_name}
                         </MenuItem>
                       ))}
@@ -692,15 +576,17 @@ export default function CollegeDetails() {
                       </TableCell>
                 
               </TableRow> */}
+
+
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",
                   }}>
                   {/*<Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>Signup</Button>*/}
-                  <Button disabled={isLoading} variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
+                  {/* <Button disabled={isLoading} variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
                   sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>
-                    {isLoading ? <CircularProgress size={24} /> : 'Update Details'} 
-                  </Button>
+                    {isLoading ? <CircularProgress size={24} /> : 'Check Prequalifiers'}
+                  </Button> */}
                 </TableCell>
               </TableRow>
             </TableBody>

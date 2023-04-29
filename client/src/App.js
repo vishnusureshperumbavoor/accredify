@@ -3,10 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CollegeDetails from "./UserPages/CollegeDetails";
 import Registration from "./UserPages/RegistrationForm";
 import Login from "./UserPages/Login";
-import AdminLogin from "./AdminPages/AdminLogin";
-import Dashboard from "./AdminPages/Dashboard";
-import WaitApprovalPage from "./UserPages/WaitApprovalPage";
 import HomePage from "./UserPages/HomePage";
+import Premium from "./UserPages/PremiumMembeshipPage";
 import Condition from "./Prequalifiers/Condition";
 import Condition1 from "./Prequalifiers/Condition1";
 import Condition2 from "./Prequalifiers/Condition2";
@@ -16,6 +14,7 @@ import Condition5 from "./Prequalifiers/Condition5";
 import Condition6 from "./Prequalifiers/Condition6";
 import Condition7 from "./Prequalifiers/Condition7";
 import Condition8 from "./Prequalifiers/Condition8";
+import Dashboard from "./Dashboard/Dashboard";
 
 function App() {
   return (
@@ -26,8 +25,6 @@ function App() {
             <Route path="/collegedetails" element={<CollegeDetails />} />
             <Route path="/signup" element={<Registration />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/adminlogin" element={<AdminLogin />} />
-            <Route path="/waitforapproval" element={<WaitApprovalPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/condition" element={<Condition />} />
             <Route path="/condition1" element={<Condition1 />} />
@@ -38,6 +35,7 @@ function App() {
             <Route path="/condition6" element={<Condition6 />} />
             <Route path="/condition7" element={<Condition7 />} />
             <Route path="/condition8" element={<Condition8 />} />
+            <Route path="/pricing" element={<Premium />} />
           </Routes>
       </Router>
     </div>

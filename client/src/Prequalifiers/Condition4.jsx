@@ -15,17 +15,7 @@ import { Typography } from "@material-ui/core";
 
 function Condition4() {
   const navigate = useNavigate();
-  const [data, setData] = useState({
-    num1:0,
-    num2:0,
-    num3:0,
-    num4:0,
-    num5:0,
-    num6:0,
-    sum1:0,
-    sum2:0,
-    total:0,
-  });
+  const [data, setData] = useState({});
 
   useEffect(() => {
     localStorage.setItem('lastVisitedPage', window.location.pathname);
@@ -125,9 +115,10 @@ function Condition4() {
               <TableCell component="th" scope="row" >
                 Number of Student admitted in the 1st year
               </TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num4} name="num4" onChange={handleNumChange} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num5} name="num5" onChange={handleNumChange} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num6} name="num6" onChange={handleNumChange} /></TableCell>
+              <TableCell align="right">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num4} name="num4" onChange={handleNumChange} onBlur={handleNumChange} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num5} name="num5" onChange={handleNumChange} onBlur={handleNumChange} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num6} name="num6" onChange={handleNumChange} onBlur={handleNumChange} /></TableCell>
               <TableCell align="right">{sum2}</TableCell>
             </TableRow>
         </TableBody>
@@ -138,6 +129,14 @@ function Condition4() {
                 <TableRow style={{textAlign:"center",fontWeight:"bold",fontSize:"40px"}}> 
                   % of students admitted over last 3 assessment years : {total}
                 </TableRow>
+                {/* {total < 50 ? (
+                  <Typography color="error" style={{
+                    textAlign: "center",paddingTop:"15px"
+                  }}>
+                    You cannot apply for NB Accreditation if the percentage of students admitted over last 3 assessment years in the 
+                    department is less than 50%
+                  </Typography>
+                ) : null} */}
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",

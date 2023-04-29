@@ -68,7 +68,7 @@ function HomePage(props) {
     <Container className={classes.root}>
       <Typography variant="h4" style={{fontWeight:"bold"}}  gutterBottom>Welcome to Accredify <br/> </Typography>
       <Typography>
-      The aim of our company is to make the accreditation process easier for educational institutions. 
+      We are a SaaS company working to make the accreditation process easier for educational institutions. 
       We understand that accreditation can be a complex and time-consuming process, which is why we have created 
       a system to help institutions assess their readiness for accreditation. Our system is based on the
       conditions that are needed for a college to get accredited.

@@ -105,6 +105,12 @@ function Condition6() {
                   </div>
                 </TableCell>
                 </TableRow>
+                {/* {selectedOption === 'No' && 
+                  <Typography variant="body1" color="error" style={{textAlign:"center"}}>
+                    You cannot apply for NB Accreditation, if there is no Professor or Assistant Professor on regular basis with Ph.D 
+                    degree, available in the previous and current academic year.
+                  </Typography>
+                } */}
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",

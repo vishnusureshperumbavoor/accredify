@@ -15,46 +15,35 @@ import { Typography } from "@mui/material";
 
 function Condition7() {
   const navigate = useNavigate();
+  const [condition5Data, setCondition5Data] = useState({});
   const [data, setData] = useState({});
-  const [data2, setData2] = useState({
-    num4:0,
-    num5:0,
-    num6:0,
-  });
 
   useEffect(() => {
     localStorage.setItem('lastVisitedPage', window.location.pathname);
-    const storedData = localStorage.getItem('condition5');
-    const storedData2 = localStorage.getItem('condition8');
+    const condition5Data = localStorage.getItem('condition5');
+    const storedData = localStorage.getItem('condition8');
+    if (condition5Data) {
+      setCondition5Data(JSON.parse(condition5Data));
+    }
     if (storedData) {
       setData(JSON.parse(storedData));
     }
-    if (storedData2) {
-      setData2(JSON.parse(storedData2));
-    }
   }, []);
 
-  const total1 = Number(data.num1) + Number(data.num2);
-  const total2 = Number(data.num3) + Number(data.num4);
-  const total3 = Number(data.num5) + Number(data.num6);
+  const total1 = Number(condition5Data.num3) + Number(condition5Data.num4) + Number(condition5Data.num9) + Number(condition5Data.num10);
+  const total2 = Number(condition5Data.num5) + Number(condition5Data.num6) + Number(condition5Data.num11) + Number(condition5Data.num12);
 
-  const [num4, setNum4] = useState(0);
-  const [num5, setNum5] = useState(0);
-  const [num6, setNum6] = useState(0);
+  const num7 = ((Number(data.num4)*100)/total1).toFixed(2)
+  const num8 = ((Number(data.num5)*100)/total2).toFixed(2)
 
-  const num7 = ((Number(data2.num4)*100)/total1).toFixed(2)
-  const num8 = ((Number(data2.num5)*100)/total2).toFixed(2)
-  const num9 = ((Number(data2.num6)*100)/total3).toFixed(2)
-
-  const handleNumChange = (e,setState) => {
-    setState(parseInt(e.target.value));
-    setData2({ ...data2, [e.target.name]: e.target.value });
-    localStorage.setItem('condition8', JSON.stringify(data2));
+  const handleNumChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+    localStorage.setItem('condition8', JSON.stringify(data));
   };
 
   const saveResult = () => {
     const existingResults = JSON.parse(localStorage.getItem("results")) || {};
-    const result = ((num7 >= 80 && num8 >= 80) || (num7 >= 80 && num9 >= 80) || (num8 >= 80 && num9 >= 80))  ? "Yes" : "No";
+    const result = (num7>=80 && num8>=80)  ? "Yes" : "No";
     existingResults.page8 = result;
     localStorage.setItem("results", JSON.stringify(existingResults));
   };
@@ -120,10 +109,10 @@ function Condition7() {
                 Number of students in department
               </TableCell>
               <TableCell align="center">
-                {total1}
+              <Typography>{total1}</Typography>
               </TableCell>
               <TableCell align="center">
-                  {total2}
+              <Typography>{total2}</Typography>
               </TableCell>
             </TableRow>
             <TableRow
@@ -133,12 +122,12 @@ function Condition7() {
                 Number of students graduated without backlogs
               </TableCell>
               <TableCell align="center">
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data2.num4} name="num4" 
-                onChange={(e)=>handleNumChange(e,setNum4)} />
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num4} name="num4" 
+                onChange={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
               <TableCell align="center">
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data2.num5} name="num5" 
-                onChange={(e)=>handleNumChange(e,setNum5)} />
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num5} name="num5" 
+                onChange={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
             </TableRow>
             <TableRow
@@ -155,7 +144,13 @@ function Condition7() {
     </TableContainer>
                 </TableCell>
                 </TableRow>
-                
+                {/* {(num7>=80 && num8>=80) ? null : (
+                  <Typography color="error" style={{
+                    textAlign: "center",paddingTop:"15px"
+                  }}>
+                    You cannot apply for NB Accreditaton if atleast 2 batches is not graduated with 80%
+                  </Typography>
+            )} */}
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",
@@ -166,7 +161,7 @@ function Condition7() {
                   </Button>
                   <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
                   sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>
-                    Submit
+                    Continue
                   </Button>
                 </TableCell>
               </TableRow>

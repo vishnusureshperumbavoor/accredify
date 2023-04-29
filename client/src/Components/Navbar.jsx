@@ -24,6 +24,24 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
+import { ThemeContext } from '../ThemeProvider';
+import { useContext } from 'react';
+
+const ToggleButton = () => {
+  const { theme } = useContext(ThemeContext);
+
+  return (
+    <button
+      style={{
+        backgroundColor: theme === 'light' ? 'white' : 'black',
+        color: theme === 'light' ? 'black' : 'white',
+      }}
+    >
+      Click me
+    </button>
+  );
+};
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -65,10 +83,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Navbar() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
-  const [theme, setTheme] = useState(lightTheme);
   const [username, setUsername] = useState(localStorage.getItem('username'));
   const userToken = localStorage.getItem('userToken');
+
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -87,6 +106,7 @@ export default function Navbar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
+    navigate(`/collegedetails`)
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -98,12 +118,12 @@ export default function Navbar() {
     localStorage.removeItem('username');
     localStorage.removeItem('userId');
     setUsername(null);
-    navigate('/login')
+    navigate('/')
   };
 
-  const handleThemeChange = () => {
-    setTheme(theme === lightTheme ? darkTheme : lightTheme);
-  };
+  // const handleThemeChange = () => {
+  //   setTheme(theme === lightTheme ? darkTheme : lightTheme);
+  // };
 
   const menuId = 'primary-search-account-menu';
 
@@ -125,7 +145,7 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose} >Profile</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
     </>
@@ -203,21 +223,22 @@ export default function Navbar() {
             noWrap
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' },fontFamily: "monospace", letterSpacing:".3rem",
-            fontWeight: 700, }}>
+            fontWeight: 700, }} onClick={()=>navigate("/")}>
             ACCREDIFY
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
+            {/* <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search> */}
           <Box sx={{ flexGrow: 1 }} />
 
 
+    
           {userToken ? 
           <>
           <Typography>{`Welcome, ${username}`}</Typography>

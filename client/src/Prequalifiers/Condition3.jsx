@@ -9,30 +9,12 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { Typography } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 
 function Condition3() {
   const navigate = useNavigate();
-  const [data, setData] = useState({
-    num1:0,
-    num2:0,
-    num3:0,
-    num4:0,
-    num5:0,
-    num6:0,
-    sum1:0,
-    sum2:0,
-    total:0,
-  });
-
-  const [num1, setNum1] = useState('');
-  const [num2, setNum2] = useState('');
-  const [num3, setNum3] = useState('');
-  const [num4, setNum4] = useState('');
-  const [num5, setNum5] = useState('');
-  const [num6, setNum6] = useState('');
+  const [data, setData] = useState({});
   const [error1, setError1] = useState(false);
   const [error2, setError2] = useState(false);
   const [error3, setError3] = useState(false);
@@ -46,7 +28,7 @@ function Condition3() {
   }, []);
 
   const handleNum4Blur = () => {
-    if (Number(num4) > Number(num1)) {
+    if (Number(data.num4) > Number(data.num1)) {
       setError1(true);
     } else {
       setError1(false);
@@ -54,7 +36,7 @@ function Condition3() {
   };
 
   const handleNum5Blur = () => {
-    if (Number(num5) > Number(num2)) {
+    if (Number(data.num5) > Number(data.num2)) {
       setError2(true);
     } else {
       setError2(false);
@@ -62,7 +44,7 @@ function Condition3() {
   };
 
   const handleNum6Blur = () => {
-    if (Number(num6) > Number(num3)) {
+    if (Number(data.num6) > Number(data.num3)) {
       setError3(true);
     } else {
       setError3(false);
@@ -74,7 +56,6 @@ function Condition3() {
   const total = ((sum2*100) / sum1).toFixed(2);
 
   const handleNumChange = (event,setNum) => { 
-    setNum(event.target.value)
     setData({ ...data, [event.target.name]: event.target.value });
     localStorage.setItem('condition3', JSON.stringify(data));
   };
@@ -150,15 +131,15 @@ function Condition3() {
               </TableCell>
               <TableCell align="right">
                 <TextField id="outlined-basic" variant="outlined" type="number" value={data.num1} name="num1" 
-                onChange={(e)=>{handleNumChange(e,setNum1)}} />
+                onInput={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
               <TableCell align="right">
                 <TextField id="outlined-basic" variant="outlined" type="number" value={data.num2} name="num2" 
-                onChange={(e)=>{handleNumChange(e,setNum2)}} />
+                onInput={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
               <TableCell align="right">
                 <TextField id="outlined-basic" variant="outlined" type="number" value={data.num3} name="num3" 
-                onChange={(e)=>{handleNumChange(e,setNum3)}} />
+                onInput={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
               <TableCell align="right">{sum1}</TableCell>
             </TableRow>
@@ -170,18 +151,18 @@ function Condition3() {
               </TableCell>
               <TableCell align="right">
                 <TextField id="outlined-basic" variant="outlined" type="number" name="num4" value={data.num4} 
-                onChange={(e)=>{handleNumChange(e,setNum4);}} onBlur={handleNum4Blur} error={error1}
-                helperText={error1 && 'Number should be lesser than sanctioned intake'} />
+                onInput={handleNumChange} onBlur={handleNumChange} error={error1}
+                />
               </TableCell>
               <TableCell align="right">
                 <TextField id="outlined-basic" variant="outlined" type="number" name="num5" value={data.num5} 
-                onChange={(e)=>{handleNumChange(e,setNum5);}} onBlur={handleNum5Blur} error={error2}
-                helperText={error2 && 'Number should be lesser than sanctioned intake'} />
+                onInput={handleNumChange} onBlur={handleNumChange}  error={error2}
+                />
               </TableCell>
               <TableCell align="right">
                 <TextField id="outlined-basic" variant="outlined" type="number" name="num6" value={data.num6} 
-                onChange={(e)=>{handleNumChange(e,setNum6);}} onBlur={handleNum6Blur} error={error3}
-                helperText={error3 && 'Number should be lesser than sanctioned intake'} />
+                onInput={handleNumChange} onBlur={handleNumChange} error={error3}
+                 />
               </TableCell>
               <TableCell align="right">{sum2}</TableCell>
             </TableRow>
@@ -193,7 +174,14 @@ function Condition3() {
                 <TableRow style={{textAlign:"center",fontWeight:"bold",fontSize:"40px"}}> 
                   % of students admitted over last 3 assessment years : {total}
                 </TableRow>
-
+                {/* {total < 50 ? (
+                  <Typography color="error" style={{
+                    textAlign: "center",paddingTop:"15px"
+                  }}>
+                    You cannot apply for NB Accreditation if the percentage of students admitted over last 3 assessment years in the 
+                    institution is less than 50%
+                  </Typography>
+                ) : null} */}
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center", 
