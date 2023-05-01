@@ -12,6 +12,7 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useNavigate } from "react-router-dom";
+import { Typography } from "@mui/material";
 import Navbar from "../Components/Navbar";
 
 function Condition1() {
@@ -109,11 +110,11 @@ function Condition1() {
                   </div>
                   </TableCell>
                 </TableRow>
-                {/* {selectedOption === 'No' && 
+                {selectedOption === 'No' && 
                   <Typography variant="body1" color="error" style={{textAlign:"center"}}>
                     You cannot apply for NB Accreditation if mission, vision and PEOs is not mentioned on the prospectus / website.
                   </Typography>
-                } */}
+                }
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",

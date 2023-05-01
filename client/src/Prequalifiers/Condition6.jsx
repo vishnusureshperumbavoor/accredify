@@ -19,7 +19,7 @@ function Condition6() {
   const [selectedOption, setSelectedOption] = useState(localStorage.getItem('condition6') || '');
   const [result, setResult] = useState("Yes");
 
-  const handleChange = (e) => {
+  const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
     setResult(e.target.value === "Yes" ? "Yes" : "No");
   };
@@ -85,32 +85,32 @@ function Condition6() {
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
                     name="institute_type"
-                    
-                    onChange={handleChange}
                   >
                     <FormControlLabel
                       value="Yes"
                       control={<Radio />}
                       checked={selectedOption === 'Yes'}
                       label="Yes"
+                      onChange={handleOptionChange}
                     />
                     <FormControlLabel
                       value="No"
                       control={<Radio />}
                       checked={selectedOption === 'No'}
                       label="No"
+                      onChange={handleOptionChange}
                     />
                     
                   </RadioGroup>
                   </div>
                 </TableCell>
                 </TableRow>
-                {/* {selectedOption === 'No' && 
+                {selectedOption === 'No' && 
                   <Typography variant="body1" color="error" style={{textAlign:"center"}}>
                     You cannot apply for NB Accreditation, if there is no Professor or Assistant Professor on regular basis with Ph.D 
                     degree, available in the previous and current academic year.
                   </Typography>
-                } */}
+                }
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",

@@ -11,6 +11,9 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
+import { Typography } from "@mui/material";
+import axios from "axios";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Condition3() {
   const navigate = useNavigate();
@@ -19,13 +22,17 @@ function Condition3() {
   const [error2, setError2] = useState(false);
   const [error3, setError3] = useState(false);
 
-  useEffect(() => {
+  useEffect(()=>{
+    const userId = localStorage.getItem("userId");
     localStorage.setItem('lastVisitedPage', window.location.pathname);
-    const storedData = localStorage.getItem('condition3');
-    if (storedData) {
-      setData(JSON.parse(storedData));
-    }
-  }, []);
+    axios.post(`${SERVER_URL}/getUserDetails`,{userId}).then((response)=>{
+      console.log(response.data.user)
+      if(response.data.user.details)
+        setData(response.data.user.details);
+    }).catch((err)=>{
+      console.log(err)
+    })
+  },[])
 
   const handleNum4Blur = () => {
     if (Number(data.num4) > Number(data.num1)) {
@@ -51,8 +58,8 @@ function Condition3() {
     }
   };
 
-  const sum1 = Number(data.num1) + Number(data.num2) + Number(data.num3);
-  const sum2 = Number(data.num4) + Number(data.num5) + Number(data.num6);
+  const sum1 = Number(data.instituteLevelSanctionIntake2022) + Number(data.instituteLevelSanctionIntake2021) + Number(data.instituteLevelSanctionIntake2020);
+  const sum2 = Number(data.instituteLevelAdmission2022) + Number(data.instituteLevelAdmission2021) + Number(data.instituteLevelAdmission2020);
   const total = ((sum2*100) / sum1).toFixed(2);
 
   const handleNumChange = (event,setNum) => { 
@@ -70,7 +77,14 @@ function Condition3() {
   const handleSubmit = (event) => {
     event.preventDefault();
     saveResult();
-    navigate("/condition4")
+    axios.post(`${SERVER_URL}/addDetails/${localStorage.getItem("userId")}`, data).then((res)=>{
+      console.log(res.data)
+      if(res.status===200){;
+        navigate('/condition4')
+      }
+    }).catch((err)=>{
+      alert("error")
+    })
   };
 
   return (
@@ -130,16 +144,16 @@ function Condition3() {
                 Sanctioned Intake in the 1st year
               </TableCell>
               <TableCell align="right">
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num1} name="num1" 
-                onInput={handleNumChange} onBlur={handleNumChange} />
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.instituteLevelSanctionIntake2022} 
+                name="instituteLevelSanctionIntake2022" onInput={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
               <TableCell align="right">
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num2} name="num2" 
-                onInput={handleNumChange} onBlur={handleNumChange} />
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.instituteLevelSanctionIntake2021} 
+                name="instituteLevelSanctionIntake2021" onInput={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
               <TableCell align="right">
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num3} name="num3" 
-                onInput={handleNumChange} onBlur={handleNumChange} />
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.instituteLevelSanctionIntake2020} 
+                name="instituteLevelSanctionIntake2020" onInput={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
               <TableCell align="right">{sum1}</TableCell>
             </TableRow>
@@ -150,17 +164,17 @@ function Condition3() {
                 Number of Student admitted in the 1st year
               </TableCell>
               <TableCell align="right">
-                <TextField id="outlined-basic" variant="outlined" type="number" name="num4" value={data.num4} 
+                <TextField id="outlined-basic" variant="outlined" type="number" name="instituteLevelAdmission2022" value={data.instituteLevelAdmission2022} 
                 onInput={handleNumChange} onBlur={handleNumChange} error={error1}
                 />
               </TableCell>
               <TableCell align="right">
-                <TextField id="outlined-basic" variant="outlined" type="number" name="num5" value={data.num5} 
+                <TextField id="outlined-basic" variant="outlined" type="number" name="instituteLevelAdmission2021" value={data.instituteLevelAdmission2021} 
                 onInput={handleNumChange} onBlur={handleNumChange}  error={error2}
                 />
               </TableCell>
               <TableCell align="right">
-                <TextField id="outlined-basic" variant="outlined" type="number" name="num6" value={data.num6} 
+                <TextField id="outlined-basic" variant="outlined" type="number" name="instituteLevelAdmission2020" value={data.instituteLevelAdmission2020} 
                 onInput={handleNumChange} onBlur={handleNumChange} error={error3}
                  />
               </TableCell>
@@ -174,14 +188,14 @@ function Condition3() {
                 <TableRow style={{textAlign:"center",fontWeight:"bold",fontSize:"40px"}}> 
                   % of students admitted over last 3 assessment years : {total}
                 </TableRow>
-                {/* {total < 50 ? (
+                {total < 50 ? (
                   <Typography color="error" style={{
                     textAlign: "center",paddingTop:"15px"
                   }}>
                     You cannot apply for NB Accreditation if the percentage of students admitted over last 3 assessment years in the 
                     institution is less than 50%
                   </Typography>
-                ) : null} */}
+                ) : null}
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center", 

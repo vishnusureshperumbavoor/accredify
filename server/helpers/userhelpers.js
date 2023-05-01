@@ -128,9 +128,9 @@ module.exports = {
             }
         })
     },
-    getUserDetails:(user)=>{
+    getUserDetails:(userId)=>{
         return new Promise(async(resolve,reject)=>{
-            let user2 = await db.collection(collections.USER_DETAILS).findOne({_id:ObjectId(user.userId)})
+            let user2 = await db.collection(collections.USER_DETAILS).findOne({_id:ObjectId(userId)})
             if(user2){
                 resolve(user2)
             }

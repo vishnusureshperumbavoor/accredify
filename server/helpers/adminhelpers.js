@@ -166,10 +166,8 @@ module.exports = {
         })
     }),
     getTotalAmount:(()=>{
-        console.log("getamount called")
         return new Promise((resolve,reject)=>{
             db.collection(collections.ADMIN_LOGIN).findOne({_id:ObjectId(ADMIN_ID)}).then((admin)=>{
-                console.log(admin.payments)
                 resolve(admin.payments)
             })
             .catch((err)=>{

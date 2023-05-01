@@ -12,27 +12,34 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 import { Typography } from "@material-ui/core";
+import axios from "axios";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Condition4() {
   const navigate = useNavigate();
   const [data, setData] = useState({});
 
-  useEffect(() => {
+  useEffect(()=>{
+    const userId = localStorage.getItem("userId");
     localStorage.setItem('lastVisitedPage', window.location.pathname);
-    const storedData = localStorage.getItem('condition4');
-    if (storedData) {
-      setData(JSON.parse(storedData));
-    }
-  }, []);
-
-  const sum1 = Number(data.num1) + Number(data.num2) + Number(data.num3);
-  const sum2 = Number(data.num4) + Number(data.num5) + Number(data.num6);
-  const total = ((sum2*100) / sum1).toFixed(2);
+    axios.post(`${SERVER_URL}/getUserDetails`,{userId}).then((response)=>{
+      if(response.data.user.details)
+        setData(response.data.user.details);
+    }).catch((err)=>{
+      console.log(err)
+    })
+    
+  },[])
 
   const handleNumChange = (event) => { 
     setData({ ...data, [event.target.name]: event.target.value });
     localStorage.setItem('condition4', JSON.stringify(data));
   };
+
+  const sum1 = Number(data.programLevelSanctionIntake2022) + Number(data.programLevelSanctionIntake2021) + Number(data.programLevelSanctionIntake2020);
+  const sum2 = Number(data.programLevelAdmission2022) + Number(data.programLevelAdmission2021) + Number(data.programLevelAdmission2020);
+ 
+  const total = ((sum2*100) / sum1).toFixed(2);
 
   const saveResult = () => {
     const existingResults = JSON.parse(localStorage.getItem("results")) || {};
@@ -44,7 +51,13 @@ function Condition4() {
   const handleSubmit = (event) => {
     event.preventDefault();
     saveResult();
-    navigate("/condition5")
+    axios.post(`${SERVER_URL}/addDetails/${localStorage.getItem("userId")}`, data).then((res)=>{
+      if(res.status===200){;
+        navigate('/condition5')
+      }
+    }).catch((err)=>{
+      alert("error")
+    })
   };
 
 
@@ -104,9 +117,13 @@ function Condition4() {
               <TableCell component="th" scope="row" >
                 Sanctioned Intake in the 1st year
               </TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num1} name="num1" onChange={handleNumChange} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num2} name="num2" onChange={handleNumChange} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num3} name="num3" onChange={handleNumChange} /></TableCell>
+              <TableCell align="right">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.programLevelSanctionIntake2022} 
+                name="programLevelSanctionIntake2022" onChange={handleNumChange} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.programLevelSanctionIntake2021} 
+              name="programLevelSanctionIntake2021" onChange={handleNumChange} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.programLevelSanctionIntake2020} 
+              name="programLevelSanctionIntake2020" onChange={handleNumChange} /></TableCell>
               <TableCell align="right">{sum1}</TableCell>
             </TableRow>
             <TableRow
@@ -116,9 +133,12 @@ function Condition4() {
                 Number of Student admitted in the 1st year
               </TableCell>
               <TableCell align="right">
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num4} name="num4" onChange={handleNumChange} onBlur={handleNumChange} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num5} name="num5" onChange={handleNumChange} onBlur={handleNumChange} /></TableCell>
-              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.num6} name="num6" onChange={handleNumChange} onBlur={handleNumChange} /></TableCell>
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.programLevelAdmission2022} 
+                name="programLevelAdmission2022" onChange={handleNumChange} onBlur={handleNumChange} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.programLevelAdmission2021} 
+              name="programLevelAdmission2021" onChange={handleNumChange} onBlur={handleNumChange} /></TableCell>
+              <TableCell align="right"><TextField id="outlined-basic" variant="outlined" type="number" value={data.programLevelAdmission2020} 
+              name="programLevelAdmission2020" onChange={handleNumChange} onBlur={handleNumChange} /></TableCell>
               <TableCell align="right">{sum2}</TableCell>
             </TableRow>
         </TableBody>
@@ -129,14 +149,14 @@ function Condition4() {
                 <TableRow style={{textAlign:"center",fontWeight:"bold",fontSize:"40px"}}> 
                   % of students admitted over last 3 assessment years : {total}
                 </TableRow>
-                {/* {total < 50 ? (
+                {total < 50 ? (
                   <Typography color="error" style={{
                     textAlign: "center",paddingTop:"15px"
                   }}>
                     You cannot apply for NB Accreditation if the percentage of students admitted over last 3 assessment years in the 
                     department is less than 50%
                   </Typography>
-                ) : null} */}
+                ) : null}
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",

@@ -67,9 +67,7 @@ app.post("/signup", urlencodedParser, (req, res) => {
 app.post("/addDetails/:userId", urlencodedParser, (req, res) => {
   const userId = req.params.userId;
   const formData = req.body
-  console.log(formData)
   userHelpers.doAddDetails(formData,userId).then((user)=>{
-      console.log("successfully added");
       res.status(200).json({ user: user });
   })
   .catch((err)=>{
@@ -86,7 +84,7 @@ app.post("/getCollegeFinance", urlencodedParser, (req, res) => {
   adminHelpers.getCollegeFinance()
 });
 app.post("/getUserDetails", urlencodedParser, (req, res) => {
-  userHelpers.getUserDetails(req.body).then((user)=>{
+  userHelpers.getUserDetails(req.body.userId).then((user)=>{
       res.status(200).json({ user });
   })
   .catch((err)=>{
@@ -128,7 +126,6 @@ app.post("/handlePaymentSuccess", urlencodedParser, (req, res) => {
 app.get('/api/checkEmail/:email', async (req, res) => {
   const { email } = req.params;
   const user = await userHelpers.checkEmail(email);
-
   if (user) {
     res.json({ exists: true });
   } else {
@@ -151,19 +148,15 @@ app.get('/api/checkUsername/:username', async (req, res) => {
 app.post("/login", urlencodedParser, (req, res) => {
   userHelpers.doLogin(req.body).then((user)=>{
       const token = jwt.sign({ user }, JWT_SECRET);
-      console.log("login successful");
       res.status(200).json({ token, user: user });
   })
   .catch((err)=>{
-    console.log("login failed");
       res.status(500).json("failed");
   })
 });
 
 app.post("/getAmount", urlencodedParser, (req, res) => {
-  console.log("getamount called")
   adminHelpers.getTotalAmount().then((amount)=>{
-    // console.log(amount)
     res.status(200).json(amount)
   })
   .catch((err)=>{
@@ -189,9 +182,10 @@ app.post("/getUserTable",urlencodedParser,(req,res)=>{
     res.status(500).json("failed");
   })
 })
-app.post("/approvedpage",urlencodedParser,(req,res)=>{
-  db.collection(collections.USER_REQUESTS).find({status:"approved"}).toArray().then((users)=>{
-    res.status(200).json({ users });
+
+app.post("/getCollegeData",urlencodedParser,(req,res)=>{
+  userHelpers.getUserDetails(req.body.userId.id).then((user)=>{
+    res.status(200).json({ user: user });
   }).catch((err)=>{
     res.status(500).json("failed");
   })

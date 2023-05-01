@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 
@@ -106,12 +107,12 @@ function Condition2() {
                 </TableCell>
                 
                 </TableRow>
-                {/* {selectedOption === 'No' && 
+                {selectedOption === 'No' && 
                   <Typography variant="body1" color="error" style={{textAlign:"center"}}>
                     You cannot apply for NB Accreditation, if approval is not obtained from AICTE for the current program under construction,
                     for current year and previous 2 years.
                   </Typography>
-                } */}
+                }
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",

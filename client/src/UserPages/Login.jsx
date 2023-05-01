@@ -77,7 +77,7 @@ function Login() {
       localStorage.setItem("userToken",response.data.token)
       localStorage.setItem('username', response.data.user.username);
       localStorage.setItem('userId', response.data.user._id);
-      navigate('/collegedetails')
+      navigate(`/collegedetails`)
     })
     .catch((error) => {
         setIsLoading(false);

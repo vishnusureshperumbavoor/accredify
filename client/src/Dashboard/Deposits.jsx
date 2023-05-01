@@ -19,7 +19,6 @@ export default function Deposits() {
   useEffect(()=>{
     axios.post(`${SERVER_URL}/getAmount`)
     .then((res)=>{
-      console.log(res.data);
       setTotalAmount(res.data)
     })
     .catch((err)=>{

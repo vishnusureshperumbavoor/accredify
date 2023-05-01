@@ -124,7 +124,7 @@ function RegistrationForm() {
         localStorage.setItem("username",res.data.user.username)
         localStorage.setItem('userId', res.data.user._id);
         setIsLoading(false);
-        navigate('/collegedetails')
+        navigate(`/collegedetails`)
     }).catch((err)=>{
       alert("error")
       setIsLoading(false);

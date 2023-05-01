@@ -12,6 +12,8 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 import { Typography } from "@mui/material";
+import axios from "axios";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Condition7() {
   const navigate = useNavigate();
@@ -19,33 +21,20 @@ function Condition7() {
   const [data, setData] = useState({});
 
   
-  useEffect(() => {
+  useEffect(()=>{
+    const userId = localStorage.getItem("userId");
     localStorage.setItem('lastVisitedPage', window.location.pathname);
-    const condition5Data = localStorage.getItem('condition5');
-    const storedData = localStorage.getItem('condition7');
-    if (condition5Data) {
-      setCondition5Data(JSON.parse(condition5Data));
-    }
-    if (storedData) {
-      setData(JSON.parse(storedData));
-    }
-  }, []);
-
-  const total1 = Number(data.num1) + Number(data.num2) + Number(data.num7) + Number(data.num8);
-  const total2 = Number(data.num3) + Number(data.num4) + Number(data.num9) + Number(data.num10);
-
-  const fac1 = Math.ceil(total1/25)
-  const fac2 = Math.ceil(total2/25)
-
-  const req1 = Math.ceil(fac1/10)
-  const req2 = Math.ceil(fac2/10)
-
+    axios.post(`${SERVER_URL}/getUserDetails`,{userId}).then((response)=>{
+      if(response.data.user.details)
+        setData(response.data.user.details);
+    }).catch((err)=>{
+      console.log(err)
+    })
+    
+  },[])
   
-  const [num3, setNum3] = useState(0);
-  const [num4, setNum4] = useState(0);
-  
-  const phd1 = ((num3*100)/Number(data.num19)).toFixed(2)
-  const phd2 = ((num4*100)/Number(data.num20)).toFixed(2)
+  const phd1 = ((data.phd2022*100)/Number(data.faculty2022)).toFixed(2)
+  const phd2 = ((data.phd2021*100)/Number(data.faculty2021)).toFixed(2)
 
   const phd = ((Number(phd1)+Number(phd2))/2).toFixed(2);
 
@@ -64,7 +53,13 @@ function Condition7() {
   const handleSubmit = (event) => {
     event.preventDefault();
     saveResult();
-    navigate("/condition8")
+    axios.post(`${SERVER_URL}/addDetails/${localStorage.getItem("userId")}`, data).then((res)=>{
+      if(res.status===200){;
+        navigate('/condition8')
+      }
+    }).catch((err)=>{
+      alert("error")
+    })
   };
 
   return (
@@ -123,8 +118,8 @@ function Condition7() {
               <TableCell component="th" scope="row" >
                   Number of faculties in the department
               </TableCell>
-              <TableCell align="center">{condition5Data.num19}</TableCell>
-              <TableCell align="center">{condition5Data.num20}</TableCell>
+              <TableCell align="center">{data.faculty2022}</TableCell>
+              <TableCell align="center">{data.faculty2021}</TableCell>
             </TableRow>
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -133,11 +128,11 @@ function Condition7() {
                Number of faculties with Ph.Ds
               </TableCell>
               <TableCell align="center">
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num3}  name="num3"
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.phd2022}  name="phd2022"
                 onChange={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
               <TableCell align="center">
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num4} name="num4"
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.phd2021} name="phd2021"
                 onChange={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
             </TableRow>
@@ -146,14 +141,14 @@ function Condition7() {
     </TableContainer>
                 </TableCell>
                 </TableRow>
-                {/* {phd < 10 ? (
+                {phd < 10 ? (
                   <Typography color="error" style={{
                     textAlign: "center",paddingTop:"15px"
                   }}>
                     You cannot apply for NB Accreditation if the percentage of faculties with PhDs and total faculties is
                     lesser than 10%
                   </Typography>
-            ) : null} */}
+            ) : null}
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",

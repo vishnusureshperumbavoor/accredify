@@ -6,9 +6,10 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from "@mui/material/TablePagination";
-import { Button } from '@material-ui/core';
+import Button from '@mui/material/Button';
 import Title from './Title';
 import { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -49,9 +50,9 @@ export default function Orders() {
       setIsLoading(true);
     })
   })
+  const navigate = useNavigate();
   const handleMoreDetails = (userId) => {
-    // const history = useHistory();
-    // history.push(`/users/${userId}`);
+    navigate(`/colleges/${userId}`);
   };
 
   return (
@@ -63,8 +64,8 @@ export default function Orders() {
             <TableCell>Created At</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Email</TableCell>
-            {/* <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell> */}
+            <TableCell></TableCell>
+            {/* <TableCell align="right">Sale Amount</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -80,6 +81,7 @@ export default function Orders() {
         <Button
           variant="contained"
           color="primary"
+          size="small"
           onClick={() => handleMoreDetails(user._id)}
         >
           More Details

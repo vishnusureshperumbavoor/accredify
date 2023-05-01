@@ -13,6 +13,8 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Navbar from "../Components/Navbar";
+import axios from "axios";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,28 +31,25 @@ function Condition5() {
 
   const [data, setData] = useState({});
 
-  useEffect(() => {
+  useEffect(()=>{
+    const userId = localStorage.getItem("userId");
     localStorage.setItem('lastVisitedPage', window.location.pathname);
-    const storedData = localStorage.getItem('condition5');
-    if (storedData) {
-      setData(JSON.parse(storedData));
-    }
-  }, []);
+    axios.post(`${SERVER_URL}/getUserDetails`,{userId}).then((response)=>{
+      if(response.data.user.details)
+        setData(response.data.user.details);
+    }).catch((err)=>{
+      console.log(err)
+    })
+    
+  },[])
 
-  const subTotal1 = Number(data.num1) + Number(data.num7);
-  const subTotal2 = Number(data.num2) + Number(data.num8);
-  const subTotal3 = Number(data.num3) + Number(data.num9);
-  const subTotal4 = Number(data.num4) + Number(data.num10);
-  const subTotal5 = Number(data.num5) + Number(data.num11);
-  const subTotal6 = Number(data.num6) + Number(data.num12);
+  const total1 = Number(data.thirdYear2022) + Number(data.secondYear2022)
+  const total2 = Number(data.thirdYear2021) + Number(data.secondYear2021)
+  const total3 = Number(data.thirdYear2020) + Number(data.secondYear2020)
 
-  const total1 = Number(subTotal1) + Number(subTotal2);
-  const total2 = Number(subTotal3) + Number(subTotal4);
-  const total3 = Number(subTotal5) + Number(subTotal6);
-
-  const sfr1 = (Number(total1)/Number(data.num19)).toFixed(2);
-  const sfr2 = (Number(total2)/Number(data.num20)).toFixed(2);
-  const sfr3 = (Number(total3)/Number(data.num21)).toFixed(2);
+  const sfr1 = (Number(total1)/Number(data.faculty2022)).toFixed(2);
+  const sfr2 = (Number(total2)/Number(data.faculty2021)).toFixed(2);
+  const sfr3 = (Number(total3)/Number(data.faculty2020)).toFixed(2);
   const sfr = ((Number(sfr1)+Number(sfr2)+Number(sfr3))/3).toFixed(2)
 
   const handleNumChange = (e) => {
@@ -68,7 +67,13 @@ function Condition5() {
   const handleSubmit = (event) => {
     event.preventDefault();
     saveResult();
-    navigate("/condition6")
+      axios.post(`${SERVER_URL}/addDetails/${localStorage.getItem("userId")}`, data).then((res)=>{
+        if(res.status===200){;
+          navigate('/condition6')
+        }
+      }).catch((err)=>{
+        alert("error")
+      })
   };
 
   const headings = [
@@ -112,7 +117,7 @@ function Condition5() {
                     textAlign: "center",
                   }}
                 >
-                  Student Faculty Ratio (SFR)
+                  Student Faculty Ratio (SFR) in the department
                 </TableCell>
                 </TableRow>
                 <TableRow >
@@ -121,22 +126,10 @@ function Condition5() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell style={{fontWeight:"bolder",fontSize:"18px"}} rowSpan={2}>Year of study</TableCell>
-            <TableCell align="center" style={{fontWeight:"bolder",fontSize:"20px"}} colSpan={2}>2022-23</TableCell>
-            <TableCell align="center" style={{fontWeight:"bolder",fontSize:"20px"}} colSpan={2}>2021-22</TableCell>
-            <TableCell align="center" style={{fontWeight:"bolder",fontSize:"20px"}} colSpan={2}>2020-21</TableCell>
-          </TableRow>
-          <TableRow>
-          {[0, 1, 2].map((i) => (
-  <>
-    <TableCell align="right" style={{fontWeight:"bolder"}}>
-      <Typography >Enrolled</Typography>
-    </TableCell>
-    <TableCell align="left" style={{fontWeight:"bolder"}}>
-      <Typography >Lateral Entry</Typography>
-    </TableCell>
-  </>
-))}
+            <TableCell style={{fontWeight:"bolder",fontSize:"18px"}}>Year of study</TableCell>
+            <TableCell align="center" style={{fontWeight:"bolder",fontSize:"20px"}}>2022-23</TableCell>
+            <TableCell align="center" style={{fontWeight:"bolder",fontSize:"20px"}}>2021-22</TableCell>
+            <TableCell align="center" style={{fontWeight:"bolder",fontSize:"20px"}}>2020-21</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -144,52 +137,33 @@ function Condition5() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" >
-                3rd year
+                No. of Students (3rd year)
               </TableCell>
-              <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num1} name="num1" 
-                onChange={handleNumChange} />
+              <TableCell align="center">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.thirdYear2022} name="thirdYear2022" onChange={handleNumChange} />
               </TableCell>
-              <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num2} name="num2" onChange={handleNumChange} style={{marginLeft:"3px"}} />
+              <TableCell align="center">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.thirdYear2021} name="thirdYear2021" onChange={handleNumChange} />
               </TableCell>
-              <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num3} name="num3" onChange={handleNumChange} />
+              <TableCell align="center">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.thirdYear2020} name="thirdYear2020" onChange={handleNumChange} />
               </TableCell>
-              <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num4} name="num4" onChange={handleNumChange} style={{marginLeft:"3px"}} />
-              </TableCell>
-              <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num5} name="num5" onChange={handleNumChange} />
-              </TableCell>
-              <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num6} name="num6" onChange={handleNumChange} style={{marginLeft:"3px"}} />
-                </TableCell>
             </TableRow>
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" >
-                2nd year
+                No. of students (2nd year)
               </TableCell>
-              <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num7} name="num7" onChange={handleNumChange} />
+              <TableCell align="center">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.secondYear2022} name="secondYear2022" onChange={handleNumChange} />
               </TableCell>
-              <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num8} name="num8" onChange={handleNumChange} style={{marginLeft:"3px"}} />
+              <TableCell align="center">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.secondYear2021} name="secondYear2021" onChange={handleNumChange} />
               </TableCell>
-              <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num9} name="num9" onChange={handleNumChange} />
+              <TableCell align="center">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.secondYear2020} name="secondYear2020" onChange={handleNumChange} />
               </TableCell>
-              <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num10} name="num10" onChange={handleNumChange} style={{marginLeft:"3px"}} />
-              </TableCell>
-              <TableCell align="right">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num11} name="num11" onChange={handleNumChange} />
-              </TableCell>
-              <TableCell align="left">
-                <TextField className={classes.root} id="outlined-basic" variant="outlined" type="number" value={data.num12} name="num12" onChange={handleNumChange} style={{marginLeft:"3px"}} />
-                </TableCell>
             </TableRow>
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -197,9 +171,9 @@ function Condition5() {
               <TableCell component="th" scope="row" style={{fontWeight:"bold",fontSize:"17px"}} >
                 Total number of students
               </TableCell>
-              <TableCell align="center" colSpan={2} style={{fontWeight:"bold",fontSize:"20px"}}>{total1}</TableCell>
-              <TableCell align="center" colSpan={2} style={{fontWeight:"bold",fontSize:"20px"}}>{total2}</TableCell>
-              <TableCell align="center" colSpan={2} style={{fontWeight:"bold",fontSize:"20px"}}>{total3}</TableCell>
+              <TableCell align="center" style={{fontWeight:"bold",fontSize:"20px"}}>{total1}</TableCell>
+              <TableCell align="center" style={{fontWeight:"bold",fontSize:"20px"}}>{total2}</TableCell>
+              <TableCell align="center" style={{fontWeight:"bold",fontSize:"20px"}}>{total3}</TableCell>
             </TableRow>
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -207,16 +181,16 @@ function Condition5() {
               <TableCell component="th" scope="row" style={{fontWeight:"bold",fontSize:"15px"}} >
                 No. of Faculty in the department
               </TableCell>
-              <TableCell align="center" colSpan={2}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num19} name="num19" 
+              <TableCell align="center">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.faculty2022} name="faculty2022" 
                 onChange={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
-              <TableCell align="center" colSpan={2}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num20} name="num20" 
+              <TableCell align="center">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.faculty2021} name="faculty2021" 
                 onChange={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
-              <TableCell align="center" colSpan={2}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num21} name="num21" 
+              <TableCell align="center">
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.faculty2020} name="faculty2020" 
                 onChange={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
             </TableRow>
@@ -227,13 +201,13 @@ function Condition5() {
                 </TableRow>
                 <TableRow>
                   <TableCell colSpan={7}>
-                  {/* {sfr > 25 ? (
+                  {sfr > 25 ? (
                   <Typography color="error" style={{
                     textAlign: "center"
                   }}>
                     You cannot apply for NB Accreditation if the Student Faculty Ratio is greater than 1:25
                   </Typography>
-            ) : null} */}
+            ) : null}
                   </TableCell>
                 </TableRow>
                 

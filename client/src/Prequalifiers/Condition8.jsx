@@ -12,29 +12,32 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 import { Typography } from "@mui/material";
+import axios from "axios";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function Condition7() {
   const navigate = useNavigate();
   const [condition5Data, setCondition5Data] = useState({});
   const [data, setData] = useState({});
 
-  useEffect(() => {
+  useEffect(()=>{
+    const userId = localStorage.getItem("userId");
     localStorage.setItem('lastVisitedPage', window.location.pathname);
-    const condition5Data = localStorage.getItem('condition5');
-    const storedData = localStorage.getItem('condition8');
-    if (condition5Data) {
-      setCondition5Data(JSON.parse(condition5Data));
-    }
-    if (storedData) {
-      setData(JSON.parse(storedData));
-    }
-  }, []);
+    axios.post(`${SERVER_URL}/getUserDetails`,{userId}).then((response)=>{
+      console.log(response.data.user.details)
+      if(response.data.user.details)
+        setData(response.data.user.details);
+    }).catch((err)=>{
+      console.log(err)
+    })
+    
+  },[])
 
-  const total1 = Number(condition5Data.num3) + Number(condition5Data.num4) + Number(condition5Data.num9) + Number(condition5Data.num10);
-  const total2 = Number(condition5Data.num5) + Number(condition5Data.num6) + Number(condition5Data.num11) + Number(condition5Data.num12);
+  const total1 = Number(data.thirdYearEnrolled2022) + Number(data.thirdYearLateral2022) + Number(data.secondYearEnrolled2022) + Number(data.secondYearLateral2022);
+  const total2 = Number(data.thirdYearEnrolled2021) + Number(data.thirdYearLateral2021) + Number(data.secondYearEnrolled2021) + Number(data.secondYearLateral2021);
 
-  const num7 = ((Number(data.num4)*100)/total1).toFixed(2)
-  const num8 = ((Number(data.num5)*100)/total2).toFixed(2)
+  const num7 = ((Number(data.graduates2021)*100)/total1).toFixed(2)
+  const num8 = ((Number(data.graduates2020)*100)/total2).toFixed(2)
 
   const handleNumChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -51,7 +54,13 @@ function Condition7() {
   const handleSubmit = (event) => {
     event.preventDefault();
     saveResult();
-    navigate("/condition")
+    axios.post(`${SERVER_URL}/addDetails/${localStorage.getItem("userId")}`, data).then((res)=>{
+      if(res.status===200){;
+        navigate('/condition')
+      }
+    }).catch((err)=>{
+      alert("error")
+    })
   };
 
   return (
@@ -122,11 +131,11 @@ function Condition7() {
                 Number of students graduated without backlogs
               </TableCell>
               <TableCell align="center">
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num4} name="num4" 
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.graduates2021} name="graduates2021" 
                 onChange={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
               <TableCell align="center">
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.num5} name="num5" 
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.graduates2020} name="graduates2020" 
                 onChange={handleNumChange} onBlur={handleNumChange} />
               </TableCell>
             </TableRow>
@@ -144,13 +153,13 @@ function Condition7() {
     </TableContainer>
                 </TableCell>
                 </TableRow>
-                {/* {(num7>=80 && num8>=80) ? null : (
+                {(num7>=80 && num8>=80) ? null : (
                   <Typography color="error" style={{
                     textAlign: "center",paddingTop:"15px"
                   }}>
                     You cannot apply for NB Accreditaton if atleast 2 batches is not graduated with 80%
                   </Typography>
-            )} */}
+            )}
               <TableRow>
                 <TableCell colSpan={4} style={{
                     textAlign: "center",
