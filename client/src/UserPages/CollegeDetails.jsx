@@ -189,7 +189,7 @@ export default function CollegeDetails() {
       console.log(res.data)
       if(res.status===200){
         setIsLoading(false);
-        navigate('/condition1')
+        // navigate('/condition1')
       }
     }).catch((err)=>{
       alert("error")
@@ -216,7 +216,7 @@ export default function CollegeDetails() {
                     textAlign: "center",
                   }}
                 >
-                  <Typography>Enter College Details</Typography>
+                  <Typography>Enter College Details for better consultation</Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -700,6 +700,10 @@ export default function CollegeDetails() {
                   <Button disabled={isLoading} variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
                   sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>
                     {isLoading ? <CircularProgress size={24} /> : 'Update Details'} 
+                  </Button>
+                  <Button disabled={isLoading} variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
+                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate('/condition1')}>
+                    Check Conditions
                   </Button>
                 </TableCell>
               </TableRow>

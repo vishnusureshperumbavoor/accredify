@@ -301,7 +301,6 @@ function CollegeContent() {
               </Grid>
             </Grid>
           </Container>
-         
         </Box>
       </Box>
     </ThemeProvider>

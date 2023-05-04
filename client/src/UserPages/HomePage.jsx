@@ -9,18 +9,18 @@ const teamMembers = [
   {
     name: 'Vishnu Suresh',
     position: 'CEO & CTO',
-    photoUrl: '/meetourteam/vishnu_suresh.jpg',
-    bio: 'Vishnu is the CEO & CTO of Accredify and has been in the education industry for over 10 years.',
+    photoUrl: '/meetourteam/vishnu_suresh.jpeg',
+    bio: 'CEO & CTO of Accredify. Co-founder & CTO of Cape (IOT data monitoring). Winner of Vaiga AgriHack 2023. ',
     socialMedia: {
-      twitter: 'https://twitter.com/vishnu_suresh',
-      linkedin: 'https://www.linkedin.com/in/vishnu-suresh',
-      github: 'https://www.linkedin.com/in/vishnu-suresh',
+      twitter: 'https://twitter.com/vspeeeeee',
+      linkedin: 'https://www.linkedin.com/in/vishnu-suresh-perumbavoor-9a7a8223a/',
+      github: 'https://github.com/vishnusureshperumbavoor',
     },
   },
   {
     name: 'Anandhu Dinesh',
     position: 'CFO',
-    photoUrl: '/meetourteam/anandhu_dinesh.jpg',
+    photoUrl: '/meetourteam/anandhu_dinesh.jpeg',
     bio: 'Anandhu is the CFO of Accredify and is responsible for overseeing the financial operations of the company.',
     socialMedia: {
       twitter: 'https://twitter.com/vishnu_suresh',

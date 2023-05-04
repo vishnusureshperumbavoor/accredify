@@ -17,6 +17,7 @@ import Container from '@mui/material/Container';
 import Navbar from '../Components/Navbar';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
 
@@ -80,10 +81,16 @@ function PremiumMembershipPage() {
         name: 'Accredify',
         description: 'Premium Membership',
         order_id: orderId,
-        handler: function(response) {
+        handler: function(response2) {
           // handle success response
-          const username = localStorage.getItem('username');
-          axios.post(`${SERVER_URL}/handlePaymentSuccess`, { response: response, username: username })
+          alert(response.data);
+          response = response.data;
+          response = {
+            ...response,
+            userId: userId,
+            date: Date.now()
+          }
+          axios.post(`${SERVER_URL}/handlePaymentSuccess`, response )
         },
         prefill: {
           name: 'John Doe',
@@ -100,7 +107,6 @@ function PremiumMembershipPage() {
       
       const rzp = new window.Razorpay(options);
       rzp.open();
-      // handle success response
     })
     .catch((error) => {
       console.log(error);
@@ -195,8 +201,12 @@ function PremiumMembershipPage() {
           ))}
         </Grid>
         <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 800,height:50, padding: 1, marginTop: 5 }} onClick={()=>navigate("/condition1")}>
+                  sx={{ width: 400,height:50, padding: 1, marginTop: 5,marginRight:3 }} onClick={()=>navigate("/condition1")}>
                     Go to conditions page
+                  </Button>
+        <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
+                  sx={{ width: 400,height:50, padding: 1, marginTop: 5 }} onClick={()=>navigate("/paymentsTable")}>
+                    Go to payments page
                   </Button>
       </Container>
     </React.Fragment>

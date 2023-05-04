@@ -114,13 +114,25 @@ app.post("/handlePayment", urlencodedParser, (req, res) => {
 });
 
 app.post("/handlePaymentSuccess", urlencodedParser, (req, res) => {
+  console.log("payment is success")
   let msg = req.body.username + " upgraded membership status and ensure that they receive all the benefits and features associated with their plan." 
   let user = {
     email : ADMIN_EMAIL
   }
   adminHelpers.sendMailToAdmin(user,msg)   
+  userHelpers.addPaymentsToDatabase(req.body)
 });
 
+app.post("/paymentsTableData/:userId", urlencodedParser, (req, res) => {
+  const userId = req.params.userId;
+  console.log(userId)
+  userHelpers.getPaymentsTable(userId).then((response)=>{
+    res.json(response)
+  })
+  .catch((err)=>{
+    res.json(err)
+  })
+});
 
 
 app.get('/api/checkEmail/:email', async (req, res) => {

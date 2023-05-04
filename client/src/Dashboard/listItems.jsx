@@ -9,14 +9,16 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { useNavigate } from 'react-router-dom';
 
 export const mainListItems = (
+  
   <React.Fragment>
-    <ListItemButton>
-      <ListItemIcon>
-        <DashboardIcon />
+    <ListItemButton >
+      <ListItemIcon onClick={() => { const navigate = useNavigate(); navigate('/dashboard'); }}>
+        <DashboardIcon onClick={() => { const navigate = useNavigate(); navigate('/dashboard'); }}/>
       </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <ListItemText primary="Dashboard" onClick={() => { const navigate = useNavigate(); navigate('/dashboard'); }}  />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>

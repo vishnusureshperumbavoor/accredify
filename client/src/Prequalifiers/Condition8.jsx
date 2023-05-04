@@ -33,8 +33,8 @@ function Condition7() {
     
   },[])
 
-  const total1 = Number(data.thirdYearEnrolled2022) + Number(data.thirdYearLateral2022) + Number(data.secondYearEnrolled2022) + Number(data.secondYearLateral2022);
-  const total2 = Number(data.thirdYearEnrolled2021) + Number(data.thirdYearLateral2021) + Number(data.secondYearEnrolled2021) + Number(data.secondYearLateral2021);
+  const total1 = Number(data.thirdYear2022) + Number(data.secondYear2022) 
+  const total2 = Number(data.thirdYear2021) + Number(data.secondYear2021) 
 
   const num7 = ((Number(data.graduates2021)*100)/total1).toFixed(2)
   const num8 = ((Number(data.graduates2020)*100)/total2).toFixed(2)

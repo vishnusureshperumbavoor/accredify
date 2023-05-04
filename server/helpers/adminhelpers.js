@@ -151,7 +151,6 @@ module.exports = {
         })
     }),
     addPayments:((user)=>{
-        console.log(user)
         return new Promise((resolve,reject)=>{
             db.collection(collections.ADMIN_LOGIN).findOne({_id:ObjectId(ADMIN_ID)}).then((admin)=>{
                 admin.payments = parseInt(admin.payments) + parseInt(user.price)

@@ -140,4 +140,27 @@ module.exports = {
             }
         })
     },
+    addPaymentsToDatabase:(user)=>{
+        console.log(user)
+        return new Promise(async(resolve,reject)=>{
+            db.collection(collections.PAYMENT_DETAILS).insertOne(user).then((data)=>{
+                resolve(data)
+            })
+            .catch((err)=>{
+                reject(err)
+            })
+        })
+    },
+    getPaymentsTable:(userId)=>{
+        return new Promise(async(resolve,reject)=>{
+            let user = await db.collection(collections.PAYMENT_DETAILS).find({userId:userId}).toArray()
+            if(user){
+                resolve(user)
+            }
+            else{
+                console.log("user does not exist");
+                reject(err)
+            }
+        })
+    },
 }
