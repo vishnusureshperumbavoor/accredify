@@ -3,9 +3,11 @@ import axios from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,Card, TablePagination,Button,Container,Grid,Box,CssBaseline } from '@material-ui/core';
 import Navbar from '../Components/Navbar';
 import Invoice from './Invoice';
+import { useNavigate } from 'react-router-dom';
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 function PaymentsTable() {
+  const navigate = useNavigate()
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -135,7 +137,7 @@ function PaymentsTable() {
       </Grid>
       <Grid container spacing={2}>
         <Grid xs={12} md={12} lg={12}>
-        {/* <Button variant="contained" color="primary" onClick={printInvoice}>Print</Button> */}
+        <Button style={{marginTop:5,marginLeft:5}} variant="contained" color="primary" onClick={()=>navigate('/pricing')}>Go Back to Pricing</Button>
         </Grid>
       </Grid>
     

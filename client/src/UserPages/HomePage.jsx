@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Container, Typography,Grid,Card,CardMedia,CardContent,Link,IconButton } from '@material-ui/core';
+import { Button, Container, Typography,Grid,Card,CardMedia,CardContent,Link,IconButton,Box } from '@material-ui/core';
 import Navbar from '../Components/Navbar';
 import { useNavigate } from "react-router-dom";
 import { Twitter, LinkedIn, GitHub} from '@mui/icons-material';
@@ -66,29 +66,30 @@ function HomePage(props) {
     <div style={{ height: "100vh",width:"100vw",margin:0,padding:0, paddingTop: "45px" }}>
     <Navbar/>
     <Container className={classes.root}>
-      <Typography variant="h4" style={{fontWeight:"bold"}}  gutterBottom>Welcome to Accredify <br/> </Typography>
-      <Typography>
-      We are a SaaS company working to make the accreditation process easier for educational institutions. 
-      We understand that accreditation can be a complex and time-consuming process, which is why we have created 
-      a system to help institutions assess their readiness for accreditation. Our system is based on the
-      conditions that are needed for a college to get accredited.
-<br/><br/>
-Our goal is to make the accreditation process simpler, more transparent, and accessible to all. Our platform allows 
-institutions to evaluate themselves against the conditions required for accreditation. By using our platform, 
-institutions can identify areas where they need to improve, and take proactive steps to achieve accreditation.
-<br/><br/>
-We are a group of engineers who graduated from an accredited college. So we have the expertise in the accreditation process and is committed to providing quality 
-training and support to institutions. We offer personalized assistance to help institutions navigate the 
-accreditation process with ease.
-<br/><br/>
-We believe that accreditation is essential for the quality and growth of educational institutions. Therefore, we 
-are committed to helping institutions achieve accreditation, and we are proud to be a part of their journey towards
- excellence.
-        </Typography>
-        <Button  variant="contained" style={{fontWeight:"bold",fontSize:"26px",backgroundColor: "#8B00FF",color: "white",margin:"15px"}} 
+    <div
+        className='p-5 text-center bg-image'
+        style={{ backgroundImage: "url('')", height: 400 }}
+      >
+        <div className='mask' style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
+          <div className='d-flex justify-content-center align-items-center h-100'>
+            <div className='text-white'>
+              {/* <h1 className='mb-3'>Heading</h1>
+              <h4 className='mb-3'>Subheading</h4>
+              <a className='btn btn-outline-light btn-lg' href='#!' role='button'>
+                Call to action
+              </a> */}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      
+        {/* <Button  variant="contained" style={{fontWeight:"bold",fontSize:"26px",backgroundColor: "#8B00FF",color: "white",margin:"15px"}} 
           sx={{ width: 400,height:50, padding: 1, margin: 3 }} onClick={()=>navigate("/login")} >
             Get Started
-        </Button>
+        </Button> */}
+
         <section style={{ margin: '50px 0' }}>
       <Typography style={{fontWeight:"bold"}}  variant="h4" align="center" gutterBottom>
         Meet Our Team

@@ -3,7 +3,6 @@ import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
-import LinearProgress from '@mui/material/LinearProgress';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
@@ -25,18 +24,8 @@ import Orders from './UserTable';
 import InstitutionTypes from './InstitutionTypes';
 import PieChartComponent from './AffiliatedBy';
 import FinanceBarchart from './FinanceBarChart';
-import { useParams } from 'react-router-dom';
-import { useEffect,useState } from 'react';
-import axios from 'axios';
-import GenderPieChart from './GenderPieChart';
-import CollegeFinance from './CollegeFinance';
-import CollegeLabs from './CollegeLabs';
-import InstitueLineGraph from './InstitueLineGraph';
-import ProgramLineGraph from './ProgramLineGraph';
 import { useNavigate } from 'react-router-dom';
-
-
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+import PaymentsTable from './PaymentsTable';
 
 const drawerWidth = 240;
 
@@ -86,30 +75,15 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const mdTheme = createTheme();
 
-function CollegeContent() {
+function Payments() {
   const navigate = useNavigate();
-  const [isLoading,setIsLoading] = useState(true);
-  const userId  = useParams();
   const [open, setOpen] = React.useState(true);
-  const [collegeData, setCollegeData] = useState({});
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
-  useEffect(()=>{
-    axios.post(`${SERVER_URL}/getCollegeData`,{userId:userId}).then((res)=>{
-      console.log(res.data.user);
-      setCollegeData(res.data.user)
-      setIsLoading(false);
-    }).catch((err)=>{
-      console.log(err);
-      setIsLoading(true)
-    })
-  },[])
-
   return (
-    
-    <ThemeProvider theme={mdTheme}>
+    <div>
+      <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="absolute" open={open}>
@@ -162,9 +136,9 @@ function CollegeContent() {
           </Toolbar>
           <Divider />
           <List component="nav" sx={{flexDirection: 'column'}}>
-          {mainListItems(navigate)}
+            {mainListItems(navigate)}
           <Divider sx={{ my: 1 }} />
-          {secondaryListItems(navigate)}
+            {secondaryListItems(navigate)}
           </List>
         </Drawer>
         <Box
@@ -181,81 +155,61 @@ function CollegeContent() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            {/* Recent Orders */}
+            <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                  <PaymentsTable />
+                </Paper>
+              </Grid>
+          </Container>
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
+              {/* Chart */}
+              <Grid item xs={12} md={8} lg={9}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: 240,
+                  }}
+                >
+                  <Chart />
+                </Paper>
+              </Grid>
+              {/* Recent Deposits */}
+              <Grid item xs={12} md={4} lg={3}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: 240,
+                  }}
+                >
+                  <Deposits />
+                </Paper>
+              </Grid>
               {/* Recent Orders */}
-              {isLoading && <LinearProgress />}
               <Grid item xs={12}>
               <Paper
                   sx={{
-                    p: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 50,
-                  }}
-                >
-                  <Typography variant="h4"
-      sx={{
-        fontWeight: 'bold',
-        color: 'black',
-        justifyContent: 'center',
-        textAlign:"center"
-      }}>{collegeData.institute_name}</Typography>
-                </Paper>
-              </Grid>
-            </Grid>
-          </Container>
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-                {/* Gender Pie Charts */}
-                {isLoading && <LinearProgress />}
-              <Grid item xs={12} md={4} lg={4}>
-                <Paper
-                  sx={{
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
                     height: 300,
                   }}
                 >
-                 <GenderPieChart collegeData={collegeData}/>
-                </Paper>
-              </Grid>
-              {/* Colllege Finance */}
-              {isLoading && <LinearProgress />}
-              <Grid item xs={12} md={8} lg={8}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 300,
-                  }}
-                >
-                  <CollegeFinance collegeData={collegeData} />
+                  <FinanceBarchart />
                 </Paper>
               </Grid>
             </Grid>
+            {/* <Copyright sx={{ pt: 4 }} /> */}
           </Container>
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* College Labs */}
-              {isLoading && <LinearProgress />}
-              <Grid item xs={12} md={8} lg={8}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 260,
-                  }}
-                >
-                  <CollegeLabs collegeData={collegeData} />
-                </Paper>
-              </Grid>
-
-              {/* Chart */}
-              {isLoading && <LinearProgress />}
-              <Grid item xs={12} md={4} lg={4}>
+                {/* Recent Deposits */}
+              <Grid item xs={12} md={4} lg={3}>
                 <Paper
                   sx={{
                     p: 2,
@@ -267,48 +221,27 @@ function CollegeContent() {
                   <PieChartComponent />
                 </Paper>
               </Grid>
-            </Grid>
-          </Container>
-
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              {/* College Labs */}
-              {isLoading && <LinearProgress />}
-              <Grid item xs={12} md={6} lg={6}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 280,
-                  }}
-                >
-                  <InstitueLineGraph collegeData={collegeData}/>
-                </Paper>
-              </Grid>
-
               {/* Chart */}
-              {isLoading && <LinearProgress />}
-              <Grid item xs={12} md={6} lg={6}>
+              <Grid item xs={12} md={8} lg={9}>
                 <Paper
                   sx={{
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 280,
+                    height: 260,
                   }}
                 >
-                  <ProgramLineGraph collegeData={collegeData}/>
+                  <InstitutionTypes />
                 </Paper>
               </Grid>
             </Grid>
+            {/* <Copyright sx={{ pt: 4 }} /> */}
           </Container>
         </Box>
       </Box>
     </ThemeProvider>
-  );
+    </div>
+  )
 }
 
-export default function Colleges2() {
-  return <CollegeContent />;
-}
+export default Payments

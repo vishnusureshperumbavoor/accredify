@@ -17,6 +17,7 @@ import Condition8 from "./Prequalifiers/Condition8";
 import Dashboard from "./Dashboard/Dashboard";
 import Colleges2 from "./Dashboard/Colleges";
 import PaymentsTable from "./UserPages/PaymentsTable";
+import Payments from "./Dashboard/Payments";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route path="/pricing" element={<Premium />} />
             <Route path="/colleges/:id" element={<Colleges2 />} />
             <Route path="/paymentsTable" element={<PaymentsTable />} />
+            <Route path="/payments" element={<Payments />} />
           </Routes>
       </Router>
     </div>

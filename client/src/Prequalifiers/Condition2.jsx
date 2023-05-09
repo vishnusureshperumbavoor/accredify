@@ -76,7 +76,7 @@ function Condition2() {
                     textAlign: "center",
                   }}
                 >
-                  <h4>Is approval of AICTE, for the department, obtained for the current and previous 2 years?</h4>
+                  <h4>Is approval of AICTE, obtained for the department?</h4>
                 </TableCell>
                 </TableRow>
                 <TableRow>

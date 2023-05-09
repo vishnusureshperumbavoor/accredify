@@ -51,7 +51,6 @@ function Condition5() {
   const sfr2 = (Number(total2)/Number(data.faculty2021)).toFixed(2);
   const sfr3 = (Number(total3)/Number(data.faculty2020)).toFixed(2);
   const sfr = ((Number(sfr1)+Number(sfr2)+Number(sfr3))/3).toFixed(2)
-
   const handleNumChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     localStorage.setItem('condition5', JSON.stringify(data));
@@ -195,8 +194,8 @@ function Condition5() {
               </TableCell>
             </TableRow>
             <TableRow  > 
-            <TableCell colspan={7} style={{textAlign:"center",fontWeight:"bold",fontSize:"30px"}}>
-                  Student Faculty Ratio 1 : {sfr}
+            <TableCell colspan={7} >
+            {isFinite(sfr) && <Typography style={{textAlign:"center",fontWeight:"bold",fontSize:"30px"}}>Student Faculty Ratio 1 : {sfr}</Typography>} 
             </TableCell>
                 </TableRow>
                 <TableRow>

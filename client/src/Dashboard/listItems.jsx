@@ -9,22 +9,21 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import { useNavigate } from 'react-router-dom';
 
-export const mainListItems = (
+export const mainListItems =(navigate)=> (
   
   <React.Fragment>
-    <ListItemButton >
-      <ListItemIcon onClick={() => { const navigate = useNavigate(); navigate('/dashboard'); }}>
-        <DashboardIcon onClick={() => { const navigate = useNavigate(); navigate('/dashboard'); }}/>
+    <ListItemButton onClick={() => navigate('/dashboard')}>
+      <ListItemIcon>
+        <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Dashboard" onClick={() => { const navigate = useNavigate(); navigate('/dashboard'); }}  />
+      <ListItemText primary="Dashboard" />
     </ListItemButton>
     <ListItemButton>
-      <ListItemIcon>
-        <ShoppingCartIcon />
+      <ListItemIcon >
+        <ShoppingCartIcon/>
       </ListItemIcon>
-      <ListItemText primary="Orders" />
+      <ListItemText primary="Orders"/>
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
@@ -32,11 +31,11 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Customers" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton onClick={() => navigate('/payments')}>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
-      <ListItemText primary="Reports" />
+      <ListItemText primary="Payments" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
@@ -47,7 +46,7 @@ export const mainListItems = (
   </React.Fragment>
 );
 
-export const secondaryListItems = (
+export const secondaryListItems =(navigate)=> (
   <React.Fragment>
     <ListSubheader component="div" inset>
       Saved reports

@@ -61,6 +61,7 @@ function Condition3() {
   const sum1 = Number(data.instituteLevelSanctionIntake2022) + Number(data.instituteLevelSanctionIntake2021) + Number(data.instituteLevelSanctionIntake2020);
   const sum2 = Number(data.instituteLevelAdmission2022) + Number(data.instituteLevelAdmission2021) + Number(data.instituteLevelAdmission2020);
   const total = ((sum2*100) / sum1).toFixed(2);
+  const formattedTotal = isNaN(total) ? 0 : total;
 
   const handleNumChange = (event,setNum) => { 
     setData({ ...data, [event.target.name]: event.target.value });
@@ -186,7 +187,7 @@ function Condition3() {
                 </TableCell>
                 </TableRow>
                 <TableRow style={{textAlign:"center",fontWeight:"bold",fontSize:"40px"}}> 
-                  % of students admitted over last 3 assessment years : {total}
+                  {total && <typography>% of students admitted over last 3 assessment years : {formattedTotal}</typography>}
                 </TableRow>
                 {total < 50 ? (
                   <Typography color="error" style={{

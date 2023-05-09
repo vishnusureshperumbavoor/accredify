@@ -27,7 +27,7 @@ const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
 const tiers = [
   {
     title: 'Basic',
-    price: '6950',
+    price: '49950',
     description: [
       'Check online',
       'Online consulting',
@@ -52,7 +52,7 @@ const tiers = [
   },
   {
     title: 'Enterprise',
-    price: '79950',
+    price: '89950',
     description: [
       'Expert analysis',
       'Basic data analytics',
@@ -83,7 +83,6 @@ function PremiumMembershipPage() {
         order_id: orderId,
         handler: function(response2) {
           // handle success response
-          alert(response.data);
           response = response.data;
           response = {
             ...response,
@@ -91,6 +90,7 @@ function PremiumMembershipPage() {
             date: Date.now()
           }
           axios.post(`${SERVER_URL}/handlePaymentSuccess`, response )
+          alert("payment successful");
         },
         prefill: {
           name: 'John Doe',

@@ -24,19 +24,7 @@ import Orders from './UserTable';
 import InstitutionTypes from './InstitutionTypes';
 import PieChartComponent from './AffiliatedBy';
 import FinanceBarchart from './FinanceBarChart';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -87,6 +75,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function DashboardContent() {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -146,9 +135,9 @@ function DashboardContent() {
           </Toolbar>
           <Divider />
           <List component="nav" sx={{flexDirection: 'column'}}>
-            {mainListItems}
+            {mainListItems(navigate)}
           <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            {secondaryListItems(navigate)}
           </List>
         </Drawer>
         <Box

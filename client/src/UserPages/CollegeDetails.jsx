@@ -189,6 +189,7 @@ export default function CollegeDetails() {
       console.log(res.data)
       if(res.status===200){
         setIsLoading(false);
+        alert("updated details successfully")
         // navigate('/condition1')
       }
     }).catch((err)=>{

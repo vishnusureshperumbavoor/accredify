@@ -4,16 +4,20 @@ import Typography from '@mui/material/Typography';
 import Title from './Title';
 import { useEffect,useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 const today = new Date();
 const options = { day: 'numeric', month: 'long', year: 'numeric' };
 
 export default function Deposits() {
+  const navigate = useNavigate()
+  function preventDefault(event) {
+    event.preventDefault();
+    navigate('/payments')
+  }
+  
   const [totalAmount,setTotalAmount] = useState("0")
   const [Date,setDate] = useState("22 April, 2023")
   useEffect(()=>{

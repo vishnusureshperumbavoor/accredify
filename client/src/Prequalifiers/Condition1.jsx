@@ -79,7 +79,7 @@ function Condition1() {
                 >
                   
                   <h4>
-                    Are the vision, mission and PEOs of the department stated in the prospectus / website?<br/>
+                    Are the vision, mission and PEOs of the department stated in the website?<br/>
                   </h4> 
                 </TableCell>
                 </TableRow>
@@ -112,7 +112,7 @@ function Condition1() {
                 </TableRow>
                 {selectedOption === 'No' && 
                   <Typography variant="body1" color="error" style={{textAlign:"center"}}>
-                    You cannot apply for NB Accreditation if mission, vision and PEOs is not mentioned on the prospectus / website.
+                    You cannot apply for NB Accreditation if mission, vision and PEOs is not mentioned on the website.
                   </Typography>
                 }
               <TableRow>

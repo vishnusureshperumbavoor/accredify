@@ -40,6 +40,7 @@ function Condition4() {
   const sum2 = Number(data.programLevelAdmission2022) + Number(data.programLevelAdmission2021) + Number(data.programLevelAdmission2020);
  
   const total = ((sum2*100) / sum1).toFixed(2);
+  const formattedTotal = isNaN(total) ? 0 : total;
 
   const saveResult = () => {
     const existingResults = JSON.parse(localStorage.getItem("results")) || {};
@@ -147,7 +148,7 @@ function Condition4() {
                 </TableCell>
                 </TableRow>
                 <TableRow style={{textAlign:"center",fontWeight:"bold",fontSize:"40px"}}> 
-                  % of students admitted over last 3 assessment years : {total}
+                  % of students admitted over last 3 assessment years : {formattedTotal}
                 </TableRow>
                 {total < 50 ? (
                   <Typography color="error" style={{

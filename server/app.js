@@ -115,7 +115,7 @@ app.post("/handlePayment", urlencodedParser, (req, res) => {
 
 app.post("/handlePaymentSuccess", urlencodedParser, (req, res) => {
   console.log("payment is success")
-  let msg = req.body.username + " upgraded membership status and ensure that they receive all the benefits and features associated with their plan." 
+  let msg = req.body.userId + " upgraded membership status and ensure that they receive all the benefits and features associated with their plan." 
   let user = {
     email : ADMIN_EMAIL
   }
@@ -127,6 +127,15 @@ app.post("/paymentsTableData/:userId", urlencodedParser, (req, res) => {
   const userId = req.params.userId;
   console.log(userId)
   userHelpers.getPaymentsTable(userId).then((response)=>{
+    res.json(response)
+  })
+  .catch((err)=>{
+    res.json(err)
+  })
+});
+
+app.post("/getPaymentsTable", urlencodedParser, (req, res) => {
+  adminHelpers.getPaymentsTable().then((response)=>{
     res.json(response)
   })
   .catch((err)=>{
@@ -158,6 +167,7 @@ app.get('/api/checkUsername/:username', async (req, res) => {
 
 
 app.post("/login", urlencodedParser, (req, res) => {
+  console.log(req.body)
   userHelpers.doLogin(req.body).then((user)=>{
       const token = jwt.sign({ user }, JWT_SECRET);
       res.status(200).json({ token, user: user });

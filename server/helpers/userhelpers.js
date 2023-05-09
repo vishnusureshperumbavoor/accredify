@@ -153,7 +153,7 @@ module.exports = {
     },
     getPaymentsTable:(userId)=>{
         return new Promise(async(resolve,reject)=>{
-            let user = await db.collection(collections.PAYMENT_DETAILS).find({userId:userId}).toArray()
+            let user = await db.collection(collections.PAYMENT_DETAILS).find({userId:userId}).sort({date: -1}).toArray()
             if(user){
                 resolve(user)
             }

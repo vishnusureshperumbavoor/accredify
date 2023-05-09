@@ -174,4 +174,16 @@ module.exports = {
             })
         })
     }),
+    getPaymentsTable:(userId)=>{
+        return new Promise(async(resolve,reject)=>{
+            let user = await db.collection(collections.PAYMENT_DETAILS).find().sort({date: -1}).toArray()
+            if(user){
+                resolve(user)
+            }
+            else{
+                console.log("user does not exist");
+                reject(err)
+            }
+        })
+    },
 }
