@@ -64,7 +64,7 @@ function PaymentsTable() {
 
   
   return (
-    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0, paddingTop: "90px" ,paddingLeft:"20px"}}>
+    <div style={{ margin:0,padding:0, paddingTop: "90px" ,paddingLeft:"20px"}}>
       <Navbar/>
       <Grid container spacing={2} maxWidth="lg" sx={{ mt: 5, mb: 4,pt:5 }}>
         <Grid item xs={12} md={8} lg={8}>
@@ -97,7 +97,7 @@ function PaymentsTable() {
           ).map((payment) => (
             <TableRow key={payment._id}>
               <TableCell align="left">{payment.id}</TableCell>
-              <TableCell align="left">{payment.amount}</TableCell>
+              <TableCell align="left">{payment.amount/100}</TableCell>
               <TableCell align="left">{payment.receipt}</TableCell>
               <TableCell align="left">{new Date(payment.date).toLocaleDateString('en-GB')}</TableCell>
               <TableCell align="left">{new Date(payment.date).toLocaleTimeString('en-US')}</TableCell>

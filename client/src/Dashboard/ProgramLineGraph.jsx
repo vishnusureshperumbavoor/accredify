@@ -16,7 +16,7 @@ import Title from './Title';
               
     return (
         <React.Fragment>
-            <Title>Program Level Admission</Title>
+            <Title>Department Level Admission</Title>
         <ResponsiveContainer width="100%" height={220}>
         <LineChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />

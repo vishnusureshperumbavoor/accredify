@@ -1,21 +1,37 @@
-import React, { useState, useEffect } from "react";
-import Card from "@mui/material/Card";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { useNavigate } from "react-router-dom";
-import Navbar from "../Components/Navbar";
-import { Typography } from "@mui/material";
-import axios from "axios";
+import * as React from 'react';
+import { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { Select,MenuItem,Card,InputAdornment,IconButton,RadioGroup,Radio } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Navbar from '../Components/Navbar';
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
-function Condition3() {
+const currentYear = new Date().getFullYear();
+const cay = `${currentYear}-${currentYear - 1}`;
+const caym1 = `${currentYear - 1}-${currentYear - 2}`;
+const caym2 = `${currentYear - 2}-${currentYear - 3}`;
+
+const theme = createTheme({
+    palette: {
+        mode: 'dark',
+      },
+});
+
+export default function Condition32() {
   const navigate = useNavigate();
   const [data, setData] = useState({});
   const [error1, setError1] = useState(false);
@@ -58,8 +74,10 @@ function Condition3() {
     }
   };
 
-  const sum1 = Number(data.instituteLevelSanctionIntake2022) + Number(data.instituteLevelSanctionIntake2021) + Number(data.instituteLevelSanctionIntake2020);
-  const sum2 = Number(data.instituteLevelAdmission2022) + Number(data.instituteLevelAdmission2021) + Number(data.instituteLevelAdmission2020);
+  let sum1 = Number(data.instituteLevelSanctionIntake2022) + Number(data.instituteLevelSanctionIntake2021) + Number(data.instituteLevelSanctionIntake2020);
+  sum1 = isNaN(sum1) ? 0 : sum1;
+  let sum2 = Number(data.instituteLevelAdmission2022) + Number(data.instituteLevelAdmission2021) + Number(data.instituteLevelAdmission2020);
+  sum2 = isNaN(sum2) ? 0 : sum2;
   const total = ((sum2*100) / sum1).toFixed(2);
   const formattedTotal = isNaN(total) ? 0 : total;
 
@@ -87,108 +105,100 @@ function Condition3() {
       alert("error")
     })
   };
-
   return (
-    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0, paddingTop: "30px" }}>
-      <Navbar/>
-      <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
-        <TableContainer component={Paper}>
-          <Table
-            sx={{ "& td": { border: 0 }, minWidth: 650 }}
-            aria-label="simple table"
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  className="fontLink"
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: "20px",
-                    textAlign: "center",
-                  }}
-                >
-                  PREQUALIFIERS (CONDITION 3)
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                    textAlign: "center",
-                  }}
-                >
-                  Student Admission (Institute level)
-                </TableCell>
-                </TableRow>
-                <TableRow >
-                <TableCell align="center">
-                <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell style={{fontWeight:"bolder"}}>Description</TableCell>
-            <TableCell align="right" style={{fontWeight:"bolder"}}>2022-23</TableCell>
-            <TableCell align="right" style={{fontWeight:"bolder"}}>2021-22</TableCell>
-            <TableCell align="right" style={{fontWeight:"bolder"}}>2020-21</TableCell>
-            <TableCell align="right" style={{fontWeight:"bolder"}}>Total</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+    <div>
+        <Navbar/>
+        <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="lg" sx={{marginBottom:2}}>
+        <CssBaseline />
+        <Box
+          sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+        >
+          <Button
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2, borderRadius: 0 ,backgroundColor: "#E50914",
+              "&:hover": {
+                backgroundColor: "#E50914"
+              }}}
             >
-              <TableCell component="th" scope="row" >
-                Sanctioned Intake in the 1st year
-              </TableCell>
-              <TableCell align="right">
+              PREQUALIFIERS (CONDITION 3)
+            </Button>
+          <Box component="form" noValidate onSubmit={handleSubmit} >
+           
+
+              <Grid item sx={{mb:1}}>
+                <Typography sx={{textAlign: 'center'}} >Student Admission (Institute level)</Typography>
+              </Grid>
+
+              <Grid container spacing={2} sx={{mb:2,mt:1,textAlign: 'center'}}>
+                <Grid item xs={12} sm={3}>
+                Sanctioned Intake (1st year)
+                </Grid>
+                <Grid item xs={12} sm={3}>
                 <TextField id="outlined-basic" variant="outlined" type="number" value={data.instituteLevelSanctionIntake2022} 
-                name="instituteLevelSanctionIntake2022" onInput={handleNumChange} onBlur={handleNumChange} />
-              </TableCell>
-              <TableCell align="right">
+                name="instituteLevelSanctionIntake2022" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAY (${cay})`}
+                InputLabelProps={{
+                  shrink: data.instituteLevelSanctionIntake2022 ? true : undefined,
+                }}  />
+                </Grid>
+                <Grid item xs={12} sm={3}>
                 <TextField id="outlined-basic" variant="outlined" type="number" value={data.instituteLevelSanctionIntake2021} 
-                name="instituteLevelSanctionIntake2021" onInput={handleNumChange} onBlur={handleNumChange} />
-              </TableCell>
-              <TableCell align="right">
+                name="instituteLevelSanctionIntake2021" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm1 (${caym1})`}
+                InputLabelProps={{
+                  shrink: data.instituteLevelSanctionIntake2021 ? true : undefined,
+                }} />
+                </Grid>
+                <Grid item xs={12} sm={3}>
                 <TextField id="outlined-basic" variant="outlined" type="number" value={data.instituteLevelSanctionIntake2020} 
-                name="instituteLevelSanctionIntake2020" onInput={handleNumChange} onBlur={handleNumChange} />
-              </TableCell>
-              <TableCell align="right">{sum1}</TableCell>
-            </TableRow>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" >
-                Number of Student admitted in the 1st year
-              </TableCell>
-              <TableCell align="right">
+                name="instituteLevelSanctionIntake2020" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm2 (${caym2})`} 
+                InputLabelProps={{
+                  shrink: data.instituteLevelSanctionIntake2020 ? true : undefined,
+                }}/>
+                </Grid>
+              </Grid>
+
+
+              <Grid container spacing={2} sx={{mb:2,mt:1,textAlign: 'center'}} >
+                <Grid item xs={12} sm={3}>
+                Number of students admitted
+                </Grid>
+                <Grid item xs={12} sm={3}>
                 <TextField id="outlined-basic" variant="outlined" type="number" name="instituteLevelAdmission2022" value={data.instituteLevelAdmission2022} 
-                onInput={handleNumChange} onBlur={handleNumChange} error={error1}
-                />
-              </TableCell>
-              <TableCell align="right">
+                onInput={handleNumChange} onBlur={handleNumChange} error={error1} size="small" label={`CAY (${cay})`}
+                InputLabelProps={{
+                  shrink: data.instituteLevelAdmission2022 ? true : undefined,
+                }}/>
+                </Grid>
+                <Grid item xs={12} sm={3}>
                 <TextField id="outlined-basic" variant="outlined" type="number" name="instituteLevelAdmission2021" value={data.instituteLevelAdmission2021} 
-                onInput={handleNumChange} onBlur={handleNumChange}  error={error2}
+                onInput={handleNumChange} onBlur={handleNumChange}  error={error2} size="small" label={`CAYm1 (${caym1})`}
+                InputLabelProps={{
+                  shrink: data.instituteLevelAdmission2021 ? true : undefined,
+                }}
                 />
-              </TableCell>
-              <TableCell align="right">
+                </Grid>
+                <Grid item xs={12} sm={3}>
                 <TextField id="outlined-basic" variant="outlined" type="number" name="instituteLevelAdmission2020" value={data.instituteLevelAdmission2020} 
-                onInput={handleNumChange} onBlur={handleNumChange} error={error3}
+                onInput={handleNumChange} onBlur={handleNumChange} error={error3} size="small" label={`CAYm2 (${caym2})`}
+                InputLabelProps={{
+                  shrink: data.instituteLevelAdmission2020 ? true : undefined,
+                }}
                  />
-              </TableCell>
-              <TableCell align="right">{sum2}</TableCell>
-            </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
-                </TableCell>
-                </TableRow>
-                <TableRow style={{textAlign:"center",fontWeight:"bold",fontSize:"40px"}}> 
-                  {total && <typography>% of students admitted over last 3 assessment years : {formattedTotal}</typography>}
-                </TableRow>
+                </Grid>
+              </Grid>
+
+              <Grid item>
+                {total && <typography sx={{mb:2,mt:1,textAlign: 'center'}} >Students admitted over last 3 assessment years : {formattedTotal}%</typography>}
+              </Grid>
+
+
+              <Grid item>
                 {total < 50 ? (
                   <Typography color="error" style={{
                     textAlign: "center",paddingTop:"15px"
@@ -197,25 +207,27 @@ function Condition3() {
                     institution is less than 50%
                   </Typography>
                 ) : null}
-              <TableRow>
-                <TableCell colSpan={4} style={{
-                    textAlign: "center", 
-                  }}>
-                  <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition2")}>
+              </Grid>
+
+              <Grid container spacing={2} sx={{pt:1}}>
+              <Grid item xs={6} sm={6} sx={{ textAlign: 'right' }}>
+              <Button variant="contained" 
+                   onClick={()=>navigate("/conditions2")}>
                     Go Back
                   </Button>
-                  <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>
+              </Grid>
+              <Grid item xs={6} sm={6} sx={{ textAlign: 'left' }}>
+              <Button variant="contained" 
+                  onClick={handleSubmit}>
                     Continue
                   </Button>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Card>
+              </Grid>
+              </Grid>
+            
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
     </div>
-  );
+  )
 }
-export default Condition3;

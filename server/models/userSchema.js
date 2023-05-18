@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const registrationSchema = new mongoose.Schema({
     institute_name: String,
+    department:String,
     email: String,
     password:String,
     username:String,

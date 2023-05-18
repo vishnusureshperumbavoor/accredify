@@ -4,13 +4,25 @@ import { Button, Container, Typography,Grid,Card,CardMedia,CardContent,Link,Icon
 import Navbar from '../Components/Navbar';
 import { useNavigate } from "react-router-dom";
 import { Twitter, LinkedIn, GitHub} from '@mui/icons-material';
+import './HomePage.css';
+import heroImage from '../Images/herobg.png';
+
+const images = [
+  {
+    heroImageStyle: {
+      width: '100%',
+      height: 'auto',
+      objectFit: 'cover',
+    },
+  },
+];
 
 const teamMembers = [
   {
     name: 'Vishnu Suresh',
     position: 'CEO & CTO',
     photoUrl: '/meetourteam/vishnu_suresh.jpeg',
-    bio: 'CEO & CTO of Accredify. Co-founder & CTO of Cape (IOT data monitoring). Winner of Vaiga AgriHack 2023. ',
+    bio: 'CEO & CTO of Accredify. Co-founder & CTO of Cape (IOT data monitoring). Winner of Vaiga 2023. ',
     socialMedia: {
       twitter: 'https://twitter.com/vspeeeeee',
       linkedin: 'https://www.linkedin.com/in/vishnu-suresh-perumbavoor-9a7a8223a/',
@@ -51,53 +63,63 @@ const teamMembers = [
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(4),
     textAlign: 'center',
-  },
-  button: {
-    marginTop: theme.spacing(2),
   },
 }));
 
-function HomePage(props) {
+function HomePage() {
   const classes = useStyles();
   const navigate = useNavigate();
   return (
-    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0, paddingTop: "45px" }}>
+    <div style={{ margin:0,padding:0, paddingTop: "45px" }}>
     <Navbar/>
     <Container className={classes.root}>
+      <section id="hero-section">
+    <div className="hero-section">
     <div
-        className='p-5 text-center bg-image'
-        style={{ backgroundImage: "url('')", height: 400 }}
-      >
-        <div className='mask' style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
-          <div className='d-flex justify-content-center align-items-center h-100'>
-            <div className='text-white'>
-              {/* <h1 className='mb-3'>Heading</h1>
-              <h4 className='mb-3'>Subheading</h4>
-              <a className='btn btn-outline-light btn-lg' href='#!' role='button'>
-                Call to action
-              </a> */}
-            </div>
-          </div>
+      className="hero-container"
+      style={{
+        backgroundImage: `url(${heroImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '550px', // Adjust the height according to your needs
+      }}
+    >
+    </div>
+
+          <div className="hero-image-text">
+    <h1>ACCREDIFY</h1>
+    <h3>Accreditation made easy</h3>
+    <button onClick={()=>{navigate('/login')}}>Get Started</button>
+  </div>
         </div>
-      </div>
-
-
-      
-        {/* <Button  variant="contained" style={{fontWeight:"bold",fontSize:"26px",backgroundColor: "#8B00FF",color: "white",margin:"15px"}} 
-          sx={{ width: 400,height:50, padding: 1, margin: 3 }} onClick={()=>navigate("/login")} >
-            Get Started
-        </Button> */}
-
-        <section style={{ margin: '50px 0' }}>
-      <Typography style={{fontWeight:"bold"}}  variant="h4" align="center" gutterBottom>
+    </section>
+    <section id="about-us" >
+    <Grid container spacing={3}  >
+      <Grid item xs={12} md={6}>
+        <Typography variant="h4" style={{fontWeight:"bold",color:"white"}}>ABOUT US</Typography>
+        <Typography variant="body1" style={{color:"white"}}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae urna varius,
+          vestibulum enim quis, dapibus odio. Proin facilisis lobortis nulla non vulputate.
+          Vestibulum ullamcorper finibus dolor, ut interdum ex porta vel. Fusce nec malesuada
+          mauris. Integer quis eros non metus suscipit scelerisque. Nam interdum libero ac
+          ipsum tincidunt, in blandit nisl egestas. Vestibulum ante ipsum primis in faucibus
+          orci luctus et ultrices posuere cubilia Curae; Duis nec pharetra elit.
+        </Typography>
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <img src="/images/about-us-image.jpg" alt="About Us" style={{ width: '100%', height: 'auto' }} />
+      </Grid>
+    </Grid>
+    </section>
+        <section style={{ padding: '100px 0' }}>
+      <Typography style={{fontWeight:"bold",color:"white"}}  variant="h4" align="center" gutterBottom>
         Meet Our Team
       </Typography>
 
       <Grid container spacing={2} justifyContent="center" sx={{ maxWidth: "lg", margin: "auto" }}>
   {teamMembers.map((member) => (
-    <Grid item key={member.name} xs={3}>
+    <Grid item key={member.name} xs={6} sm={3}>
       <Card sx={{ maxWidth: 345 }}>
         <CardMedia component="img" height="280" image={member.photoUrl} alt={member.name} />
         <CardContent>

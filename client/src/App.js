@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import CollegeDetails from "./UserPages/CollegeDetails";
-import Registration from "./UserPages/RegistrationForm";
+import DepartmentDetails from "./UserPages/DepartmentDetails";
+import Registration from "./UserPages/Signup";
 import Login from "./UserPages/Login";
 import HomePage from "./UserPages/HomePage";
 import Premium from "./UserPages/PremiumMembeshipPage";
@@ -25,7 +25,7 @@ function App() {
       <Router>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/collegedetails" element={<CollegeDetails />} />
+            <Route path="/departmentdetails" element={<DepartmentDetails />} />
             <Route path="/signup" element={<Registration />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
@@ -42,6 +42,7 @@ function App() {
             <Route path="/colleges/:id" element={<Colleges2 />} />
             <Route path="/paymentsTable" element={<PaymentsTable />} />
             <Route path="/payments" element={<Payments />} />
+
           </Routes>
       </Router>
     </div>

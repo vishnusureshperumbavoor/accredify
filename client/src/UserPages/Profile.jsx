@@ -180,7 +180,7 @@ export default function CollegeDetails() {
   // };
 
   return (
-    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 , paddingTop: "30px"}}>
+    <div style={{ margin:0,padding:0 , paddingTop: "30px"}}>
       <Navbar/>
       <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
         <TableContainer component={Paper}>

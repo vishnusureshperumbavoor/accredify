@@ -155,6 +155,7 @@ app.get('/api/checkEmail/:email', async (req, res) => {
 });
 
 app.get('/api/checkUsername/:username', async (req, res) => {
+  console.log(req.params)
   const { username } = req.params;
   const user = await userHelpers.checkUsername(username);
 
@@ -167,7 +168,6 @@ app.get('/api/checkUsername/:username', async (req, res) => {
 
 
 app.post("/login", urlencodedParser, (req, res) => {
-  console.log(req.body)
   userHelpers.doLogin(req.body).then((user)=>{
       const token = jwt.sign({ user }, JWT_SECRET);
       res.status(200).json({ token, user: user });

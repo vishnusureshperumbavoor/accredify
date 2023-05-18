@@ -26,6 +26,14 @@ import PieChartComponent from './AffiliatedBy';
 import FinanceBarchart from './FinanceBarChart';
 import { useNavigate } from 'react-router-dom';
 
+
+
+const theme = createTheme({
+  palette: {
+      mode: 'dark',
+    },
+});
+
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -82,7 +90,8 @@ function DashboardContent() {
   };
 
   return (
-    <ThemeProvider theme={mdTheme}>
+    
+    <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="absolute" open={open}>

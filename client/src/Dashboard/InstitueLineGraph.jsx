@@ -16,7 +16,7 @@
               
     return (
         <React.Fragment>
-        <Title>Institute Level Admission</Title>
+        <Title>College Level Admission</Title>
         <ResponsiveContainer width="100%" height={220}>
         <LineChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />

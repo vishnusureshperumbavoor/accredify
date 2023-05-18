@@ -1,20 +1,32 @@
-import React, { useState, useEffect } from "react";
-import Card from "@mui/material/Card";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import { useNavigate } from "react-router-dom";
-import Navbar from "../Components/Navbar";
-import { Typography } from "@mui/material";
-function Condition6() {
+import * as React from 'react';
+import { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { Select,MenuItem,Card,InputAdornment,IconButton,RadioGroup,Radio } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Navbar from '../Components/Navbar';
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+
+const theme = createTheme({
+    palette: {
+        mode: 'dark',
+      },
+});
+
+export default function Condition62() {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState(localStorage.getItem('condition6') || '');
   const [result, setResult] = useState("Yes");
@@ -40,47 +52,39 @@ function Condition6() {
     saveResult();
     navigate("/condition7")
   };
-
   return (
-    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0 , paddingTop: "30px"}}>
-      
-      <Navbar/>
-      <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
-        <TableContainer component={Paper}>
-          <Table
-            sx={{ "& td": { border: 0 }, minWidth: 650 }}
-            aria-label="simple table"
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  className="fontLink"
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: "20px",
-                    textAlign: "center",
-                  }}
-                >
-                  PREQUALIFIERS (CONDITION 6)
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                    textAlign: "center",
-                  }}
-                >
-                  Is at least one Professor or one Assistant Professor on regular basis with Ph.D degree is available in the previous and current academic year?
-                </TableCell>
-                </TableRow>
-                <TableRow >
-                <TableCell>
-                <div style={{ display: "flex", justifyContent: "center" }}>
+    <div>
+        <Navbar/>
+        <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="md" sx={{marginBottom:2}}>
+        <CssBaseline />
+        <Box
+          sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+        >
+            {/* <Card sx={{ backgroundColor: '#808080', padding:2,marginTop:2,marginBottom:2 }}> */}
+          <Button
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2, borderRadius: 0 ,backgroundColor: "#E50914",
+              "&:hover": {
+                backgroundColor: "#E50914"
+              }}}
+            >
+              PREQUALIFIERS (CONDITION 6)
+            </Button>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+
+              <Grid item xs={12} sm={12}>
+                <Typography sx={{textAlign: 'left'}} >Is at least one Professor or one Assistant Professor on regular basis with Ph.D degree is available in the previous and current academic year?<br/></Typography>
+              </Grid>
+              <Grid item xs={12} sm={12}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
                   <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
@@ -89,47 +93,53 @@ function Condition6() {
                     <FormControlLabel
                       value="Yes"
                       control={<Radio />}
-                      checked={selectedOption === 'Yes'}
                       label="Yes"
+                      checked={selectedOption === 'Yes'}
                       onChange={handleOptionChange}
                     />
                     <FormControlLabel
                       value="No"
                       control={<Radio />}
-                      checked={selectedOption === 'No'}
                       label="No"
+                      checked={selectedOption === 'No'}
                       onChange={handleOptionChange}
                     />
                     
                   </RadioGroup>
                   </div>
-                </TableCell>
-                </TableRow>
-                {selectedOption === 'No' && 
+              </Grid>
+
+
+              <Grid item xs={12} sm={12}>
+              {selectedOption === 'No' && 
                   <Typography variant="body1" color="error" style={{textAlign:"center"}}>
                     You cannot apply for NB Accreditation, if there is no Professor or Assistant Professor on regular basis with Ph.D 
                     degree, available in the previous and current academic year.
                   </Typography>
                 }
-              <TableRow>
-                <TableCell colSpan={4} style={{
-                    textAlign: "center",
-                  }}>
-                  <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition5")}>
+              </Grid>
+              <Grid container spacing={2} sx={{pt:1}}>
+              <Grid item xs={6} sm={6} sx={{ textAlign: 'right' }}>
+              <Button variant="contained" 
+                   onClick={()=>navigate("/condition5")}>
                     Go Back
                   </Button>
-                  <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>
+              </Grid>
+              <Grid item xs={6} sm={6} sx={{ textAlign: 'left' }}>
+              <Button variant="contained" 
+                  onClick={handleSubmit}>
                     Continue
                   </Button>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Card>
+              </Grid>
+              </Grid>
+              
+            </Grid>
+            
+          </Box>
+      {/* </Card> */}
+        </Box>
+      </Container>
+    </ThemeProvider>
     </div>
-  );
+  )
 }
-export default Condition6;

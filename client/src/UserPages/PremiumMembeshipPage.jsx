@@ -16,13 +16,17 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import Navbar from '../Components/Navbar';
 import axios from 'axios';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
 
-
-
+const theme = createTheme({
+  palette: {
+      mode: 'dark',
+    },
+});
 
 const tiers = [
   {
@@ -114,6 +118,7 @@ function PremiumMembershipPage() {
     });
   })
   return (
+      <ThemeProvider theme={theme}>
     <React.Fragment>
       <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
       <CssBaseline />
@@ -210,6 +215,7 @@ function PremiumMembershipPage() {
                   </Button>
       </Container>
     </React.Fragment>
+      </ThemeProvider>
   );
 }
 

@@ -1,35 +1,32 @@
-import React, { useState, useEffect } from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Card from "@mui/material/Card";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import axios from "axios";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import { useNavigate } from "react-router-dom";
-import { CircularProgress } from '@material-ui/core';
-import Navbar from "../Components/Navbar";
-import { IconButton, InputAdornment } from '@mui/material';
+import * as React from 'react';
+import { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { Select,MenuItem,Card,InputAdornment,IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Navbar from '../Components/Navbar';
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
-function Login() {
+const theme = createTheme({
+    palette: {
+        mode: 'dark',
+      },
+});
+
+function Signup2() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
@@ -53,7 +50,6 @@ function Login() {
   };
 
   const handleChange = (event) => {
-    console.log(formData)
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
@@ -77,7 +73,7 @@ function Login() {
       localStorage.setItem("userToken",response.data.token)
       localStorage.setItem('username', response.data.user.username);
       localStorage.setItem('userId', response.data.user._id);
-      navigate(`/collegedetails`)
+      navigate(`/condition1`)
     })
     .catch((error) => {
         setIsLoading(false);
@@ -87,100 +83,100 @@ function Login() {
       });
   }
   return (
-    <div style={{ height: "100vh",width:"100vw",margin:0,padding:0, paddingTop: "30px" }}>
-      <Navbar/>
-      <Card sx={{ minWidth: 275 }} style={{ margin: "50px" }}>
-        <TableContainer component={Paper}>
-          <Table
-            sx={{ "& td": { border: 0 }, minWidth: 650 }}
-            aria-label="simple table"
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  className="fontLink"
-                  colSpan={2}
-                  style={{
-                    fontSize: "25px",
-                    textAlign: "center",
-                    fontWeight:"bold",
-                  }}
-                >
-                  LOGIN
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              
-              <TableRow>
-                <TableCell
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}
-                >
-                  Username or email
-                </TableCell>
-                <TableCell>
-                  <TextField label="Username or password"
-        name="username_or_email" sx={{ width: "37%" }}
-        value={formData.username_or_password}
-        onChange={handleChange}  />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "right",
-                    fontSize: "15px",
-                  }}
-                >
-                  Enter password
-                </TableCell>
-                <TableCell>
+    <div>
+        <Navbar/>
+        <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="sm" sx={{marginBottom:2}}>
+        <CssBaseline />
+        <Box
+          sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+        >
+            {/* <Card sx={{ backgroundColor: '#808080', padding:2,marginTop:2,marginBottom:2 }}> */}
+          <Button
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2, borderRadius: 0 ,backgroundColor: "#E50914",
+              "&:hover": {
+                backgroundColor: "#E50914"
+              }}}
+            >
+              Department Login
+            </Button>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+
+              <Grid item xs={4} sm={4}>
+                <Typography sx={{textAlign: 'right'}} >Username or email</Typography>
+              </Grid>
+              <Grid item xs={8} sm={8}>
                 <TextField
-        label="Password"
-        name="password" sx={{ width: "37%" }}
-        type={showPassword ? 'text' : 'password'}
-        value={formData.password}
-        onChange={handleChange}
-        error={errors.password ? true : false}
-        helperText={errors.password ? errors.password : ""}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell colSpan={4} style={{
-                    textAlign: "center",
-                  }}>
-                  <Button disabled={isLoading} variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={handleSubmit}>
-                    {isLoading ? <CircularProgress size={24} /> : 'LOGIN'}
-                  </Button>
-                  <Typography onClick={()=>navigate("/signup")}>
-                    Doesn't have an account? Signup
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Card>
+                  required
+                  fullWidth
+                  label="Username or password"
+        name="username_or_email"
+        value={formData.username_or_password}
+        onChange={handleChange} size="small"
+                />
+              </Grid>
+
+
+              <Grid item xs={4} sm={4}>
+                <Typography sx={{textAlign: 'right'}} >Enter password</Typography>
+              </Grid>
+              <Grid item xs={8} sm={8}>
+                <TextField
+                  required
+                  fullWidth
+                  label="Password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={formData.password}
+                  onChange={handleChange}
+                  error={errors.password ? true : false}
+                  helperText={errors.password ? errors.password : ""}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }} size="small"
+                />
+              </Grid>
+              
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Login
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="#" variant="body2" onClick={()=>navigate("/signup")} >
+                  Doesn't have an account? Sign up
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+      {/* </Card> */}
+        </Box>
+      </Container>
+    </ThemeProvider>
     </div>
-  );
+  )
 }
-export default Login;
+
+export default Signup2

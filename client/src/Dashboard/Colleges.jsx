@@ -84,7 +84,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const mdTheme = createTheme();
+const mdTheme = createTheme({
+  palette: {
+      mode: 'dark',
+    },
+});
 
 function CollegeContent() {
   const navigate = useNavigate();
@@ -190,16 +194,17 @@ function CollegeContent() {
                     p: 1,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 50,
+                    height: 100,
                   }}
                 >
                   <Typography variant="h4"
       sx={{
         fontWeight: 'bold',
-        color: 'black',
         justifyContent: 'center',
         textAlign:"center"
-      }}>{collegeData.institute_name}</Typography>
+      }}>{collegeData.institute_name}
+      <br />
+      {collegeData.department}</Typography>
                 </Paper>
               </Grid>
             </Grid>

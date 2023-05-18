@@ -106,7 +106,7 @@ export default function Navbar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-    navigate(`/collegedetails`)
+    navigate(`/pricing`)
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -145,7 +145,7 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose} >Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose} >Pricing</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
     </>
@@ -216,7 +216,7 @@ export default function Navbar() {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+            {/* <MenuIcon /> */}
           </IconButton>
           <Typography
             variant="h6"
