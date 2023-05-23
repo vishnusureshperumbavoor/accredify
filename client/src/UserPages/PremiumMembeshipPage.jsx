@@ -85,7 +85,7 @@ function PremiumMembershipPage() {
         name: 'Accredify',
         description: 'Premium Membership',
         order_id: orderId,
-        handler: function(response2) {
+        handler: function() {
           // handle success response
           response = response.data;
           response = {

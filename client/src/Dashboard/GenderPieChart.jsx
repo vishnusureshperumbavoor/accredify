@@ -11,7 +11,6 @@ const COLORS = ['#FF0000', '#00C49F', '#FFBB28'];
 const legendItems = [
   { value: "Male", color: "#FF0000" },
   { value: "Female", color: "#00C49F" },
-  { value: "Others", color: "#FFBB28" },
 ];
 
 function preventDefault(event) {
@@ -19,18 +18,16 @@ function preventDefault(event) {
 }
 
 export default function GenderPieChart({ collegeData }) {
-  const maleCount = collegeData.details ? Number(collegeData.details.male) : 0;
-  const femaleCount = collegeData.details ? Number(collegeData.details.female) : 0;
-  const othersCount = collegeData.details ? Number(collegeData.details.other) : 0;
+  const maleCount = 56;
+  const femaleCount = 8;
     const data = [
         { name: 'Male', value: maleCount },
         { name: 'Female', value: femaleCount },
-        { name: 'Others', value: othersCount },
       ];
   return (
     <React.Fragment>
-      <Title>Gender</Title>
-      <ResponsiveContainer width="100%" height={220}>
+      <Title>Students</Title>
+      <ResponsiveContainer width="100%" height={250}>
       <PieChart>
         <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} fill="#8884d8">
           {data.map((entry, index) => (

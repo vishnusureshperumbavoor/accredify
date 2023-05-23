@@ -1,22 +1,27 @@
     import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,ResponsiveContainer } from 'recharts';
     import Title from './Title';
     import * as React from 'react';
+    const currentYear = new Date().getFullYear();
+const caym3 = `${currentYear - 3}-${currentYear - 4}`;
+const caym4 = `${currentYear - 4}-${currentYear - 5}`;
+const caym5 = `${currentYear - 5}-${currentYear - 6}`;
     function InstitueLineGraph({collegeData}) {
-        const santionCount2020 = collegeData.details ? Number(collegeData.details.instituteLevelSanctionIntake2020) : 0;
-        const santionCount2021 = collegeData.details ? Number(collegeData.details.instituteLevelSanctionIntake2021) : 0;
-        const santionCount2022 = collegeData.details ? Number(collegeData.details.instituteLevelSanctionIntake2022) : 0;
-        const admissionCount2020 = collegeData.details ? Number(collegeData.details.instituteLevelAdmission2020) : 0;
-        const admissionCount2021 = collegeData.details ? Number(collegeData.details.instituteLevelAdmission2021) : 0;
-        const admissionCount2022 = collegeData.details ? Number(collegeData.details.instituteLevelAdmission2022) : 0;
+        const caym5exam = collegeData.details ? Number(collegeData.details.caym5exam) : 0;
+        const caym4exam = collegeData.details ? Number(collegeData.details.caym4exam) : 0;
+        const caym3exam = collegeData.details ? Number(collegeData.details.caym3exam) : 0;
+        const caym5grad = collegeData.details ? Number(collegeData.details.caym5graduates) : 0;
+        const caym4grad = collegeData.details ? Number(collegeData.details.caym4graduates) : 0;
+        const caym3grad = collegeData.details ? Number(collegeData.details.caym3graduates) : 0;
+
         const data = [
-                { year: '2020', alloted: santionCount2020, joined: admissionCount2020 },
-                { year: '2021', alloted: santionCount2021, joined: admissionCount2021 },
-                { year: '2022', alloted: santionCount2022, joined: admissionCount2022 },
+                { year: `CAYm5`, Examiners: caym5exam, Graduates: caym5grad },
+                { year: `CAYm4`, Examiners: caym4exam, Graduates: caym4grad },
+                { year: `CAYm3`, Examiners: caym3exam, Graduates: caym3grad },
         ]; 
               
     return (
         <React.Fragment>
-        <Title>College Level Admission</Title>
+        <Title>Graduates</Title>
         <ResponsiveContainer width="100%" height={220}>
         <LineChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />
@@ -24,8 +29,8 @@
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="alloted" stroke="#8884d8" />
-        <Line type="monotone" dataKey="joined" stroke="#82ca9d" />
+        <Line type="monotone" dataKey="Examiners" stroke="#8884d8" />
+        <Line type="monotone" dataKey="Graduates" stroke="#82ca9d" />
         </LineChart>
         </ResponsiveContainer>
         </React.Fragment>

@@ -184,7 +184,7 @@ export default function DepartmentDetails() {
                 backgroundColor: "#E50914"
               }}}
             >
-              Enter Department details for better consultation services
+              Enter Department details
             </Button>
           <Box component="form" noValidate onSubmit={handleSubmit} >
 
@@ -226,7 +226,7 @@ export default function DepartmentDetails() {
 </Grid>
 
 
-<Grid container sx={{mt:1}} alignItems="center" spacing={2}>
+{/* <Grid container sx={{mt:1}} alignItems="center" spacing={2}>
   <Grid item xs={12} sm={4} sx={{ textAlign: 'center' }}>
     <Typography>Number of Faculties</Typography>
   </Grid>
@@ -260,13 +260,13 @@ export default function DepartmentDetails() {
     />
   </Grid>
 </Grid>
-</Grid>
+</Grid> */}
 
 
 
 <Grid container sx={{mt:1}} alignItems="center" spacing={2}>
   <Grid item xs={12} sm={4} sx={{ textAlign: 'center' }}>
-    <Typography>Finance</Typography>
+    <Typography>Finance (if any)</Typography>
   </Grid>
                 <Grid item xs={12} sm={4} alignItems="center" spacing={2} sx={{display:'flex', justifyContent: 'center'}}>
                 <Grid item xs={4} sm={6} >

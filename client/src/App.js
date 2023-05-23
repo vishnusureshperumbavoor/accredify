@@ -12,8 +12,8 @@ import Condition3 from "./Prequalifiers/Condition3";
 import Condition4 from "./Prequalifiers/Condition4";
 import Condition5 from "./Prequalifiers/Condition5";
 import Condition6 from "./Prequalifiers/Condition6";
-import Condition7 from "./Prequalifiers/Condition7";
-import Condition8 from "./Prequalifiers/Condition8";
+// import Condition7 from "./Prequalifiers/Condition7";
+// import Condition8 from "./Prequalifiers/Condition8";
 import Dashboard from "./Dashboard/Dashboard";
 import Colleges2 from "./Dashboard/Colleges";
 import PaymentsTable from "./UserPages/PaymentsTable";
@@ -36,8 +36,8 @@ function App() {
             <Route path="/condition4" element={<Condition4 />} />
             <Route path="/condition5" element={<Condition5 />} />
             <Route path="/condition6" element={<Condition6 />} />
-            <Route path="/condition7" element={<Condition7 />} />
-            <Route path="/condition8" element={<Condition8 />} />
+            {/* <Route path="/condition7" element={<Condition7 />} />
+            <Route path="/condition8" element={<Condition8 />} />  */}
             <Route path="/pricing" element={<Premium />} />
             <Route path="/colleges/:id" element={<Colleges2 />} />
             <Route path="/paymentsTable" element={<PaymentsTable />} />

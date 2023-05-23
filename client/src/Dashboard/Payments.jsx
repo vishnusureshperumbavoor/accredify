@@ -73,7 +73,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const mdTheme = createTheme();
+const mdTheme = createTheme({
+  palette: {
+      mode: 'dark',
+    },
+});
 
 function Payments() {
   const navigate = useNavigate();

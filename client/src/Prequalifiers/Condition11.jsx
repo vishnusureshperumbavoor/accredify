@@ -26,9 +26,9 @@ const theme = createTheme({
       },
 });
 
-export default function Condition1() {
+export default function Condition13() {
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = useState(localStorage.getItem('condition1') || '');
+  const [selectedOption, setSelectedOption] = useState(localStorage.getItem('condition2') || '');
   const [result, setResult] = useState("Yes");
 
   const handleOptionChange = (e) => {
@@ -38,26 +38,25 @@ export default function Condition1() {
 
   const saveResult = () => {
     const existingResults = JSON.parse(localStorage.getItem("results")) || {};
-    existingResults.page1 = result;
+    existingResults.page2 = result;
     localStorage.setItem("results", JSON.stringify(existingResults));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     saveResult();
-    navigate("/condition2")
+    navigate("/condition3")
   };
-
 
   useEffect(() => {
     localStorage.setItem('lastVisitedPage', window.location.pathname);
-    localStorage.setItem('condition1', selectedOption);
+    localStorage.setItem('condition2', selectedOption);
   }, [selectedOption]);
   return (
     <div>
         <Navbar/>
         <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="md" sx={{marginBottom:2}}>
+      <Container component="main" maxWidth="sm" sx={{marginBottom:2}}>
         <CssBaseline />
         <Box
           sx={{
@@ -76,13 +75,12 @@ export default function Condition1() {
                 backgroundColor: "#E50914"
               }}}
             >
-              PREQUALIFIERS
+              PREQUALIFIERS (CONDITION 2)
             </Button>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
 
               <Grid item xs={12} sm={12}>
-                <Typography sx={{textAlign: 'left'}} >Are the vision, mission and PEOs of the department stated in the website?<br/></Typography>
                 <Typography sx={{textAlign: 'left'}} >Is approval of AICTE, obtained for the department?</Typography>
               </Grid>
               <Grid item xs={12} sm={12}>
@@ -114,19 +112,20 @@ export default function Condition1() {
 
               <Grid item xs={12} sm={12}>
               {selectedOption === 'No' && 
-                  <Typography variant="body1" color="error" style={{textAlign:"left"}}>
-                    You cannot apply for NB Accreditation if mission, vision and PEOs is not mentioned on the website. Or approval of AICTE is not obtained for the department.
+                  <Typography variant="body1" color="error" style={{textAlign:"center"}}>
+                    You cannot apply for NB Accreditation, if approval is not obtained from AICTE for the current program under construction,
+                    for current year and previous 2 years.
                   </Typography>
                 }
               </Grid>
               <Grid container spacing={2} sx={{pt:1}}>
-              {/* <Grid item xs={6} sm={6} sx={{ textAlign: 'right' }}>
+              <Grid item xs={6} sm={6} sx={{ textAlign: 'right' }}>
               <Button variant="contained" 
-                   onClick={()=>navigate("/collegedetails")}>
+                   onClick={()=>navigate("/condition1")}>
                     Go Back
                   </Button>
-              </Grid> */}
-              <Grid item xs={12} sm={12} sx={{ textAlign: 'center' }}>
+              </Grid>
+              <Grid item xs={6} sm={6} sx={{ textAlign: 'left' }}>
               <Button variant="contained" 
                   onClick={handleSubmit}>
                     Continue

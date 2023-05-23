@@ -45,9 +45,11 @@ app.set("view engine", "hbs");
 app.set("views", "");
 
 app.post("/signup", urlencodedParser, (req, res) => {
+  console.log(req.body)
   const plaintextPassword = req.body.password
   req.body.password = bcrypt.hashSync(plaintextPassword, salt);
   const user = new Registration(req.body);
+  
   userHelpers.doSignup(user).then((user)=>{
       let msg = user.institute_name + " has been registered for accreditation. Please check the dashboard for more details." 
       let msg2 = "Thank you for registering with our Accreditation Management Software application. We are thrilled to have you on board, and we look forward to helping you streamline your accreditation process. Feel free to explore our application and familiarize yourself with its features. If you have any questions or concerns, please do not hesitate to reach out to our support team at [vishnusureshperumbavor@gmail.com]. Thank you again for choosing our Accredify platform. We are committed to providing you with exceptional service and support." 

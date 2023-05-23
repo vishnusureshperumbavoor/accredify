@@ -117,6 +117,16 @@ export default function Navbar() {
     localStorage.removeItem('userToken');
     localStorage.removeItem('username');
     localStorage.removeItem('userId');
+    localStorage.removeItem('results');
+    localStorage.removeItem('condition1');
+    localStorage.removeItem('condition2');
+    localStorage.removeItem('condition3');
+    localStorage.removeItem('condition4');
+    localStorage.removeItem('condition5');
+    localStorage.removeItem('condition6');
+    localStorage.removeItem('condition7');
+    localStorage.removeItem('condition8');
+    localStorage.removeItem('lastVisitedPage');
     setUsername(null);
     navigate('/')
   };

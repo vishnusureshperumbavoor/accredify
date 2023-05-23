@@ -120,8 +120,13 @@ function Signup2() {
       setIsLoading(false);
       return;
     }
-  
-    axios.post(`${SERVER_URL}/signup`, formData).then((res)=>{
+
+    const updatedFormData = {
+      ...formData,
+      timeStamp: Date.now()
+    };
+
+    axios.post(`${SERVER_URL}/signup`, updatedFormData).then((res)=>{
         console.log(res.data)
         console.log(res.data.user.username)
         localStorage.setItem("userToken",res.data.token)

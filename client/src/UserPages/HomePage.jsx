@@ -94,7 +94,7 @@ function HomePage() {
   </div>
         </div>
     </section>
-    <section id="about-us" >
+    {/* <section id="about-us" >
     <Grid container spacing={3}  >
       <Grid item xs={12} md={6}>
         <Typography variant="h4" style={{fontWeight:"bold",color:"white"}}>ABOUT US</Typography>
@@ -111,7 +111,7 @@ function HomePage() {
         <img src="/images/about-us-image.jpg" alt="About Us" style={{ width: '100%', height: 'auto' }} />
       </Grid>
     </Grid>
-    </section>
+    </section> */}
         <section style={{ padding: '100px 0' }}>
       <Typography style={{fontWeight:"bold",color:"white"}}  variant="h4" align="center" gutterBottom>
         Meet Our Team

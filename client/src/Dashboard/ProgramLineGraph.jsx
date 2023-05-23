@@ -5,9 +5,9 @@ import Title from './Title';
         const santionCount2020 = collegeData.details ? Number(collegeData.details.programLevelSanctionIntake2020) : 0;
         const santionCount2021 = collegeData.details ? Number(collegeData.details.programLevelSanctionIntake2021) : 0;
         const santionCount2022 = collegeData.details ? Number(collegeData.details.programLevelSanctionIntake2022) : 0;
-        const admissionCount2020 = collegeData.details ? Number(collegeData.details.programLevelAdmission2020) : 0;
-        const admissionCount2021 = collegeData.details ? Number(collegeData.details.programLevelAdmission2021) : 0;
-        const admissionCount2022 = collegeData.details ? Number(collegeData.details.programLevelAdmission2022) : 0;
+        const admissionCount2020 = collegeData.details ? Number(collegeData.details.caym2ai) : 0;
+        const admissionCount2021 = collegeData.details ? Number(collegeData.details.caym1ai) : 0;
+        const admissionCount2022 = collegeData.details ? Number(collegeData.details.cayai) : 0;
         const data = [
                 { year: '2020', alloted: santionCount2020, joined: admissionCount2020 },
                 { year: '2021', alloted: santionCount2021, joined: admissionCount2021 },

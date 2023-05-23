@@ -29,7 +29,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect,useState } from 'react';
 import axios from 'axios';
 import GenderPieChart from './GenderPieChart';
-import CollegeFinance from './CollegeFinance';
+import CollegeFinance from './ApprovedIntake';
 import CollegeLabs from './CollegeLabs';
 import InstitueLineGraph from './InstitueLineGraph';
 import ProgramLineGraph from './ProgramLineGraph';
@@ -219,7 +219,7 @@ function CollegeContent() {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 300,
+                    height: 350,
                   }}
                 >
                  <GenderPieChart collegeData={collegeData}/>
@@ -233,7 +233,7 @@ function CollegeContent() {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 300,
+                    height: 350,
                   }}
                 >
                   <CollegeFinance collegeData={collegeData} />
@@ -241,9 +241,8 @@ function CollegeContent() {
               </Grid>
             </Grid>
           </Container>
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          {/* <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* College Labs */}
               {isLoading && <LinearProgress />}
               <Grid item xs={12} md={8} lg={8}>
                 <Paper
@@ -258,7 +257,6 @@ function CollegeContent() {
                 </Paper>
               </Grid>
 
-              {/* Chart */}
               {isLoading && <LinearProgress />}
               <Grid item xs={12} md={4} lg={4}>
                 <Paper
@@ -273,7 +271,7 @@ function CollegeContent() {
                 </Paper>
               </Grid>
             </Grid>
-          </Container>
+          </Container> */}
 
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>

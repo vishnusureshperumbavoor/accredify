@@ -23,9 +23,6 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 const currentYear = new Date().getFullYear();
 const cay = `${currentYear}-${currentYear - 1}`;
 const caym1 = `${currentYear - 1}-${currentYear - 2}`;
-const caym2 = `${currentYear - 2}-${currentYear - 3}`;
-const caym3 = `${currentYear - 3}-${currentYear - 4}`;
-const caym4 = `${currentYear - 4}-${currentYear - 5}`;
 
 const theme = createTheme({
     palette: {
@@ -33,11 +30,12 @@ const theme = createTheme({
       },
 });
 
-export default function Condition52() {
+export default function Condition5() {
   const navigate = useNavigate();
-
+  const [condition5Data, setCondition5Data] = useState({});
   const [data, setData] = useState({});
 
+  
   useEffect(()=>{
     const userId = localStorage.getItem("userId");
     localStorage.setItem('lastVisitedPage', window.location.pathname);
@@ -49,25 +47,19 @@ export default function Condition52() {
     })
     
   },[])
+  
+  const faculties = Number(data.cayFaculties) + Number(data.caym1Faculties)
+  const phds = Number(data.cayFacultiesPhd) + Number(data.caym1FacultiesPhd)
+  const phd = ((phds*100)/faculties).toFixed(2);
 
   const handleNumChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     localStorage.setItem('condition5', JSON.stringify(data));
   };
 
-  let totalstudents = Number(data.cay1styearsai) + Number(data.caym11styearsai) + Number(data.caym21styearsai) + Number(data.cay2ndyearsai) + Number(data.caym12ndyearsai) + Number(data.caym22ndyearsai) + Number(data.cay3rdyearsai) + Number(data.caym13rdyearsai) + Number(data.caym23rdyearsai) + Number(data.cay2ndyearsle) + Number(data.caym12ndyearsle) + Number(data.caym22ndyearsle) + Number(data.cay3rdyearsle) + Number(data.caym13rdyearsle) + Number(data.caym23rdyearsle)
-  let faculties = Number(data.cayFaculties) + Number(data.caym1Faculties) + Number(data.caym2Faculties)
-  let sfr = (totalstudents/faculties).toFixed(2);
-  // sum1 = isNaN(sum1) ? 0 : sum1;
-  // let sum2 = Number(data.programLevelAdmission2022) + Number(data.programLevelAdmission2021) + Number(data.programLevelAdmission2020);
-  // sum2 = isNaN(sum2) ? 0 : sum2;
- 
-  // const total = ((sum2*100) / sum1).toFixed(2);
-  // const formattedTotal = isNaN(total) ? 0 : total;
-
   const saveResult = () => {
     const existingResults = JSON.parse(localStorage.getItem("results")) || {};
-    const result = sfr > 25 ? "No" : "Yes";
+    const result = phd < 10 ? "No" : "Yes";
     existingResults.page5 = result;
     localStorage.setItem("results", JSON.stringify(existingResults));
   };
@@ -75,19 +67,19 @@ export default function Condition52() {
   const handleSubmit = (event) => {
     event.preventDefault();
     saveResult();
-      axios.post(`${SERVER_URL}/addDetails/${localStorage.getItem("userId")}`, data).then((res)=>{
-        if(res.status===200){;
-          navigate('/condition6')
-        }
-      }).catch((err)=>{
-        alert("error")
-      })
+    axios.post(`${SERVER_URL}/addDetails/${localStorage.getItem("userId")}`, data).then((res)=>{
+      if(res.status===200){;
+        navigate('/condition6')
+      }
+    }).catch((err)=>{
+      alert("error")
+    })
   };
   return (
     <div>
         <Navbar/>
         <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="md" sx={{marginBottom:2}}>
+      <Container component="main" maxWidth="lg" sx={{marginBottom:2}}>
         <CssBaseline />
         <Box
           sx={{
@@ -105,224 +97,72 @@ export default function Condition52() {
                 backgroundColor: "#E50914"
               }}}
             >
-              PREQUALIFIERS (CONDITION 5)
+              PHD
             </Button>
           <Box component="form" noValidate onSubmit={handleSubmit} >
-            <Grid container spacing={2} sx={{mb:2,mt:1}}>
-              <Grid item sx={{mb:1}} xs={12} sm={12}>
-                <Typography sx={{textAlign: 'center'}}>CAY ({cay})</Typography>
-              </Grid>
-            </Grid>
-
-              <Grid container spacing={2} sx={{mb:1,textAlign:"center"}} >
-                <Grid item xs={12} sm={3}>
-                <Typography sx={{textAlign:"center"}}>Approved Intake</Typography> 
+              <Grid container spacing={2} sx={{mb:2,textAlign: 'center'}}>
+                <Grid item xs={12} sm={12}>
+                <Typography sx={{textAlign: 'center'}}>
+                  10% of the total faculties should have PHD
+                </Typography>
                 </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.cay3rdyearsai} 
-                name="cay3rdyearsai" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"center"}} label={`CAYm2 (${caym2})`}
-                InputLabelProps={{
-                  shrink: data.cay3rdyearsai ? true : undefined,
-                }}  />
+                <Grid item xs={12} sm={4}>
+                Number of faculties
                 </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.cay2ndyearsai} 
-                name="cay2ndyearsai" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"center"}} label={`CAYm1 (${caym1})`}
-                InputLabelProps={{
-                  shrink: data.cay2ndyearsai ? true : undefined,
-                }}  />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.cay1styearsai} 
-                name="cay1styearsai" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"center"}} label={`CAY (${cay})`}
-                InputLabelProps={{
-                  shrink: data.cay1styearsai ? true : undefined,
-                }}  />
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={2} sx={{mb:1,textAlign:"center"}}>
-                <Grid item xs={12} sm={3}>
-                <Typography sx={{textAlign:"center"}}>Lateral Entry</Typography> 
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.cay3rdyearsle} 
-                name="cay3rdyearsle" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"left"}} label={`CAYm2 (${caym2})`}
-                InputLabelProps={{
-                  shrink: data.cay3rdyearsle ? true : undefined,
-                }}  />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.cay2ndyearsle} 
-                name="cay2ndyearsle" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"left"}} label={`CAYm1 (${caym1})`}
-                InputLabelProps={{
-                  shrink: data.cay2ndyearsle ? true : undefined,
-                }}  />
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={2} sx={{textAlign:"center"}}>
-                <Grid item xs={12} sm={3}>
-                <Typography>Faculties</Typography> 
-                </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={4}>
                 <TextField id="outlined-basic" variant="outlined" type="number" value={data.cayFaculties} 
-                name="cayFaculties" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"left"}}
+                name="cayFaculties" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAY (${cay})`}
                 InputLabelProps={{
                   shrink: data.cayFaculties ? true : undefined,
                 }}  />
                 </Grid>
-                </Grid>
-           
-            
-
-
-                <Grid container spacing={2} sx={{mb:2,mt:1,textAlign:"center"}}>
-                  <Grid item sx={{mb:1}} xs={12} sm={12}>
-                    <Typography>CAYm1 ({caym1})</Typography>
-                  </Grid>
-                </Grid>
-
-              <Grid container spacing={2} sx={{mb:1,textAlign:"center"}}>
-                <Grid item xs={12} sm={3}>
-                <Typography sx={{textAlign:"center"}}>Approved Intake</Typography> 
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym13rdyearsai} 
-                name="caym13rdyearsai" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"left"}} label={`CAYm3 (${caym3})`}
-                InputLabelProps={{
-                  shrink: data.caym13rdyearsai ? true : undefined,
-                }}  />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym12ndyearsai} 
-                name="caym12ndyearsai" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"center"}} label={`CAYm2 (${caym2})`}
-                InputLabelProps={{
-                  shrink: data.caym12ndyearsai ? true : undefined,
-                }}  />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym11styearsai} 
-                name="caym11styearsai" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"center"}} label={`CAYm1 (${caym1})`}
-                InputLabelProps={{
-                  shrink: data.caym11styearsai ? true : undefined,
-                }}  />
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={2} sx={{mb:1,textAlign:"center"}}>
-                <Grid item xs={12} sm={3}>
-                <Typography sx={{textAlign:"center"}}>Lateral Entry</Typography> 
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym13rdyearsle} 
-                name="caym13rdyearsle" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"left"}} label={`CAYm3 (${caym3})`}
-                InputLabelProps={{
-                  shrink: data.caym13rdyearsle ? true : undefined,
-                }}  />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym12ndyearsle} 
-                name="caym12ndyearsle" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"left"}} label={`CAYm2 (${caym2})`}
-                InputLabelProps={{
-                  shrink: data.caym12ndyearsle ? true : undefined,
-                }}  />
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={2} sx={{textAlign:"center"}}>
-                <Grid item xs={12} sm={3}>
-                <Typography sx={{textAlign:"center"}}>Faculties</Typography> 
-                </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={4}>
                 <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym1Faculties} 
-                name="caym1Faculties" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"left"}}
+                name="caym1Faculties" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm1 (${caym1})`} 
                 InputLabelProps={{
                   shrink: data.caym1Faculties ? true : undefined,
-                }}  />
-                </Grid>
-                </Grid>
-
-
-              
-                <Grid container spacing={2} sx={{mb:2,mt:1}}>
-                  <Grid item sx={{mb:1}} xs={12} sm={12}>
-                    <Typography sx={{textAlign: 'center'}}>CAYm2 ({caym2})</Typography>
-                  </Grid>
-                </Grid>
-
-              <Grid container spacing={2} sx={{mb:1,textAlign:"center"}}>
-                <Grid item xs={12} sm={3}>
-                <Typography sx={{textAlign:"center"}}>Approved Intake</Typography> 
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym23rdyearsai} 
-                name="caym23rdyearsai" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"left"}} label={`CAYm4 (${caym4})`}
-                InputLabelProps={{
-                  shrink: data.caym23rdyearsai ? true : undefined,
-                }}  />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym22ndyearsai} 
-                name="caym22ndyearsai" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"left"}} label={`CAYm3 (${caym3})`}
-                InputLabelProps={{
-                  shrink: data.caym22ndyearsai ? true : undefined,
-                }}  />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym21styearsai} 
-                name="caym21styearsai" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"left"}} label={`CAYm2 (${caym2})`}
-                InputLabelProps={{
-                  shrink: data.cay1styearsai ? true : undefined,
-                }}  />
+                }} />
                 </Grid>
               </Grid>
 
-              <Grid container spacing={2} sx={{mb:1,textAlign:"center"}}>
-                <Grid item xs={12} sm={3}>
-                <Typography sx={{textAlign:"center"}}>Lateral Entry</Typography> 
+
+              <Grid container spacing={2} sx={{mb:2,mt:1,textAlign: 'center'}} >
+                <Grid item xs={12} sm={4}>
+                Number of faculties with PHDs
                 </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym23rdyearsle} 
-                name="caym23rdyearsle" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"left"}} label={`CAYm4 (${caym4})`}
+                <Grid item xs={12} sm={4}>
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.cayFacultiesPhd} 
+                name="cayFacultiesPhd" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAY (${cay})`} 
                 InputLabelProps={{
-                  shrink: data.caym23rdyearsle ? true : undefined,
-                }}  />
+                  shrink: data.cayFacultiesPhd ? true : undefined,
+                }} />
                 </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym22ndyearsle} 
-                name="caym22ndyearsle" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"left"}} label={`CAYm3 (${caym3})`}
+                <Grid item xs={12} sm={4}>
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym1FacultiesPhd} 
+              name="caym1FacultiesPhd" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm1 (${caym1})`} 
                 InputLabelProps={{
-                  shrink: data.caym22ndyearsle ? true : undefined,
-                }}  />
+                  shrink: data.caym1FacultiesPhd ? true : undefined,
+                }}
+                />
                 </Grid>
               </Grid>
-
-              <Grid container spacing={2} sx={{textAlign:"center",mb:1}}>
-                <Grid item xs={12} sm={3}>
-                <Typography sx={{textAlign:"center"}}>Faculties</Typography> 
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym2Faculties} 
-                name="caym2Faculties" onInput={handleNumChange} onBlur={handleNumChange} size="small" sx={{textAlign:"left"}}
-                InputLabelProps={{
-                  shrink: data.caym2Faculties ? true : undefined,
-                }}  />
-                </Grid>
-                </Grid>
-            
 
               <Grid item>
-              {isFinite(sfr) && <Typography style={{textAlign:"center",fontWeight:"bold",fontSize:"30px"}}>Student Faculty Ratio 1 : {sfr}</Typography>} 
+              {!isNaN(phd) && (
+  <Typography sx={{mb:2, mt:1, textAlign: 'center'}}>
+    Percentage of teachers with PhD = {phd}%
+  </Typography>
+)}
               </Grid>
 
 
               <Grid item>
-              {sfr > 25 ? (
+              {phd < 10 ? (
                   <Typography color="error" style={{
-                    textAlign: "center"
+                    textAlign: "center",paddingTop:"15px"
                   }}>
-                    You cannot apply for NB Accreditation if the Student Faculty Ratio is greater than 1:25
+                    You cannot apply for NB Accreditation if the percentage of faculties with PhDs and total faculties is
+                    lesser than 10%
                   </Typography>
             ) : null}
               </Grid>

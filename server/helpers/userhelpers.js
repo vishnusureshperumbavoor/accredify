@@ -18,7 +18,7 @@ module.exports = {
     doSignup:(user)=>{
         console.log(user)
         return new Promise(async(resolve,reject)=>{
-            db.collection(collections.USER_DETAILS).insertOne(user).then((data)=>{
+            db.collection(collections.USER_DETAILS).insertOne(user).then(()=>{
                 resolve(user)
             })
             .catch((err)=>{

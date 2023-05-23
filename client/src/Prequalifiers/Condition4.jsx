@@ -20,49 +20,29 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Navbar from '../Components/Navbar';
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
-const currentYear = new Date().getFullYear();
-const cay = `${currentYear}-${currentYear - 1}`;
-const caym1 = `${currentYear - 1}-${currentYear - 2}`;
-const caym2 = `${currentYear - 2}-${currentYear - 3}`;
-
 const theme = createTheme({
     palette: {
         mode: 'dark',
       },
 });
 
-export default function Condition42() {
+export default function Condition4() {
   const navigate = useNavigate();
-  const [data, setData] = useState({});
+  const [selectedOption, setSelectedOption] = useState(localStorage.getItem('condition4') || '');
+  const [result, setResult] = useState("Yes");
 
-  useEffect(()=>{
-    const userId = localStorage.getItem("userId");
-    localStorage.setItem('lastVisitedPage', window.location.pathname);
-    axios.post(`${SERVER_URL}/getUserDetails`,{userId}).then((response)=>{
-      if(response.data.user.details)
-        setData(response.data.user.details);
-    }).catch((err)=>{
-      console.log(err)
-    })
-    
-  },[])
-
-  const handleNumChange = (event) => { 
-    setData({ ...data, [event.target.name]: event.target.value });
-    localStorage.setItem('condition4', JSON.stringify(data));
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
+    setResult(e.target.value === "Yes" ? "Yes" : "No");
   };
 
-  let sum1 = Number(data.programLevelSanctionIntake2022) + Number(data.programLevelSanctionIntake2021) + Number(data.programLevelSanctionIntake2020);
-  sum1 = isNaN(sum1) ? 0 : sum1;
-  let sum2 = Number(data.programLevelAdmission2022) + Number(data.programLevelAdmission2021) + Number(data.programLevelAdmission2020);
-  sum2 = isNaN(sum2) ? 0 : sum2;
- 
-  const total = ((sum2*100) / sum1).toFixed(2);
-  const formattedTotal = isNaN(total) ? 0 : total;
+  useEffect(() => {
+    localStorage.setItem('lastVisitedPage', window.location.pathname);
+    localStorage.setItem('condition4', selectedOption);
+  }, [selectedOption]);
 
   const saveResult = () => {
     const existingResults = JSON.parse(localStorage.getItem("results")) || {};
-    const result = total < 50 ? "No" : "Yes";
     existingResults.page4 = result;
     localStorage.setItem("results", JSON.stringify(existingResults));
   };
@@ -70,19 +50,13 @@ export default function Condition42() {
   const handleSubmit = (event) => {
     event.preventDefault();
     saveResult();
-    axios.post(`${SERVER_URL}/addDetails/${localStorage.getItem("userId")}`, data).then((res)=>{
-      if(res.status===200){;
-        navigate('/condition5')
-      }
-    }).catch((err)=>{
-      alert("error")
-    })
+    navigate("/condition5")
   };
   return (
     <div>
         <Navbar/>
         <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="lg" sx={{marginBottom:2}}>
+      <Container component="main" maxWidth="md" sx={{marginBottom:2}}>
         <CssBaseline />
         <Box
           sx={{
@@ -92,6 +66,7 @@ export default function Condition42() {
               alignItems: 'center',
             }}
         >
+            {/* <Card sx={{ backgroundColor: '#808080', padding:2,marginTop:2,marginBottom:2 }}> */}
           <Button
               fullWidth
               variant="contained"
@@ -100,94 +75,53 @@ export default function Condition42() {
                 backgroundColor: "#E50914"
               }}}
             >
-              PREQUALIFIERS (CONDITION 4)
+              PHD
             </Button>
-          <Box component="form" noValidate onSubmit={handleSubmit} >
-           
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
 
-              <Grid item sx={{mb:1}}>
-                <Typography sx={{textAlign: 'center'}} >Student Admission (Institute level)</Typography>
+              <Grid item xs={12} sm={12}>
+                <Typography sx={{textAlign: 'left'}} >Is at least one Professor or one Assistant Professor on regular basis with Ph.D degree is available in the previous and current academic year?<br/></Typography>
               </Grid>
-
-              <Grid container spacing={2} sx={{mb:2,mt:1,textAlign: 'center'}}>
-                <Grid item xs={12} sm={3}>
-                Sanctioned Intake (1st year)
-                </Grid>
-
-                
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.programLevelSanctionIntake2022} 
-                name="programLevelSanctionIntake2022" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAY (${cay})`}
-                InputLabelProps={{
-                  shrink: data.instituteLevelSanctionIntake2022 ? true : undefined,
-                }}  />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.programLevelSanctionIntake2021} 
-                name="programLevelSanctionIntake2021" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm1 (${caym1})`} 
-                InputLabelProps={{
-                  shrink: data.instituteLevelSanctionIntake2021 ? true : undefined,
-                }} />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.programLevelSanctionIntake2020} 
-              name="programLevelSanctionIntake2020" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm2 (${caym2})`} 
-                InputLabelProps={{
-                  shrink: data.instituteLevelSanctionIntake2020 ? true : undefined,
-                }} />
-                </Grid>
+              <Grid item xs={12} sm={12}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="institute_type"
+                  >
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                      checked={selectedOption === 'Yes'}
+                      onChange={handleOptionChange}
+                    />
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                      checked={selectedOption === 'No'}
+                      onChange={handleOptionChange}
+                    />
+                    
+                  </RadioGroup>
+                  </div>
               </Grid>
 
 
-              <Grid container spacing={2} sx={{mb:2,mt:1,textAlign: 'center'}} >
-                <Grid item xs={12} sm={3}>
-                Number of students admitted
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.programLevelAdmission2022} 
-                name="programLevelAdmission2022" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAY (${cay})`} 
-                InputLabelProps={{
-                  shrink: data.instituteLevelAdmission2022 ? true : undefined,
-                }} />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.programLevelAdmission2021} 
-              name="programLevelAdmission2021" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm1 (${caym1})`} 
-                InputLabelProps={{
-                  shrink: data.instituteLevelAdmission2021 ? true : undefined,
-                }}
-                />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.programLevelAdmission2020} name="programLevelAdmission2020"
-                onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm2 (${caym2})`}
-                InputLabelProps={{
-                  shrink: data.instituteLevelAdmission2020 ? true : undefined,
-                }}
-                 />
-                </Grid>
-              </Grid>
-
-              <Grid item>
-                {total && <typography sx={{mb:2,mt:1,textAlign: 'center'}} >Students admitted over last 3 assessment years : {formattedTotal}%</typography>}
-              </Grid>
-
-
-              <Grid item>
-                {total < 50 ? (
-                  <Typography color="error" style={{
-                    textAlign: "center",paddingTop:"15px"
-                  }}>
-                    You cannot apply for NB Accreditation if the percentage of students admitted over last 3 assessment years in the 
-                    institution is less than 50%
+              <Grid item xs={12} sm={12}>
+              {selectedOption === 'No' && 
+                  <Typography variant="body1" color="error" style={{textAlign:"center"}}>
+                    You cannot apply for NB Accreditation, if there is no Professor or Assistant Professor on regular basis with Ph.D 
+                    degree, available in the previous and current academic year.
                   </Typography>
-                ) : null}
+                }
               </Grid>
-
               <Grid container spacing={2} sx={{pt:1}}>
               <Grid item xs={6} sm={6} sx={{ textAlign: 'right' }}>
               <Button variant="contained" 
-                   onClick={()=>navigate("/conditions3")}>
+                   onClick={()=>navigate("/condition3")}>
                     Go Back
                   </Button>
               </Grid>
@@ -198,8 +132,11 @@ export default function Condition42() {
                   </Button>
               </Grid>
               </Grid>
+              
+            </Grid>
             
           </Box>
+      {/* </Card> */}
         </Box>
       </Container>
     </ThemeProvider>

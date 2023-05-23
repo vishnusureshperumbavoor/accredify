@@ -6,8 +6,9 @@ const registrationSchema = new mongoose.Schema({
     email: String,
     password:String,
     username:String,
+    timeStamp:Date,
     collegeDetails:Object,
-    createdAt: { type: Date, default: new Date() },
+    createdAt: { type: Date, default: Date.now() },
 });
 
 module.exports = mongoose.model("registration", registrationSchema)

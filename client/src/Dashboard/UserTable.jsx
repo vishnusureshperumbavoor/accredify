@@ -61,9 +61,10 @@ export default function Orders() {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Created At</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Email</TableCell>
+            <TableCell>Date</TableCell>
+            <TableCell>Time</TableCell>
+            <TableCell>College</TableCell>
+            <TableCell>Department</TableCell>
             <TableCell></TableCell>
             {/* <TableCell align="right">Sale Amount</TableCell> */}
           </TableRow>
@@ -74,9 +75,10 @@ export default function Orders() {
                 : users
               ).map((user) => (
                 <TableRow key={user._id}>
-                  <TableCell>{user.createdAt}</TableCell>
+                  <TableCell>{new Date(user.timeStamp).toLocaleDateString('en-GB')}</TableCell>
+                  <TableCell>{new Date(user.timeStamp).toLocaleTimeString('en-GB')}</TableCell>
                   <TableCell>{user.institute_name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.department}</TableCell>
                   <TableCell>
         <Button
           variant="contained"

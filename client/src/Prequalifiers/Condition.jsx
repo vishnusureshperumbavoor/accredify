@@ -17,14 +17,14 @@ function Condition() {
   const [results, setResults] = useState({});
 
   const questions = {
-    page1: "Vision and Mission and PEOs of the program should be listed in the prospectus/website?",
-    page2: "Approval of AICTE for the program under consideration has been obtained for the years including current year?",
-    page3: "Admissions in the undergraduate programs at the institue level has been more than or equal to 50% (average of the previous 3 academic years including the current year)",
-    page4: "Admissions in the undergraduate programs at the department level has been more than or equal to 50% (average of the previous 3 academic years including the current year)",
-    page5: "Faculty student ratio in the department under consideration is better than or equal to 1:25 averaged over previous 3 academic years including current academic year",
-    page6: "Atleast one professor or one Assistant professor on regular basis with Ph.D degress is available in the respective Department during previous two academic years including current academic year",
-    page7: "Number of available PhDs in the department is greater than or equal to 10% of the required number of faculty averaged for previous two years including the current academic year",
-    page8: "2 batches should have passed out in the programs under consideration",
+    page1: "Vision and Mission and PEOs of the program should be listed in the website and approval of aicte obtained for program under construction?",
+    // page2: "Approval of AICTE for the program under consideration has been obtained for the years including current year?",
+    // page2: "Admissions in the undergraduate programs at the institue level has been more than or equal to 50% (average of the previous 3 academic years including the current year)",
+    page2: "Admissions in the undergraduate programs at the department level has been more than or equal to 50% (average of the previous 3 academic years including the current year)",
+    page3: "Faculty student ratio in the department under consideration is better than or equal to 1:25 averaged over previous 3 academic years including current academic year",
+    page4: "Atleast one professor or one Assistant professor on regular basis with Ph.D degress is available in the respective Department during previous two academic years including current academic year",
+    page5: "Number of available PhDs in the department is greater than or equal to 10% of the required number of faculty averaged for previous two years including the current academic year",
+    page6: "2 batches should have passed out in the programs under consideration",
   };
 
   useEffect(() => {
@@ -66,7 +66,7 @@ function Condition() {
                     textAlign: "center",
                   }}
                 >
-                  All 8 conditions have to satisfy before submitting SAR.
+                  All 6 conditions have to satisfy before submitting SAR.
                 </TableCell>
                 </TableRow>
                 <TableRow >
@@ -93,7 +93,7 @@ function Condition() {
                     textAlign: "center",
                   }}>
                   <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 
-                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition8")}>
+                  sx={{ width: 400,height:50, padding: 1, margin: 2 }} onClick={()=>navigate("/condition6")}>
                     Go Back
                   </Button>
                   <Button variant="contained" style={{fontWeight:"bold",fontSize:"26px"}} 

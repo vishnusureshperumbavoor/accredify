@@ -24,7 +24,6 @@ const currentYear = new Date().getFullYear();
 const cay = `${currentYear}-${currentYear - 1}`;
 const caym1 = `${currentYear - 1}-${currentYear - 2}`;
 const caym2 = `${currentYear - 2}-${currentYear - 3}`;
-const caym3 = `${currentYear - 3}-${currentYear - 4}`;
 
 const theme = createTheme({
     palette: {
@@ -32,46 +31,65 @@ const theme = createTheme({
       },
 });
 
-export default function Condition82() {
+export default function Condition32() {
   const navigate = useNavigate();
-  const [condition5Data, setCondition5Data] = useState({});
   const [data, setData] = useState({});
+  const [error1, setError1] = useState(false);
+  const [error2, setError2] = useState(false);
+  const [error3, setError3] = useState(false);
 
   useEffect(()=>{
     const userId = localStorage.getItem("userId");
     localStorage.setItem('lastVisitedPage', window.location.pathname);
     axios.post(`${SERVER_URL}/getUserDetails`,{userId}).then((response)=>{
-      console.log(response.data.user.details)
+      console.log(response.data.user)
       if(response.data.user.details)
         setData(response.data.user.details);
     }).catch((err)=>{
       console.log(err)
     })
-    
   },[])
 
-  let caym1per = ((Number(data.caym1graduates)*100) / Number(data.caym1exam)).toFixed(2)
-  let caym2per = ((Number(data.caym2graduates)*100) / Number(data.caym2exam)).toFixed(2)
-  let caym3per = ((Number(data.caym3graduates)*100) / Number(data.caym3exam)).toFixed(2)
+  const handleNum4Blur = () => {
+    if (Number(data.num4) > Number(data.num1)) {
+      setError1(true);
+    } else {
+      setError1(false);
+    }
+  };
 
-  let count = 0
+  const handleNum5Blur = () => {
+    if (Number(data.num5) > Number(data.num2)) {
+      setError2(true);
+    } else {
+      setError2(false);
+    }
+  };
 
-  if (caym1per >= 80)
-    count++;
-  if (caym2per >= 80)
-    count++;
-  if (caym3per >= 80)
-    count++;
+  const handleNum6Blur = () => {
+    if (Number(data.num6) > Number(data.num3)) {
+      setError3(true);
+    } else {
+      setError3(false);
+    }
+  };
 
-  const handleNumChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-    localStorage.setItem('condition8', JSON.stringify(data));
+  let sum1 = Number(data.instituteLevelSanctionIntake2022) + Number(data.instituteLevelSanctionIntake2021) + Number(data.instituteLevelSanctionIntake2020);
+  sum1 = isNaN(sum1) ? 0 : sum1;
+  let sum2 = Number(data.instituteLevelAdmission2022) + Number(data.instituteLevelAdmission2021) + Number(data.instituteLevelAdmission2020);
+  sum2 = isNaN(sum2) ? 0 : sum2;
+  const total = ((sum2*100) / sum1).toFixed(2);
+  const formattedTotal = isNaN(total) ? 0 : total;
+
+  const handleNumChange = (event,setNum) => { 
+    setData({ ...data, [event.target.name]: event.target.value });
+    localStorage.setItem('condition3', JSON.stringify(data));
   };
 
   const saveResult = () => {
     const existingResults = JSON.parse(localStorage.getItem("results")) || {};
-    const result = (count>=2)  ? "Yes" : "No";
-    existingResults.page8 = result;
+    const result = total < 50 ? "No" : "Yes";
+    existingResults.page3 = result;
     localStorage.setItem("results", JSON.stringify(existingResults));
   };
 
@@ -79,8 +97,9 @@ export default function Condition82() {
     event.preventDefault();
     saveResult();
     axios.post(`${SERVER_URL}/addDetails/${localStorage.getItem("userId")}`, data).then((res)=>{
+      console.log(res.data)
       if(res.status===200){;
-        navigate('/condition')
+        navigate('/condition4')
       }
     }).catch((err)=>{
       alert("error")
@@ -108,104 +127,92 @@ export default function Condition82() {
                 backgroundColor: "#E50914"
               }}}
             >
-              PREQUALIFIERS (CONDITION 8)
+              PREQUALIFIERS (CONDITION 3)
             </Button>
           <Box component="form" noValidate onSubmit={handleSubmit} >
            
 
               <Grid item sx={{mb:1}}>
-                <Typography sx={{textAlign: 'center'}} >At least 80% of the students in 2 batches should have passed among previous 2 batches and current batch </Typography>
+                <Typography sx={{textAlign: 'center'}} >Student Admission (Institute level)</Typography>
               </Grid>
 
               <Grid container spacing={2} sx={{mb:2,mt:1,textAlign: 'center'}}>
                 <Grid item xs={12} sm={3}>
-                Number of students who wrote final exam
+                Approved Intake
                 </Grid>
                 <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym1exam} 
-                name="caym1exam" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm1 (${caym1})`} 
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.instituteLevelSanctionIntake2022} 
+                name="instituteLevelSanctionIntake2022" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAY (${cay})`}
                 InputLabelProps={{
-                  shrink: data.caym1exam ? true : undefined,
-                }} />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym2exam} 
-                name="caym2exam" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm2 (${caym2})`} 
-                InputLabelProps={{
-                  shrink: data.caym2exam ? true : undefined,
-                }} />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym3exam} 
-                name="caym3exam" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm3 (${caym3})`}
-                InputLabelProps={{
-                  shrink: data.caym3exam ? true : undefined,
+                  shrink: data.instituteLevelSanctionIntake2022 ? true : undefined,
                 }}  />
                 </Grid>
-              </Grid>
-
-
-              <Grid container spacing={2} sx={{mb:2,mt:1,textAlign: 'center'}} >
                 <Grid item xs={12} sm={3}>
-                Number of graduates
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym1graduates} 
-                name="caym1graduates" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm1 (${caym1})`} 
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.instituteLevelSanctionIntake2021} 
+                name="instituteLevelSanctionIntake2021" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm1 (${caym1})`}
                 InputLabelProps={{
-                  shrink: data.caym1graduates ? true : undefined,
+                  shrink: data.instituteLevelSanctionIntake2021 ? true : undefined,
                 }} />
                 </Grid>
                 <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym2graduates} 
-              name="caym2graduates" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm2 (${caym2})`} 
+                <TextField id="outlined-basic" variant="outlined" type="number" value={data.instituteLevelSanctionIntake2020} 
+                name="instituteLevelSanctionIntake2020" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm2 (${caym2})`} 
                 InputLabelProps={{
-                  shrink: data.caym2graduates ? true : undefined,
-                }}
-                />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                <TextField id="outlined-basic" variant="outlined" type="number" value={data.caym3graduates} 
-              name="caym3graduates" onInput={handleNumChange} onBlur={handleNumChange} size="small" label={`CAYm3 (${caym3})`} 
-                InputLabelProps={{
-                  shrink: data.caym3graduates ? true : undefined,
-                }}
-                />
+                  shrink: data.instituteLevelSanctionIntake2020 ? true : undefined,
+                }}/>
                 </Grid>
               </Grid>
+
 
               <Grid container spacing={2} sx={{mb:2,mt:1,textAlign: 'center'}} >
                 <Grid item xs={12} sm={3}>
-                Percentage of graduates
+                Students admitted
                 </Grid>
                 <Grid item xs={12} sm={3}>
-                <Typography>CAYm1 : {isNaN(caym1per) ? '' : `${caym1per}%`}</Typography>
+                <TextField id="outlined-basic" variant="outlined" type="number" name="instituteLevelAdmission2022" value={data.instituteLevelAdmission2022} 
+                onInput={handleNumChange} onBlur={handleNumChange} error={error1} size="small" label={`CAY (${cay})`}
+                InputLabelProps={{
+                  shrink: data.instituteLevelAdmission2022 ? true : undefined,
+                }}/>
                 </Grid>
                 <Grid item xs={12} sm={3}>
-                <Typography>CAYm2 : {isNaN(caym2per) ? '' : `${caym2per}%`}</Typography>
+                <TextField id="outlined-basic" variant="outlined" type="number" name="instituteLevelAdmission2021" value={data.instituteLevelAdmission2021} 
+                onInput={handleNumChange} onBlur={handleNumChange}  error={error2} size="small" label={`CAYm1 (${caym1})`}
+                InputLabelProps={{
+                  shrink: data.instituteLevelAdmission2021 ? true : undefined,
+                }}
+                />
                 </Grid>
                 <Grid item xs={12} sm={3}>
-                <Typography>CAYm3 : {isNaN(caym3per) ? '' : `${caym3per}%`}</Typography>
+                <TextField id="outlined-basic" variant="outlined" type="number" name="instituteLevelAdmission2020" value={data.instituteLevelAdmission2020} 
+                onInput={handleNumChange} onBlur={handleNumChange} error={error3} size="small" label={`CAYm2 (${caym2})`}
+                InputLabelProps={{
+                  shrink: data.instituteLevelAdmission2020 ? true : undefined,
+                }}
+                 />
                 </Grid>
               </Grid>
 
-              
+              <Grid item>
+                {total && <typography sx={{mb:2,mt:1,textAlign: 'center'}} >Students admitted over last 3 assessment years : {formattedTotal}%</typography>}
+              </Grid>
 
 
               <Grid item>
-              {count < 2 ? (
+                {total < 50 ? (
                   <Typography color="error" style={{
                     textAlign: "center",paddingTop:"15px"
                   }}>
-                    You cannot apply for NB Accreditaton if atleast 2 batches is not graduated with 80% {count}
+                    You cannot apply for NB Accreditation if the percentage of students admitted over last 3 assessment years in the 
+                    institution is less than 50%
                   </Typography>
-            ) : null}
+                ) : null}
               </Grid>
 
               <Grid container spacing={2} sx={{pt:1}}>
               <Grid item xs={6} sm={6} sx={{ textAlign: 'right' }}>
               <Button variant="contained" 
-                   onClick={()=>navigate("/condition7")}>
+                   onClick={()=>navigate("/condition2")}>
                     Go Back
                   </Button>
               </Grid>
