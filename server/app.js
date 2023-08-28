@@ -107,6 +107,7 @@ app.post("/getUserDetails", urlencodedParser, (req, res) => {
 // });
 
 app.post("/handlePayment", urlencodedParser, (req, res) => {
+  console.log(req.body)
   adminHelpers.addPayments(req.body)
   userHelpers.generateRazorpay(req.body).then((response)=>{
     res.json(response)

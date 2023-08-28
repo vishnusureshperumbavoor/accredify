@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "alchemy-sdk": "^2.6.2",
-    "bcrypt": "^5.1.0"
-  }
-}

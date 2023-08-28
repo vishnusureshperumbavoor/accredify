@@ -105,7 +105,7 @@ module.exports = {
     },
     sendWhatsApp:(user,msg)=>{
         return new Promise(async(resolve,reject)=>{
-            const number = '8714267479';
+            const number = process.env.ADMIN_MOBILE
             const sanitized_number = number.toString().replace(/[- )(]/g, ""); // remove unnecessary chars from the number
             const final_number = `91${sanitized_number.substring(sanitized_number.length - 10)}`; // add 91 before the number here 91 is country code of India
             const number_details = await client.getNumberId(final_number);
@@ -153,6 +153,7 @@ module.exports = {
     addPayments:((user)=>{
         return new Promise((resolve,reject)=>{
             db.collection(collections.ADMIN_LOGIN).findOne({_id:ObjectId(ADMIN_ID)}).then((admin)=>{
+                console.log(admin)
                 admin.payments = parseInt(admin.payments) + parseInt(user.price)
                 db.collection(collections.ADMIN_LOGIN).updateOne({_id: admin._id},{$set:{payments:admin.payments}}).then((data)=>{
                     resolve(data)
