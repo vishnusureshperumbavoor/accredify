@@ -10,7 +10,7 @@ Colleges can be used this web app to check their accreditation status.
 * Bill printing
 
 ## YouTube demo and tutorials
-[https://youtu.be/Q7AFGkEvVjY][https://youtu.be/Q7AFGkEvVjY]
+[https://youtu.be/Q7AFGkEvVjY](https://youtu.be/Q7AFGkEvVjY)
 
 ## Prerequisites
 * NodeJS
