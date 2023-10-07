@@ -67,7 +67,6 @@ For any inquiries or feedback, please contact [Vishnu Suresh Perumbavoor](https:
 [![LinkedIn][linkedin-shield]][linkedin-url]
 [![github][github-shield]][github-url]
 [![Twitter][twitter-shield]][twitter-url]
-[![Linktree][linktree-shield]][linktree-url]
 [![Instagram][instagram-shield]][instagram-url]
 [![GMail][gmail-shield]][gmail-url]
 
@@ -80,8 +79,6 @@ open for cotributions. Anyone can clone the repository and create pull request.
 [twitter-url]: https://twitter.com/in/vspeeeeee
 [instagram-shield]: https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white
 [instagram-url]: https://www.instagram.com/vishnusureshperumbavoor/
-[linktree-shield]: https://img.shields.io/badge/linktree-39E09B?style=for-the-badge&logo=linktree&logoColor=white
-[linktree-url]: https://linktr.ee/vishnusureshperumbavoor2.0
 [github-shield]: https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white
 [github-url]: https://github.com/vishnusureshperumbavoor
 [gmail-shield]: https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white
