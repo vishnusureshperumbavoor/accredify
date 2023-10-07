@@ -70,7 +70,7 @@ For any inquiries or feedback, please contact [Vishnu Suresh Perumbavoor](https:
 [![GMail][gmail-shield]][gmail-url]
 
 ## Contributions 
-open for cotributions
+Open for contributions
 
 ## Sponsorships
 ![Bitcoin](https://img.shields.io/badge/Bitcoin-000?style=for-the-badge&logo=bitcoin&logoColor=white)  bc1qk2ed3rlq6d5hk0wp76smu62hr0stczf3zl9v4s <br>
